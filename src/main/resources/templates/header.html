@@ -1,0 +1,96 @@
+<!-- Header Section Begin no user-->
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<header class="header" th:if="${session.user == null}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="header__logo">
+                    <a href="./index.html">
+                        <img src="img/logo.png" alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="header__nav">
+                    <nav class="header__menu mobile-menu">
+                        <ul>
+                            <li class="active"><a href="./index.html">Homepage</a></li>
+                            <li><a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
+                                <ul class="dropdown">
+                                    <li><a href="./categories.html">Categories</a></li>
+                                    <li><a href="./anime-details.html">Anime Details</a></li>
+                                    <li><a href="./anime-watching.html">Anime Watching</a></li>
+                                    <li><a href="./blog-details.html">Blog Details</a></li>
+                                    <li><a href="./signup.html">Sign Up</a></li>
+                                    <li><a href="./login.html">Login</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="./blog.html">Our Blog</a></li>
+                            <li><a href="#">Contacts</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="header__right">
+                    <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                    <a href="/login"><span class="icon_profile"></span></a>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+    </div>
+</header>
+<!-- Header Section Begin have a user-->
+<header class="header" th:if="${session.user != null}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="header__logo">
+                    <a href="./index.html">
+                        <img src="img/logo.png" alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="header__nav">
+                    <nav class="header__menu mobile-menu">
+                        <ul>
+                            <li class="active"><a href="./index.html">Homepage</a></li>
+                            <li><a href="./categories.html">Categories<span class="arrow_carrot-down"></span></a>
+                                <ul class="dropdown">
+                                    <li><a href="./categories.html">Categories</a></li>
+                                    <li><a href="./anime-details.html">Anime Details</a></li>
+                                    <li><a href="./anime-watching.html">Anime Watching</a></li>
+                                    <li><a href="./blog-details.html">Blog Details</a></li>
+                                    <li><a href="./signup.html">Sign Up</a></li>
+                                    <li><a href="./login.html">Login</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="./blog.html">Our Blog</a></li>
+                            <li><a href="#">Contacts</a></li>
+                            <!--                            công việc cho từng đối tượng-->
+                            <li>
+                                <a th:text="${session.user.userName}"><span class="arrow_carrot-down"></span></a>
+                                <ul class="dropdown">
+                                    <!--                                    nếu là admin thì co the tao tai khoan admin moi-->
+                                    <li th:if="${session.user.role.roleId == 1}"><a th:href="@{/create-account-admin}">Create Account</a></li>
+                                    <li><a th:href="@{/change-pass}" style="font-size: 12px;">Change Password </a></li>
+                                    <li><a th:href="@{/logout}">Log Out</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="header__right">
+                    <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                    <a th:href="@{/user-information}"><span class="icon_profile"></span></a>
+                </div>
+            </div>
+        </div>
+        <!--<div id="mobile-menu-wrap"></div>-->
+    </div>
+</header>
+<!-- Header End -->
