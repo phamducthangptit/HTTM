@@ -20,6 +20,9 @@ public class Country {
     @OneToMany(mappedBy = "country")
     private List<Person> personList;
 
+    @OneToMany(mappedBy = "country")
+    private List<Movie> movies;
+
     public Country(int id, String name) {
         this.id = id;
         this.name = name;
