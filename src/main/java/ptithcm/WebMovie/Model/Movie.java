@@ -51,6 +51,10 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     private List<Movie_Person> movie_personList;
 
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private Country country;
+
     public Movie() {
     }
 
