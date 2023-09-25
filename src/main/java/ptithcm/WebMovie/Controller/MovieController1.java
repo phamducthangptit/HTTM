@@ -121,9 +121,8 @@ public class MovieController1 {
     }
 
     @PostMapping("/user-information")
-    public String userInformation(@ModelAttribute User user, Model model){
+    public String userInformation(@ModelAttribute User user){
         userRepository.updateInformation(user.getName(), user.getEmail(), user.getUserName());
-        model.addAttribute("user", user);
         return "redirect:/user-information";
     }
 }
