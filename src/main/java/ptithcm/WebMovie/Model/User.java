@@ -3,11 +3,14 @@ package ptithcm.WebMovie.Model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "Movie_User")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int userId;
 
@@ -26,6 +29,12 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Movie_Collection> movie_collectionList;
+
+    @OneToMany(mappedBy = "user")
+    private List<History> historyList;
 
     public User() {
     }

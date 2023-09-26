@@ -26,50 +26,7 @@
     <div id="preloder">
         <div class="loader"></div>
     </div>
-
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-2">
-                    <div class="header__logo">
-                        <a href="./index.html">
-                            <img src="../static/img/logo.png" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="header__nav">
-                        <nav class="header__menu mobile-menu">
-                            <ul>
-                                <li><a href="./index.html">Homepage</a></li>
-                                <li><a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
-                                    <ul class="dropdown">
-                                        <li><a href="./categories.html">Categories</a></li>
-                                        <li><a href="movie-details.html">Anime Details</a></li>
-                                        <li><a href="./anime-watching.html">Anime Watching</a></li>
-                                        <li><a href="./blog-details.html">Blog Details</a></li>
-                                        <li><a href="./signup.html">Sign Up</a></li>
-                                        <li><a href="./login.html">Login</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="./blog.html">Our Blog</a></li>
-                                <li><a href="#">Contacts</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="./login.html"><span class="icon_profile"></span></a>
-                    </div>
-                </div>
-            </div>
-            <div id="mobile-menu-wrap"></div>
-        </div>
-    </header>
-    <!-- Header End -->
+    <div th:insert="~{header.html}"></div>
 
     <!-- Normal Breadcrumb Begin -->
     <section class="normal-breadcrumb set-bg" data-setbg="img/normal-breadcrumb.jpg">
@@ -92,11 +49,11 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="login__form">
-                        <h3>Login</h3>
-                        <form th:action="@{/login}" th:object="${user}" method="post" onsubmit="return checkLogin()">
+                        <form id="loginForm" th:action="@{/login}" th:object="${user}" method="post" onsubmit="return checkLogin()" tyle="display: block;">
+                            <h3>Login</h3>
                             <div class="input__item">
-                                <input type="text" placeholder="Email address" name="email" id="email" th:field="*{email}">
-                                <span class="icon_mail"></span>
+                                <input type="text" placeholder="Username" name="username" id="username" th:field="*{userName}">
+                                <span class="icon_profile"></span>
                             </div>
                             <div class="input__item">
                                 <input type="password" placeholder="Password" name="password"  id="password" th:field="*{password}">
@@ -104,34 +61,82 @@
                             </div>
                             <div class="input__item" id="errorMessage" style="color:red;">
                             </div>
-                            <button type="submit" class="site-btn">Login Now</button>
+                            <button id="buttonLogin" type="submit" class="site-btn">Login Now</button>
+                            <a id="forgotPasswordLink" href="forgotPassword" class="forget_pass">Forgot Your Password?</a>
                         </form>
-                        <a href="#" class="forget_pass">Forgot Your Password?</a>
+
+                        <!--phấn form đăng kí-->
+                        <form id="registerForm" th:action="@{/register}" th:object="${user}" method="post" style="display: none;" onsubmit="return validationPass()">
+                            <h3>Register</h3>
+                            <!-- Thêm các trường và nút submit của form đăng ký -->
+                            <div class="input__item">
+                                <input type="text" placeholder="User Name" name="userName" required th:field="*{userName}">
+                                <span class="icon_profile"></span>
+                            </div>
+                            <div class="input__item">
+                                <input type="text" placeholder="Full Name" name="fullName" required th:field="*{name}">
+                                <span class="icon_profile"></span>
+                            </div>
+                            <div class="input__item">
+                                <input type="text" placeholder="Email address" name="email" required th:field="*{email}">
+                                <span class="icon_mail"></span>
+                            </div>
+                            <div class="input__item">
+                                <input type="password" placeholder="Password" name="password" id="passwordRegister" required th:field="*{password}">
+                                <span class="icon_lock"></span>
+                            </div>
+                            <div class="input__item">
+                                <input type="password" placeholder="Retype Password" name="retypePassword" id="retypePasswordRegister" oninput="checkPasswordsMatch()" required>
+                                <span class="icon_lock"></span>
+                            </div>
+                            <div class="input__item" th:text="${errorRegister}" style="color:red;"></div>
+                            <div class="input__item" id="passwordMessage" style="color:red;"></div>
+                            <button id="registerLogin" type="submit" class="site-btn" onsubmit="">Register Now</button>
+                        </form>
+
+                        <!--phan form submit email quen mat khau-->
+                        <form id="submitEmailForm" th:action="@{/reset-password}" method="post" style="display: none;">
+                            <h3>Forgot Password</h3>
+                            <div class="input__item">
+                                <input type="text" placeholder="User name" name="userNameF" required id="userForgotPass">
+                                <span class="icon_profile"></span>
+                            </div>
+                            <div class="input__item">
+                                <input type="text" placeholder="Email address" name="emailF" required id="emailForgotPass">
+                                <span class="icon_mail"></span>
+                            </div>
+                            <div class="input__item" id="errorF" style="color:red;"></div>
+                            <div class="input__item" id="errorEmailForgotPass" style="color:red;"></div>
+                            <div class="input__item" style="display: none" id="divCodeEmail">
+                                <input type="text" placeholder="Please enter code" name="code" id="code" required>
+                            </div>
+                            <div class="input__item" id="errorC" style="color:red;"></div>
+                            <button id="submitEmailButton" type="submit" class="site-btn" style="display: block">Send code to Email</button>
+                            <button id="confirmCodeButton" type="submit" class="site-btn" style="display: none">Confirm</button>
+                        </form>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="login__register">
+                    <div class="login__register" id="divNoAccount" style="display: block">
                         <h3>Dont’t Have An Account?</h3>
-                        <a href="#" class="primary-btn">Register Now</a>
+                        <button id="registerLink" type="button" class="site-btn">Register Now</button>
+                    </div>
+
+                    <div class="login__register" id="divHaveAccount" style="display: none">
+                        <h3>You Have An Account?</h3>
+                        <button id="loginLink" type="button" class="site-btn">Login Now</button>
                     </div>
                 </div>
             </div>
-            <div class="login__social">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-lg-6">
-                        <div class="login__social__links">
-                            <span>or</span>
-                            <ul>
-                                <li><a href="#" class="facebook"><i class="fa fa-facebook"></i> Sign in With
-                                Facebook</a></li>
-                                <li><a href="#" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
-                                <li><a href="#" class="twitter"><i class="fa fa-twitter"></i> Sign in With Twitter</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div id="errorRegister" th:if="${errorRegister}">
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                var errorMessage = [[${errorRegister}]];
+                alert(errorMessage);
+                /*]]>*/
+                 window.location.href = '/login';
+            </script>
         </div>
     </section>
     <!-- Login Section End -->
@@ -190,6 +195,124 @@
     <script th:src="@{/js/owl.carousel.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
     <script th:src="@{/js/custom.js}"></script>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+
+    <script>
+        $(document).ready(function() {
+        var generatedCode;
+            $("#submitEmailButton").click(function(event) {
+                event.preventDefault(); // Ngăn form gửi đi một cách thông thường
+                var formData = new FormData($("#submitEmailForm")[0]);
+                $.ajax({
+                    type: "POST",
+                    url: "/send-email",
+                    data: formData,
+                    contentType: false, // Không cần set contentType khi sử dụng FormData
+                    processData: false, // Không cần xử lý dữ liệu
+                    success: function(response) {
+                        if(response === 'Please enter correct username and email'){
+                            document.getElementById('errorF').innerHTML = 'Please enter correct username and email';
+                            document.getElementById('submitEmailButton').style.display = 'block';
+                            document.getElementById('divCodeEmail').style.display = 'none';
+                            document.getElementById('confirmCodeButton').style.display = 'none';
+                        } else {
+                            document.getElementById('errorF').innerHTML = '';
+                            generatedCode = response;
+                            document.getElementById('submitEmailButton').style.display = 'none';
+                            document.getElementById('divCodeEmail').style.display = 'block';
+                            document.getElementById('confirmCodeButton').style.display = 'block';
+                        }
+
+                    },
+                    error: function(error) {
+                        // Xử lý lỗi (nếu có)
+                        alert('error')
+                    }
+                });
+            });
+            $("#confirmCodeButton").click(function(event) {
+                event.preventDefault();
+                var userEnteredCode = $("#code").val();
+                if (generatedCode === userEnteredCode) {
+                    // Mã trùng khớp, cho phép submit form
+                    $("#submitEmailForm").submit();
+                    document.getElementById('errorC').innerHTML = '';
+                    alert('Please check your email!')
+
+                } else {
+                    document.getElementById('errorC').innerHTML = 'Please enter correct code';
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lấy tham chiếu đến các phần tử
+            var registerLink = document.getElementById('registerLink');
+            var registerForm = document.getElementById('registerForm');
+            var loginForm = document.getElementById('loginForm');
+            var divNoAccount = document.getElementById('divNoAccount');
+            var divHaveAccount = document.getElementById('divHaveAccount');
+            var forgotPasswordLink = document.getElementById('forgotPasswordLink');
+            var submitEmailForm = document.getElementById('submitEmailForm');
+            var submitEmailButton = document.getElementById('submitEmailButton');
+            var confirmCodeButton = document.getElementById('confirmCodeButton');
+            var divCodeEmail = document.getElementById('divCodeEmail');
+
+
+            //click register
+            registerLink.addEventListener('click', function(e) {
+                e.preventDefault(); // Ngăn chặn hành động mặc định của link
+                registerForm.style.display = 'block';
+                loginForm.style.display = 'none';
+                divNoAccount.style.display = 'none'
+                divHaveAccount.style.display = 'block'
+                submitEmailForm.style.display = 'none'
+            });
+
+            // khi click vào login
+            loginLink.addEventListener('click', function(e) {
+                e.preventDefault(); // Ngăn chặn hành động mặc định của link
+                registerForm.style.display = 'none';
+                loginForm.style.display = 'block';
+                divNoAccount.style.display = 'block'
+                divHaveAccount.style.display = 'none'
+                submitEmailForm.style.display = 'none'
+            });
+
+            //click forgot pass
+            forgotPasswordLink.addEventListener('click', function(e) {
+                e.preventDefault(); // Ngăn chặn hành động mặc định của link
+                registerForm.style.display = 'none';
+                loginForm.style.display = 'none';
+                divNoAccount.style.display = 'block'
+                divHaveAccount.style.display = 'none'
+                submitEmailForm.style.display = 'block'
+                confirmCodeButton.style.display = 'none'
+                submitEmailButton.style.display = 'block'
+                divCodeEmail.style.display = 'none'
+            });
+
+            //click send email
+            submitEmailButton.addEventListener('click', function(e) {
+                e.preventDefault(); // Ngăn chặn hành động mặc định của link
+                var str = document.getElementById('emailForgotPass').value; //check xem da nhap email chua
+                var errorEmailForgotPass = document.getElementById('errorEmailForgotPass');
+                if(str === ''){
+                    errorEmailForgotPass.style.display = 'block'
+                    errorEmailForgotPass.innerHTML = 'Please enter email';
+                } else {
+                    registerForm.style.display = 'none';
+                    loginForm.style.display = 'none';
+                    divNoAccount.style.display = 'block'
+                    divHaveAccount.style.display = 'none'
+                    submitEmailForm.style.display = 'block'
+                    errorEmailForgotPass.style.display = 'none'
+                }
+
+            });
+        });
+    </script>
 </body>
 
 </html>
