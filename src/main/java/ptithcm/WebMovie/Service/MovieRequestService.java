@@ -25,4 +25,11 @@ public interface MovieRequestService {
     List<Map<String,?>> getMoviePerson(int id);
 
     List<Map<String,?>> getMovieEpisode( int id);
+
+
+    List<Map<String,?>> getComment(int id,
+                                   int start,
+                                   int size);
+
+    int getCommentCount(int id);
 }

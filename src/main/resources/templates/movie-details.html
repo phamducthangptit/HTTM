@@ -22,6 +22,8 @@
     <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/slicknav.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js}"></script>
+
 </head>
 
 <body>
@@ -81,8 +83,8 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
                         <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <a href="./categories.html">Categories</a>
-                        <span>Romance</span>
+                        <a href="" ></a>
+                        <p th:text="${movie.get('name')}"></p>
                     </div>
                 </div>
             </div>
@@ -136,7 +138,13 @@
                                             </li>
                                             <li><span>Status:</span> <h7 th:text="${movie.get('episode') +'/'+movie.get('episodes') }"></h7>
                                             </li>
-                                            <li><span></span> </li>
+                                            <li ><span>Tags:</span>
+                                                <div class="blog__details__tags">
+                                                    <a href="#">Healthfood</a>
+                                                    <a href="#">Sport</a>
+                                                    <a href="#">Game</a>
+                                                </div>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
@@ -145,14 +153,14 @@
                                             <li><span>Rating:</span> 8.5 / 161 times</li>
                                             <li><span>Duration:</span> 24 min/ep</li>
                                             <li><span>Quality:</span> HD</li>
-                                            <li><span>Views:</span> 131,541</li>
+
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="anime__details__btn">
                                 <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
-                                <a th:href="'../movie'+'?id='+${movie.get('movie_id')}+'&?episode='" class="watch-btn"><span>Watch Now</span> <i
+                                <a th:href="'../movie-watching'+'?id='+${movie.get('movie_id')}+'&episode='" class="watch-btn"><span>Watch Now</span> <i
                                     class="fa fa-angle-right"></i></a>
                                 </div>
                             </div>
@@ -165,7 +173,6 @@
                             <h5>Danh sách diễn viên</h5>
                         </div>
                         <div class="row">
-
                             <div class="col-md-1" th:each="p:${listPerson}">
                                 <div class="card h-100 d-flex align-items-center border-0" style="background: #0b0c2a;">
                                     <a href="#">
@@ -182,77 +189,97 @@
                             </div>
                         </div>
                     </div>
-
+                </div>
+                <div class = "row">
                     <div class="col-lg-8 col-md-8">
-                        <div class="anime__details__review">
+
+                        <div class="anime__details__review" >
                             <div class="section-title">
                                 <h5>Reviews</h5>
                             </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="../static/img/anime/review-2.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                                    <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                    "demons" LOL</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-2.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                                    <p>Finally it came out ages ago</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-3.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                                    <p>Where is the episode 15 ? Slow update! Tch</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-4.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                                    <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                    "demons" LOL</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-5.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                                    <p>Finally it came out ages ago</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-6.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                                    <p>Where is the episode 15 ? Slow update! Tch</p>
+                            <div id = "commentList">
+                                <div class="anime__review__item"  th:each="cm:${listComment}">
+                                    <div class="anime__review__item__pic">
+                                        <img th:src="'../img/user/'+${cm.get('avatar')}" alt="">
+                                    </div>
+                                    <div class="anime__review__item__text">
+                                        <div class="row">
+                                            <h6 th:text="${cm.get('name')}+' - '"></h6>
+                                                <p th:text="${cm.get('day_cm')}"></p>
+                                            <div class="rating">
+                                                <a href="javascript:void(0);"
+                                                   th:each="number : ${#numbers.sequence(1, 5)}"
+                                                ><i th:class="${number <= cm.get('value') ? 'fa fa-star':'fa fa-star-o'}"></i>
+                                                </a>
+                                             </div>
+                                        </div>
+                                        <p th:text="${cm.get('comment')}"></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row justify-content-center">
+                            <div id="totalPageEl" th:data-value="${totalPage}"></div>
+                            <input type="hidden" id="currentPage" th:value="${currentPage}" />
+                            <div class="product__pagination" >
+                                <div class="row" id="paginationContainer">
+                                    <a th:class="${currentPage == 0 ? 'disabled' : ''} +' page1'"
+                                   href="#" th:data-value="${currentPage-1}"><i class="fa fa-angle-double-left"></i></a>
+                                    <div th:if="${currentPage > 1}">
+                                        <a class="page1" href="#" th:data-value="0">1</a>
+                                        <a class="disabled">...</a>
+                                    </div>
+                                    <div th:each="i : ${pages}">
+                                        <a th:class="${currentPage == i ? 'current-page' : ''} +' page1'"
+                                           th:data-value="${i}" href="#" th:text = "${i + 1}">
+                                        </a>
+                                    </div>
+                                <div th:if="${currentPage < totalPage - 2}">
+                                    <a class="disabled">...</a>
+                                    <a class="page1" th:data-value="${totalPage-1}"href="#" th:text=" ${totalPage}"></a>
+                                </div>
+                                <a th:class="${currentPage == totalPage - 1 ? 'disabled' : ''} +' page1'"
+                                   th:data-value="${currentPage+1}" href="#"><i class="fa fa-angle-double-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+
+
                         <div class="anime__details__form">
                             <div class="section-title">
                                 <h5>Your Comment</h5>
                             </div>
-                            <form action="#">
-                                <textarea placeholder="Your Comment"></textarea>
-                                <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
-                            </form>
+                            <div class="anime__review__item">
+                                <div class="anime__review__item__pic">
+                                    <img src="img/anime/review-1.jpg" alt="">
+                                </div>
+                                <div class="anime__review__item__text">
+                                    <form action="#">
+                                        <h6>User Name
+                                            <div class="rating1">
+                                                <span>Vote: </span>
+                                                <a href="javascript:void(0);" class="star1" data-value="1"><i
+                                                        class="fa fa-star-o"></i></a>
+                                                <a href="javascript:void(0);" class="star1" data-value="2"><i
+                                                        class="fa fa-star-o"></i></a>
+                                                <a href="javascript:void(0);" class="star1" data-value="3"><i
+                                                        class="fa fa-star-o"></i></a>
+                                                <a href="javascript:void(0);" class="star1" data-value="4"><i
+                                                        class="fa fa-star-o"></i></a>
+                                                <a href="javascript:void(0);" class="star1" data-value="5"><i
+                                                        class="fa fa-star-o"></i></a>
+                                            </div>
+                                        </h6>
+                                        <input type="text" id="ratingValue" value="0" style="display: none;">
+                                        <textarea placeholder="Your comment" id="txtComment"></textarea>
+                                        <button type="submit" id="newComment" disabled><i class="fa fa-location-arrow"></i>
+                                            Review</button>
+                                    </form>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
@@ -284,7 +311,8 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
         <!-- Anime Section End -->
 
         <!-- Footer Section Begin -->
@@ -332,6 +360,8 @@
         <!-- Search model end -->
 
         <!-- Js Plugins -->
+
+
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/player.js}"></script>
@@ -340,7 +370,7 @@
     <script th:src="@{/js/jquery.slicknav.js}"></script>
     <script th:src="@{/js/owl.carousel.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
-
+    <script th:src="@{/js/comment.js}"></script>
 
     </body>
 
