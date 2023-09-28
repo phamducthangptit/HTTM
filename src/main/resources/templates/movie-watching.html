@@ -112,77 +112,123 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="anime__details__review">
+            <div class = "row">
+                <div class="col-lg-8 col-md-8">
+
+                    <div class="anime__details__review" >
                         <div class="section-title">
                             <h5>Reviews</h5>
+                        </div>
+                        <div id = "commentList">
+                            <div class="anime__review__item"  th:each="cm:${listComment}">
+                                <div class="anime__review__item__pic">
+                                    <img th:src="'../img/user/'+${cm.get('avatar')}" alt="">
+                                </div>
+                                <div class="anime__review__item__text">
+                                    <div class="row">
+                                        <h6 th:text="${cm.get('name')}+' - '"></h6>
+                                        <p th:text="${cm.get('day_cm')}"></p>
+                                        <div class="rating">
+                                            <a href="javascript:void(0);"
+                                               th:each="number : ${#numbers.sequence(1, 5)}"
+                                            ><i th:class="${number <= cm.get('value') ? 'fa fa-star':'fa fa-star-o'}"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <p th:text="${cm.get('comment')}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div id="totalPageEl" th:data-value="${totalPage}"></div>
+                        <input type="hidden" id="currentPage" th:value="${currentPage}" />
+                        <div class="product__pagination" >
+                            <div class="row" id="paginationContainer">
+                                <a th:class="${currentPage == 0 ? 'disabled' : ''} +' page1'"
+                                   href="#" th:data-value="${currentPage-1}"><i class="fa fa-angle-double-left"></i></a>
+                                <div th:if="${currentPage > 1}">
+                                    <a class="page1" href="#" th:data-value="0">1</a>
+                                    <a class="disabled">...</a>
+                                </div>
+                                <div th:each="i : ${pages}">
+                                    <a th:class="${currentPage == i ? 'current-page' : ''} +' page1'"
+                                       th:data-value="${i}" href="#" th:text = "${i + 1}">
+                                    </a>
+                                </div>
+                                <div th:if="${currentPage < totalPage - 2}">
+                                    <a class="disabled">...</a>
+                                    <a class="page1" th:data-value="${totalPage-1}"href="#" th:text=" ${totalPage}"></a>
+                                </div>
+                                <a th:class="${currentPage == totalPage - 1 ? 'disabled' : ''} +' page1'"
+                                   th:data-value="${currentPage+1}" href="#"><i class="fa fa-angle-double-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="anime__details__form">
+                        <div class="section-title">
+                            <h5>Your Comment</h5>
                         </div>
                         <div class="anime__review__item">
                             <div class="anime__review__item__pic">
                                 <img src="img/anime/review-1.jpg" alt="">
                             </div>
                             <div class="anime__review__item__text">
-                                <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                                <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                "demons" LOL</p>
+                                <form action="#">
+                                    <h6>User Name
+                                        <div class="rating1">
+                                            <span>Vote: </span>
+                                            <a href="javascript:void(0);" class="star1" data-value="1"><i
+                                                    class="fa fa-star-o"></i></a>
+                                            <a href="javascript:void(0);" class="star1" data-value="2"><i
+                                                    class="fa fa-star-o"></i></a>
+                                            <a href="javascript:void(0);" class="star1" data-value="3"><i
+                                                    class="fa fa-star-o"></i></a>
+                                            <a href="javascript:void(0);" class="star1" data-value="4"><i
+                                                    class="fa fa-star-o"></i></a>
+                                            <a href="javascript:void(0);" class="star1" data-value="5"><i
+                                                    class="fa fa-star-o"></i></a>
+                                        </div>
+                                    </h6>
+                                    <input type="text" id="ratingValue" value="0" style="display: none;">
+                                    <textarea placeholder="Your comment" id="txtComment"></textarea>
+                                    <button type="submit" id="newComment" disabled><i class="fa fa-location-arrow"></i>
+                                        Review</button>
+                                </form>
                             </div>
-                        </div>
-                        <div class="anime__review__item">
-                            <div class="anime__review__item__pic">
-                                <img src="img/anime/review-2.jpg" alt="">
-                            </div>
-                            <div class="anime__review__item__text">
-                                <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                                <p>Finally it came out ages ago</p>
-                            </div>
-                        </div>
-                        <div class="anime__review__item">
-                            <div class="anime__review__item__pic">
-                                <img src="img/anime/review-3.jpg" alt="">
-                            </div>
-                            <div class="anime__review__item__text">
-                                <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                                <p>Where is the episode 15 ? Slow update! Tch</p>
-                            </div>
-                        </div>
-                        <div class="anime__review__item">
-                            <div class="anime__review__item__pic">
-                                <img src="img/anime/review-4.jpg" alt="">
-                            </div>
-                            <div class="anime__review__item__text">
-                                <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                                <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                "demons" LOL</p>
-                            </div>
-                        </div>
-                        <div class="anime__review__item">
-                            <div class="anime__review__item__pic">
-                                <img src="img/anime/review-5.jpg" alt="">
-                            </div>
-                            <div class="anime__review__item__text">
-                                <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                                <p>Finally it came out ages ago</p>
-                            </div>
-                        </div>
-                        <div class="anime__review__item">
-                            <div class="anime__review__item__pic">
-                                <img src="img/anime/review-6.jpg" alt="">
-                            </div>
-                            <div class="anime__review__item__text">
-                                <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                                <p>Where is the episode 15 ? Slow update! Tch</p>
-                            </div>
+
                         </div>
                     </div>
-                    <div class="anime__details__form">
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="anime__details__sidebar">
                         <div class="section-title">
-                            <h5>Your Comment</h5>
+                            <h5>you might like...</h5>
                         </div>
-                        <form action="#">
-                            <textarea placeholder="Your Comment"></textarea>
-                            <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
-                        </form>
+                        <div class="product__sidebar__view__item set-bg" data-setbg="img/sidebar/tv-1.jpg">
+                            <div class="ep">18 / ?</div>
+                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                            <h5><a href="#">Boruto: Naruto next generations</a></h5>
+                        </div>
+                        <div class="product__sidebar__view__item set-bg" data-setbg="img/sidebar/tv-2.jpg">
+                            <div class="ep">18 / ?</div>
+                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                            <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
+                        </div>
+                        <div class="product__sidebar__view__item set-bg" data-setbg="img/sidebar/tv-3.jpg">
+                            <div class="ep">18 / ?</div>
+                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                            <h5><a href="#">Sword art online alicization war of underworld</a></h5>
+                        </div>
+                        <div class="product__sidebar__view__item set-bg" data-setbg="img/sidebar/tv-4.jpg">
+                            <div class="ep">18 / ?</div>
+                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                            <h5><a href="#">Fate/stay night: Heaven's Feel I. presage flower</a></h5>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -243,7 +289,7 @@
     <script th:src="@{/js/jquery.slicknav.js}"></script>
     <script th:src="@{/js/owl.carousel.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
-
+    <script th:src="@{/js/comment.js}"></script>
 </body>
 
 </html>

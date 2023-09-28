@@ -4,7 +4,12 @@ package ptithcm.WebMovie.Controller;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
+
+import org.springframework.web.bind.annotation.*;
+import ptithcm.WebMovie.Model.Comment;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ptithcm.WebMovie.Model.MovieRequest;
@@ -12,6 +17,8 @@ import ptithcm.WebMovie.Model.User;
 import ptithcm.WebMovie.Repository.MovieCollectionRepository;
 import ptithcm.WebMovie.Service.MovieRequestService;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +41,8 @@ public class Contro1 {
         return "home";
     }
     @GetMapping("/movie")
-    public String getMovieDetail(@RequestParam(name = "id") int id, Model model) {
+    public String getMovieDetail(@RequestParam(name = "id") int id
+                                    , Model model) {
         Map<String, ?> movie = movieRequestService.getMovieDetail(id);
         List<Map<String,?>> movieL = movieRequestService.getMovieLanguage(id);
 
@@ -43,6 +51,8 @@ public class Contro1 {
         List<Map<String,?>> movieCo = movieRequestService.getMovieCompany(id);
 
         List<Map<String,?>> movieP = movieRequestService.getMoviePerson(id);
+
+
         String language = "";
         for (Map<String, ?> map : movieL) {
             language += map.get("name") + " (" + map.get("type")+") ";
@@ -75,10 +85,32 @@ public class Contro1 {
         }
         model.addAttribute("movie", movie);
 
+
         model.addAttribute("listPerson", movieP);
-        System.out.println(movieCo);
-        for (Map.Entry<String, ?> entry : movie.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        // Response Comment
+        int currentPage = 0;
+        int pageSize = 6;
+        int totalComment = movieRequestService.getCommentCount(id);
+        int totalPage = totalComment / pageSize + 1;
+
+        int startPage = (currentPage - 1 > 0) ? currentPage - 1: 0;
+        int endPage = (totalPage - 1 > currentPage +1 )? currentPage+1 : totalPage -1;
+
+        List<Integer> pages = new ArrayList<>();
+        for (int i = startPage;i<=endPage;i++){
+            pages.add(i);
+        }
+        model.addAttribute("pages", pages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPage",totalPage);
+        model.addAttribute("pageSize", pageSize);
+        List<Map<String,?>> listCM = movieRequestService.getComment(id,currentPage*pageSize,
+                pageSize);
+        model.addAttribute("listComment", listCM);
+        for (Map<String,?> m:listCM) {
+            for (Map.Entry<String, ?> entry : m.entrySet()) {
+                System.out.println(entry.getKey()+ " : " + entry.getValue());
+            }
         }
         if(session.getAttribute("user") == null){ // chưa login
             model.addAttribute("isFollowing", "nouser");
@@ -110,6 +142,72 @@ public class Contro1 {
         }
         model.addAttribute("ep",episode1);
         model.addAttribute("listEp",episodes);
+
+        // Response Comment
+        int currentPage = 0;
+        int pageSize = 6;
+        int totalComment = movieRequestService.getCommentCount(id);
+        int totalPage = totalComment / pageSize + 1;
+
+        int startPage = (currentPage - 1 > 0) ? currentPage - 1: 0;
+        int endPage = (totalPage - 1 > currentPage +1 )? currentPage+1 : totalPage -1;
+
+        List<Integer> pages = new ArrayList<>();
+        for (int i = startPage;i<=endPage;i++){
+            pages.add(i);
+        }
+        model.addAttribute("pages", pages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPage",totalPage);
+        model.addAttribute("pageSize", pageSize);
+        List<Map<String,?>> listCM = movieRequestService.getComment(id,currentPage*pageSize,
+                pageSize);
+        model.addAttribute("listComment", listCM);
+        for (Map<String,?> m:listCM) {
+            for (Map.Entry<String, ?> entry : m.entrySet()) {
+                System.out.println(entry.getKey()+ " : " + entry.getValue());
+            }
+        }
         return "movie-watching";
     }
+
+    @GetMapping("/movie/CMApi")
+    @ResponseBody
+    public List<Map<String,?>> getAPICM(@RequestParam(name = "id") int id,
+                                        @RequestParam(name = "start") int start,
+                                        @RequestParam(name = "size") int size) {
+        List<Map<String,?>> listCM = movieRequestService.getComment(id,start,size);
+        return listCM;
+    }
+
+    @PostMapping("/movie/CMApi")
+    @ResponseBody
+    public void postAPICM(@RequestParam(name = "id") int id, @RequestBody Comment comment) {
+        LocalDateTime now = LocalDateTime.now();
+
+        // Chuyển đổi thành chuỗi
+        comment.setDate(now);
+        System.out.println(comment.getComment());
+        System.out.println(comment.getValue());
+        System.out.println(comment.getDate());
+
+    }
+    @GetMapping("/search")
+    public String getMovieSearch(@RequestParam(name = "input") int id) {
+        int currentPage = 0;
+        int pageSize = 6;
+        int totalComment = movieRequestService.getCommentCount(id);
+        int totalPage = totalComment / pageSize + 1;
+
+        int startPage = (currentPage - 1 > 0) ? currentPage - 1: 0;
+        int endPage = (totalPage - 1 > currentPage +1 )? currentPage+1 : totalPage -1;
+
+        List<Integer> pages = new ArrayList<>();
+        for (int i = startPage;i<=endPage;i++){
+            pages.add(i);
+        }
+
+        return "search";
+    }
+
 }

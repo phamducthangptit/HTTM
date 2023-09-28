@@ -45,7 +45,20 @@ public class MovieRequestServiceImpl implements MovieRequestService {
         return movieRequestRepository.getMovieEpisode(id);
     };
 
+
+
+    public List<Map<String,?>> getComment(int id,
+                                   int start,
+                                   int size) {
+        return movieRequestRepository.getComment(id,start,size);
+    };
+
+    public int getCommentCount(int id){
+        return movieRequestRepository.getCommentCount(id);
+    };
+
     public int getStatusCollection(int userId, int movieId){
         return movieRequestRepository.getStatusCollection(userId, movieId);
     }
+
 }

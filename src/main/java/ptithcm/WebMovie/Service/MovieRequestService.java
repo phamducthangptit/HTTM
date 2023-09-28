@@ -26,5 +26,14 @@ public interface MovieRequestService {
 
     List<Map<String,?>> getMovieEpisode( int id);
 
+
+
+    List<Map<String,?>> getComment(int id,
+                                   int start,
+                                   int size);
+
+    int getCommentCount(int id);
+
     int getStatusCollection(int userId, int movieId);
+
 }
