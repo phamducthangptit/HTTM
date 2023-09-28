@@ -30,49 +30,7 @@
         <div class="loader"></div>
     </div>
 
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-2">
-                    <div class="header__logo">
-                        <a href="./index.html">
-                            <img src="img/logo.png" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="header__nav">
-                        <nav class="header__menu mobile-menu">
-                            <ul>
-                                <li class="active"><a href="./index.html">Homepage</a></li>
-                                <li><a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
-                                    <ul class="dropdown">
-                                        <li><a href="./categories.html">Categories</a></li>
-                                        <li><a href="movie-details.html">Anime Details</a></li>
-                                        <li><a href="./anime-watching.html">Anime Watching</a></li>
-                                        <li><a href="./blog-details.html">Blog Details</a></li>
-                                        <li><a href="./signup.html">Sign Up</a></li>
-                                        <li><a href="./login.html">Login</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="./blog.html">Our Blog</a></li>
-                                <li><a href="#">Contacts</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="./login.html"><span class="icon_profile"></span></a>
-                    </div>
-                </div>
-            </div>
-            <div id="mobile-menu-wrap"></div>
-        </div>
-    </header>
-    <!-- Header End -->
+    <div th:insert="~{header.html}"></div>
 
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
@@ -151,7 +109,9 @@
                                 </div>
                             </div>
                             <div class="anime__details__btn">
-                                <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
+                                <input type="hidden" id="isFl" th:value="${isFollowing}">
+                                <a th:href="@{/add-collection(id=${movie.get('movie_id')})}" class="follow-btn" id="Follow" ><i class="fa fa-heart-o"></i> Follow</a>
+                                <a th:href="@{/rmv-collection(id=${movie.get('movie_id')})}" class="follow-btn" id="unFollow"><i class="fa fa-heart"></i> UnFollow</a>
                                 <a th:href="'../movie'+'?id='+${movie.get('movie_id')}+'&?episode='" class="watch-btn"><span>Watch Now</span> <i
                                     class="fa fa-angle-right"></i></a>
                                 </div>
@@ -340,8 +300,63 @@
     <script th:src="@{/js/jquery.slicknav.js}"></script>
     <script th:src="@{/js/owl.carousel.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+    <script>
+        $(document).ready(function() {
+            var isFollowing = document.getElementById('isFl').value;
+            if (isFollowing === 'true') {
+                $('#Follow').hide();
+                $('#unFollow').show();
+            } else if(isFollowing === 'false'){
+                $('#Follow').show();
+                $('#unFollow').hide();
+            } else if(isFollowing === 'nouser'){
+                $('#Follow').hide();
+                $('#unFollow').hide();
+            }
+        });
+    </script>
 
-
+    <script>
+        $(document).ready(function(){
+            $("#Follow").click(function(event){
+                event.preventDefault();
+                var currentURL = window.location.href;
+                var urlObject = new URL(currentURL);
+                var movieId = urlObject.searchParams.get("id");
+                $.ajax({
+                    type: 'POST',
+                    url: '/add-collection/' + movieId,
+                    contentType: 'application/json',
+                    success: function(data){
+                        $('#Follow').hide();
+                        $('#unFollow').show();
+                    },
+                    error: function(error){
+                        console.log(error)
+                    }
+                });
+            });
+            $("#unFollow").click(function(event){
+                event.preventDefault();
+                var currentURL = window.location.href;
+                var urlObject = new URL(currentURL);
+                var movieId = urlObject.searchParams.get("id");
+                $.ajax({
+                    type: 'POST',
+                    url: '/rmv-collection/' + movieId,
+                    contentType: 'application/json',
+                    success: function(data){
+                        $('#Follow').show();
+                        $('#unFollow').hide();
+                    },
+                    error: function(error){
+                        console.log(error)
+                    }
+                });
+            });
+        });
+    </script>
     </body>
 
     </html>

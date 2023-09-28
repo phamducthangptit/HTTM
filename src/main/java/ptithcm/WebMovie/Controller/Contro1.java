@@ -1,21 +1,24 @@
 package ptithcm.WebMovie.Controller;
 
 
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import ptithcm.WebMovie.Model.MovieRequest;
+import ptithcm.WebMovie.Model.User;
+import ptithcm.WebMovie.Repository.MovieCollectionRepository;
 import ptithcm.WebMovie.Service.MovieRequestService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class Contro1 {
+    @Autowired
+    private HttpSession session;
     private MovieRequestService movieRequestService;
 
     public Contro1(MovieRequestService movieRequestService) {
@@ -30,8 +33,8 @@ public class Contro1 {
         model.addAttribute("listTopView", m1);
         return "home";
     }
-    @GetMapping("/movie/{id}")
-    public String getMovieDetail(@PathVariable int id, Model model) {
+    @GetMapping("/movie")
+    public String getMovieDetail(@RequestParam(name = "id") int id, Model model) {
         Map<String, ?> movie = movieRequestService.getMovieDetail(id);
         List<Map<String,?>> movieL = movieRequestService.getMovieLanguage(id);
 
@@ -72,16 +75,25 @@ public class Contro1 {
         }
         model.addAttribute("movie", movie);
 
-
-
         model.addAttribute("listPerson", movieP);
         System.out.println(movieCo);
         for (Map.Entry<String, ?> entry : movie.entrySet()) {
             System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
         }
+        if(session.getAttribute("user") == null){ // chưa login
+            model.addAttribute("isFollowing", "nouser");
+        } else {
+            User user = (User) session.getAttribute("user");
+            // thực hiện tìm bộ sưu tập của user
+            if(movieRequestService.getStatusCollection(user.getUserId(), id) == 0){
+                model.addAttribute("isFollowing", "false"); // chưa có trong bst
+            } else model.addAttribute("isFollowing", "true"); // đã có trong bst
+        }
+
+
         return "movie-details";
     }
-    @GetMapping("/movie")
+    @GetMapping("/movie-watching")
     public String watchMovie(@RequestParam(name = "id") int id,
                              @RequestParam(name = "episode", defaultValue = "1") int episode,
                              Model model
