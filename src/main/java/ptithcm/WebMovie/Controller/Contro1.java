@@ -1,22 +1,31 @@
 package ptithcm.WebMovie.Controller;
 
 
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.*;
 import ptithcm.WebMovie.Model.Comment;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ptithcm.WebMovie.Model.MovieRequest;
+import ptithcm.WebMovie.Model.User;
+import ptithcm.WebMovie.Repository.MovieCollectionRepository;
 import ptithcm.WebMovie.Service.MovieRequestService;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class Contro1 {
+    @Autowired
+    private HttpSession session;
     private MovieRequestService movieRequestService;
 
     public Contro1(MovieRequestService movieRequestService) {
@@ -103,6 +112,17 @@ public class Contro1 {
                 System.out.println(entry.getKey()+ " : " + entry.getValue());
             }
         }
+        if(session.getAttribute("user") == null){ // chưa login
+            model.addAttribute("isFollowing", "nouser");
+        } else {
+            User user = (User) session.getAttribute("user");
+            // thực hiện tìm bộ sưu tập của user
+            if(movieRequestService.getStatusCollection(user.getUserId(), id) == 0){
+                model.addAttribute("isFollowing", "false"); // chưa có trong bst
+            } else model.addAttribute("isFollowing", "true"); // đã có trong bst
+        }
+
+
         return "movie-details";
     }
     @GetMapping("/movie-watching")

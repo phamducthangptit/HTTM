@@ -46,6 +46,7 @@ public class MovieRequestServiceImpl implements MovieRequestService {
     };
 
 
+
     public List<Map<String,?>> getComment(int id,
                                    int start,
                                    int size) {
@@ -55,4 +56,9 @@ public class MovieRequestServiceImpl implements MovieRequestService {
     public int getCommentCount(int id){
         return movieRequestRepository.getCommentCount(id);
     };
+
+    public int getStatusCollection(int userId, int movieId){
+        return movieRequestRepository.getStatusCollection(userId, movieId);
+    }
+
 }

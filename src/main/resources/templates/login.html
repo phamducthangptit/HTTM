@@ -59,7 +59,7 @@
                                 <input type="password" placeholder="Password" name="password"  id="password" th:field="*{password}">
                                 <span class="icon_lock"></span>
                             </div>
-                            <div class="input__item" id="errorMessage" style="color:red;">
+                            <div class="input__item" id="errorLogin" style="color:red;" th:text="${errorLogin}">
                             </div>
                             <button id="buttonLogin" type="submit" class="site-btn">Login Now</button>
                             <a id="forgotPasswordLink" href="forgotPassword" class="forget_pass">Forgot Your Password?</a>
@@ -200,7 +200,7 @@
 
     <script>
         $(document).ready(function() {
-        var generatedCode;
+            var generatedCode;
             $("#submitEmailButton").click(function(event) {
                 event.preventDefault(); // Ngăn form gửi đi một cách thông thường
                 var formData = new FormData($("#submitEmailForm")[0]);
