@@ -44,4 +44,8 @@ public class MovieRequestServiceImpl implements MovieRequestService {
     public List<Map<String,?>> getMovieEpisode( int id) {
         return movieRequestRepository.getMovieEpisode(id);
     };
+
+    public int getStatusCollection(int userId, int movieId){
+        return movieRequestRepository.getStatusCollection(userId, movieId);
+    }
 }

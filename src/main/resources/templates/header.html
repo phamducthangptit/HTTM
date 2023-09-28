@@ -69,13 +69,14 @@
                             </li>
                             <li><a href="./blog.html">Our Blog</a></li>
                             <li><a href="#">Contacts</a></li>
-                            <!--                            công việc cho từng đối tượng-->
+                            <!--công việc cho từng đối tượng-->
                             <li>
                                 <a th:text="${session.user.userName}"><span class="arrow_carrot-down"></span></a>
                                 <ul class="dropdown">
-                                    <!--                                    nếu là admin thì co the tao tai khoan admin moi-->
+                                    <!-- nếu là admin thì co the tao tai khoan admin moi-->
                                     <li th:if="${session.user.role.roleId == 1}"><a th:href="@{/create-account-admin}">Create Account</a></li>
-                                    <li><a th:href="@{/change-pass}" style="font-size: 12px;">Change Password </a></li>
+                                    <li><a th:href="@{/change-pass}" style="font-size: 12px;">Change Password</a></li>
+                                    <li><a th:href="@{/my-collection}" style="font-size: 12px;">My Collection</a></li>
                                     <li><a th:href="@{/logout}">Log Out</a></li>
                                 </ul>
                             </li>

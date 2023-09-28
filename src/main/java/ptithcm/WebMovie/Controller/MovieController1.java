@@ -23,10 +23,7 @@ public class MovieController1 {
     private HttpSession session;
     @Autowired
     private EmailService emailService;
-    @GetMapping(value = {"/", "/index"})
-    public String index(){
-        return "index";
-    }
+
     @GetMapping("/login")
     public String login(Model model){
         model.addAttribute("user", new User());
@@ -34,21 +31,18 @@ public class MovieController1 {
     }
 
     @PostMapping("/login")
-    public String loginPerform(@ModelAttribute User user){
+    public String loginPerform(@ModelAttribute User user, Model model){
         User userLogin = new User();
         userLogin = userRepository.findByuserNameAndPassword(user.getUserName(), user.getPassword());
         if(userLogin != null){
             session.setAttribute("user", userLogin);
-            return "redirect:/index";
-        } else System.out.println("....");
+            return "redirect:/home";
+        } else {
+            model.addAttribute("errorLogin", "Wrong password or user name");
+        }
         return "login";
     }
 
-    @GetMapping("/logout")
-    public String logOut(){
-        session.invalidate();
-        return "redirect:/index";
-    }
     @GetMapping("/create-account-admin")
     public String crtAccAd(Model model){
         model.addAttribute("user", new User());

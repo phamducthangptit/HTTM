@@ -25,4 +25,6 @@ public interface MovieRequestService {
     List<Map<String,?>> getMoviePerson(int id);
 
     List<Map<String,?>> getMovieEpisode( int id);
+
+    int getStatusCollection(int userId, int movieId);
 }
