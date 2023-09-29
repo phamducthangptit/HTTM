@@ -50,7 +50,7 @@
             <div class="col-lg-6">
                 <div class="login__form">
                     <!--phấn form đăng kí-->
-                    <form id="createAccountForm" th:action="@{/createAccountAdmin}" th:object="${user}" method="post">
+                    <form id="createAccountForm" th:action="@{/create-account-admin}" th:object="${user}" method="post" enctype="multipart/form-data">
                         <h3>Create Account Admin</h3>
                         <!-- Thêm các trường và nút submit của form đăng ký -->
                         <div class="input__item">
@@ -68,6 +68,10 @@
                         <div class="input__item">
                             <input type="password" placeholder="Password" name="password" required th:field="*{password}">
                             <span class="icon_lock"></span>
+                        </div>
+                        <div>
+                            <img id="selectedImage" src="" alt="Selected Image" style="max-width: 300px; display: none;">
+                            <input type="file" name="imageInput" id="imageInput" accept="image/*">
                         </div>
                         <div class="input__item" th:text="${errorAddAccAdmin}" style="color:red;"></div>
                         <button id="createAccount" type="submit" class="site-btn">Create Account</button>
@@ -133,6 +137,7 @@
     <script th:src="@{/js/owl.carousel.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
     <script th:src="@{/js/custom.js}"></script>
+    <script th:src="@{/js/information.js}"></script>
 
 </body>
 

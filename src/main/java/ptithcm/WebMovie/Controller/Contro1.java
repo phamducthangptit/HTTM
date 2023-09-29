@@ -168,6 +168,17 @@ public class Contro1 {
                 System.out.println(entry.getKey()+ " : " + entry.getValue());
             }
         }
+        if(session.getAttribute("user") == null){ // chưa login
+            model.addAttribute("isFollowing", "nouser");
+        } else {
+            User user = (User) session.getAttribute("user");
+            // thực hiện tìm bộ sưu tập của user
+            if(movieRequestService.getStatusCollection(user.getUserId(), id) == 0){
+                model.addAttribute("isFollowing", "false"); // chưa có trong bst
+            } else model.addAttribute("isFollowing", "true"); // đã có trong bst
+        }
+
+
         return "movie-watching";
     }
 

@@ -9,6 +9,7 @@ import ptithcm.WebMovie.Model.User;
 import ptithcm.WebMovie.Repository.MovieCollectionRepository;
 import ptithcm.WebMovie.Repository.UserRepository;
 import ptithcm.WebMovie.Service.MovieCollectionService;
+import ptithcm.WebMovie.Service.MovieHistoryService;
 
 @RestController
 public class MovieController2 {
@@ -18,13 +19,15 @@ public class MovieController2 {
     private UserRepository userRepository;
 
     private MovieCollectionService movieCollectionService;
+    private MovieHistoryService movieHistoryService;
 
     @Autowired
     private HttpSession session;
 
-    public MovieController2(MovieCollectionService movieCollectionService) {
+    public MovieController2(MovieCollectionService movieCollectionService, MovieHistoryService movieHistoryService) {
         super();
         this.movieCollectionService = movieCollectionService;
+        this.movieHistoryService = movieHistoryService;
     }
 
     @PostMapping("/send-email")
@@ -55,5 +58,26 @@ public class MovieController2 {
         User user = (User) session.getAttribute("user");
         movieCollectionService.removeMovieToCollection(user.getUserId(), id);
         return "success";
+    }
+
+    @PostMapping("/save-history/{movie_id}/{episode}/{time}")
+    @ResponseBody
+    public String saveHistory(@PathVariable("movie_id") int movieId, @PathVariable("episode") int episode, @PathVariable("time") float time){
+        if(session.getAttribute("user") != null){
+            User user = (User) session.getAttribute("user");
+            movieHistoryService.saveHistory(user.getUserId(), movieId, episode, time);
+        }
+        return "success";
+    }
+
+    @PostMapping("/find-history/{movie_id}/{episode}")
+    @ResponseBody
+    public int findHistory(@PathVariable("movie_id") int movieId, @PathVariable("episode") int episode){
+        int result = 0;
+        if(session.getAttribute("user") != null){
+            User user = (User) session.getAttribute("user");
+            result = movieHistoryService.findHistory(user.getUserId(), movieId, episode);
+        }
+        return result;
     }
 }

@@ -22,6 +22,7 @@
     <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/slicknav.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+
 </head>
 
 <body>
@@ -31,47 +32,8 @@
     </div>
 
     <!-- Header Section Begin -->
-    <header class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-2">
-                    <div class="header__logo">
-                        <a href="./index.html">
-                            <img src="img/logo.png" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="header__nav">
-                        <nav class="header__menu mobile-menu">
-                            <ul>
-                                <li class="active"><a href="./index.html">Homepage</a></li>
-                                <li><a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
-                                    <ul class="dropdown">
-                                        <li><a href="./categories.html">Categories</a></li>
-                                        <li><a href="movie-details.html">Anime Details</a></li>
-                                        <li><a href="./anime-watching.html">Anime Watching</a></li>
-                                        <li><a href="./blog-details.html">Blog Details</a></li>
-                                        <li><a href="./signup.html">Sign Up</a></li>
-                                        <li><a href="./login.html">Login</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="./blog.html">Our Blog</a></li>
-                                <li><a href="#">Contacts</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="./login.html"><span class="icon_profile"></span></a>
-                    </div>
-                </div>
-            </div>
-            <div id="mobile-menu-wrap"></div>
-        </div>
-    </header>
+    <div th:insert="~{header.html}"></div>
+
     <!-- Header End -->
 
     <!-- Breadcrumb Begin -->
@@ -90,7 +52,26 @@
         </div>
     </div>
     <!-- Breadcrumb End -->
+    <!-- Modal -->
+    <div class="modal fade" id="popUp" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
 
+                    <h4 class="modal-title">Notification</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Last time you watched, you watched until minute 5. Do you want to continue watching?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" id="keepWatching">Keep Watching</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Anime Section Begin -->
     <section class="anime-details spad">
         <div class="container">
@@ -98,10 +79,20 @@
                 <div class="col-lg-12">
                     <div class="anime__video__player">
                         <video id="player" playsinline controls data-poster="./videos/anime-watch.jpg">
-                            <source th:src="'../videos/'+${ep.get('source')}" type="video/mp4" />
+                            <source th:src="'../videos/'+${ep.get('source')}" type="video/mp4"/>
                             <!-- Captions are optional -->
                             <track kind="captions" label="English captions" src="#" srclang="en" default />
                         </video>
+                    </div>
+                    <div class="row justify-content-center">
+                    <div class="anime__details__episodes ">
+                        <div class="anime__details__btn">
+                            <input type="hidden" id="isFl" th:value="${isFollowing}">
+                            <a class="follow-btn" id="Follow" ><i class="fa fa-heart-o"></i> Follow</a>
+                            <a class="follow-btn" id="unFollow"><i class="fa fa-heart"></i> UnFollow</a>
+
+                        </div>
+                    </div>
                     </div>
                     <div class="anime__details__episodes">
                         <div class="section-title">
@@ -290,6 +281,9 @@
     <script th:src="@{/js/owl.carousel.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
     <script th:src="@{/js/comment.js}"></script>
+    <script th:src="@{/js/follow.js}"></script>
+    <script th:src="@{/js/history.js}"></script>
+
 </body>
 
 </html>
