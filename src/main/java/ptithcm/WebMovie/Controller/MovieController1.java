@@ -12,14 +12,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ptithcm.WebMovie.Email.EmailService;
 import ptithcm.WebMovie.Email.GenrateCode;
+import ptithcm.WebMovie.Model.MovieRequest;
 import ptithcm.WebMovie.Model.Role;
 import ptithcm.WebMovie.Model.User;
 import ptithcm.WebMovie.Repository.UserRepository;
+import ptithcm.WebMovie.Service.MovieCollectionService;
+import ptithcm.WebMovie.Service.MovieRequestService;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MovieController1 {
@@ -29,6 +34,14 @@ public class MovieController1 {
     private HttpSession session;
     @Autowired
     private EmailService emailService;
+
+    private MovieCollectionService movieCollectionService;
+    private MovieRequestService movieRequestService;
+
+    public MovieController1(MovieCollectionService movieCollectionService, MovieRequestService movieRequestService) {
+        this.movieCollectionService = movieCollectionService;
+        this.movieRequestService = movieRequestService;
+    }
 
     @GetMapping("/login")
     public String login(Model model){
@@ -178,5 +191,15 @@ public class MovieController1 {
             userRepository.updateInformation(user.getName(), user.getEmail(), user.getUserName(), user1.getAvatar());
         }
         return "redirect:/user-information";
+    }
+
+    @GetMapping("/my-collection")
+    public String myCollection(Model model){
+        User user = (User) session.getAttribute("user");
+        List<Map<String, ?>> myCollection = movieCollectionService.findMyCollection(user.getUserId());
+        List<MovieRequest> topRankMovie = movieRequestService.getTopView(5);
+        model.addAttribute("myCollection", myCollection);
+        model.addAttribute("topRankMV", topRankMovie);
+        return "my-collection";
     }
 }
