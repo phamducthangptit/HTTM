@@ -92,7 +92,6 @@ public class Contro1 {
         int pageSize = 6;
         int totalComment = movieRequestService.getCommentCount(id);
         int totalPage = totalComment / pageSize + 1;
-
         int startPage = (currentPage - 1 > 0) ? currentPage - 1: 0;
         int endPage = (totalPage - 1 > currentPage +1 )? currentPage+1 : totalPage -1;
 
@@ -190,23 +189,38 @@ public class Contro1 {
         System.out.println(comment.getComment());
         System.out.println(comment.getValue());
         System.out.println(comment.getDate());
+        int result = movieRequestService.saveComment(1,1, comment.getComment(),
+                comment.getValue(), now);
+        System.out.println("Đây là kết quả:");
+        System.out.println(result);
 
     }
     @GetMapping("/search")
-    public String getMovieSearch(@RequestParam(name = "input") int id) {
-        int currentPage = 0;
-        int pageSize = 6;
-        int totalComment = movieRequestService.getCommentCount(id);
+    public String getMovieSearch(@RequestParam(name = "search-input") String input,
+                                 @RequestParam(name = "page",defaultValue = "0") int page,
+                                 Model model
+                                 ) {
+        int currentPage = page;
+        int pageSize = 12;
+        int totalComment = movieRequestService.getSearchMovieCount(input);
         int totalPage = totalComment / pageSize + 1;
+
 
         int startPage = (currentPage - 1 > 0) ? currentPage - 1: 0;
         int endPage = (totalPage - 1 > currentPage +1 )? currentPage+1 : totalPage -1;
-
+        String url = "/search";
         List<Integer> pages = new ArrayList<>();
         for (int i = startPage;i<=endPage;i++){
             pages.add(i);
         }
-
+        List<MovieRequest> listMovie = movieRequestService.getSearchMovie(input,page*pageSize, pageSize);
+        model.addAttribute("listMovie", listMovie);
+        model.addAttribute("pages", pages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPage",totalPage);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("url",url);
+        model.addAttribute("inputSearch", input);
         return "search";
     }
 

@@ -3,6 +3,7 @@ package ptithcm.WebMovie.Service;
 import org.springframework.data.repository.query.Param;
 import ptithcm.WebMovie.Model.MovieRequest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,21 @@ public interface MovieRequestService {
 
     int getCommentCount(int id);
 
+    List<MovieRequest> getSearchMovie(String input,
+                                      int start,
+                                      int size);
+
+    int getSearchMovieCount(String input);
+
+    int saveComment(int movie_id,
+                    int user_id,
+                    String comment,
+                    int value,
+                    LocalDateTime date
+    );
+
     int getStatusCollection(int userId, int movieId);
+
+
 
 }

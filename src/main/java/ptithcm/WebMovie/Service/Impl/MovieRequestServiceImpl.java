@@ -6,6 +6,7 @@ import ptithcm.WebMovie.Model.MovieRequest;
 import ptithcm.WebMovie.Repository.MovieRequestRepository;
 import ptithcm.WebMovie.Service.MovieRequestService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -57,8 +58,24 @@ public class MovieRequestServiceImpl implements MovieRequestService {
         return movieRequestRepository.getCommentCount(id);
     };
 
+    public List<MovieRequest> getSearchMovie(String input,
+                                      int start,
+                                      int size){
+        return movieRequestRepository.getSearchMovie(input,start,size);
+    };
+    public int getSearchMovieCount(String input){
+        return movieRequestRepository.getSearchMovieCount(input);
+    };
     public int getStatusCollection(int userId, int movieId){
         return movieRequestRepository.getStatusCollection(userId, movieId);
     }
+    public int saveComment(int movie_id,
+                    int user_id,
+                    String comment,
+                    int value,
+                    LocalDateTime date
+    ){
+        return movieRequestRepository.saveComment(movie_id,user_id,comment,value,date);
+    };
 
 }

@@ -2,10 +2,12 @@ package ptithcm.WebMovie.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ptithcm.WebMovie.Model.MovieRequest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -44,12 +46,26 @@ public interface MovieRequestRepository extends JpaRepository<MovieRequest, Inte
                                    @Param("start") int start,
                                    @Param("size") int size);
 
+
+
     @Query(value ="{call SP_COUNT_COMMENT_MOVIE(:id)}", nativeQuery = true)
     int getCommentCount(@Param("id") int id);
-
-
+    @Query(value ="{call SP_SEARCH_MOVIE(:input, :start, :size)}", nativeQuery = true)
+    List<MovieRequest> getSearchMovie(@Param("input") String input,
+                                   @Param("start") int start,
+                                   @Param("size") int size);
+    @Query(value ="{call SP_COUNT_SEARCH_MOVIE(:input)}", nativeQuery = true)
+    int getSearchMovieCount(@Param("input") String input);
 
     @Query(value = "{call SP_GET_STATUS_COLLECTION(:user_id, :movie_id)}", nativeQuery = true)
     int getStatusCollection(@Param("user_id") int userId, @Param("movie_id") int movieId);
+
+    @Procedure(name="Comment.insertComment")
+    int saveComment(int movie_id,
+                    int user_id,
+                    String comment,
+                    int value,
+                    LocalDateTime date
+                    );
 
 }

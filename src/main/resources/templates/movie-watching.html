@@ -107,7 +107,7 @@
                         <div class="section-title">
                             <h5>List Name</h5>
                         </div>
-                        <a th:each="e : ${listEp}" href="" th:text="${e.get('name')}"></a>
+                        <a th:each="e : ${listEp}" th:href="'../movie-watching'+'?id='+${movie.get('movie_id')}+'&episode='${movie.get('movie_id')}" th:text="${e.get('name')}"></a>
 
                     </div>
                 </div>
@@ -146,23 +146,23 @@
                         <input type="hidden" id="currentPage" th:value="${currentPage}" />
                         <div class="product__pagination" >
                             <div class="row" id="paginationContainer">
-                                <a th:class="${currentPage == 0 ? 'disabled' : ''} +' page1'"
-                                   href="#" th:data-value="${currentPage-1}"><i class="fa fa-angle-double-left"></i></a>
+                                <a th:class="${currentPage == 0 ? 'disabled' : 'page1'}"
+                                   th:data-value="${currentPage-1}"><i class="fa fa-angle-double-left"></i></a>
                                 <div th:if="${currentPage > 1}">
-                                    <a class="page1" href="#" th:data-value="0">1</a>
+                                    <a class="page1"  th:data-value="0">1</a>
                                     <a class="disabled">...</a>
                                 </div>
                                 <div th:each="i : ${pages}">
                                     <a th:class="${currentPage == i ? 'current-page' : ''} +' page1'"
-                                       th:data-value="${i}" href="#" th:text = "${i + 1}">
+                                       th:data-value="${i}"  th:text = "${i + 1}">
                                     </a>
                                 </div>
                                 <div th:if="${currentPage < totalPage - 2}">
                                     <a class="disabled">...</a>
                                     <a class="page1" th:data-value="${totalPage-1}"href="#" th:text=" ${totalPage}"></a>
                                 </div>
-                                <a th:class="${currentPage == totalPage - 1 ? 'disabled' : ''} +' page1'"
-                                   th:data-value="${currentPage+1}" href="#"><i class="fa fa-angle-double-right"></i></a>
+                                <a th:class="${currentPage == totalPage - 1 ? 'disabled' : 'page1'} +"
+                                   th:data-value="${currentPage+1}" ><i class="fa fa-angle-double-right"></i></a>
                             </div>
                         </div>
                     </div>

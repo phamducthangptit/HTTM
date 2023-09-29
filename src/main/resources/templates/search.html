@@ -80,9 +80,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <a href="./categories.html">Categories</a>
-                        <span>Romance</span>
+                        <a href="./home"><i class="fa fa-home"></i> Home</a>
+                        <a href="#" class = "search-switch">Search</a>
+                        <span>
+                            <div th:text="${inputSearch}"></div>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -100,35 +102,37 @@
                             <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-6">
                                     <div class="section-title">
-                                        <h4>Romance</h4>
+                                        <h4>SEARCH...</h4>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-6">
-                                    <div class="product__page__filter">
-                                        <p>Order by:</p>
-                                        <select>
-                                            <option value="">A-Z</option>
-                                            <option value="">1-10</option>
-                                            <option value="">10-50</option>
-                                        </select>
-                                    </div>
+<!--                                    <div class="product__page__filter">-->
+<!--                                        <p>Order by:</p>-->
+<!--                                        <select>-->
+<!--                                            <option value="">A-Z</option>-->
+<!--                                            <option value="">1-10</option>-->
+<!--                                            <option value="">10-50</option>-->
+<!--                                        </select>-->
+<!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="col-lg-4 col-md-6 col-sm-6" th:each="movie : ${listMovie}">
                                 <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/popular/popular-1.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
+                                    <a th:href="'movie?id='+${movie.getMovie_id()}" >
+                                        <div class="product__item__pic set-bg" th:attr="data-setbg='img/trending/'+${movie.getImage()}">
+                                            <div class="ep" th:text="${movie.getEpisode()} + '/' + ${movie.getEpisodes()}"></div>
+                                            <div class="comment"><i class="fa fa-comments" th:text="${movie.getCm_count()}"></i></div>
+                                            <div class="view"><i class="fa fa-eye" th:text="${movie.getViews()}"></i> </div>
+                                        </div>
+                                    </a>
                                     <div class="product__item__text">
                                         <ul>
                                             <li>Active</li>
                                             <li>Movie</li>
                                         </ul>
-                                        <h5><a href="#">Sen to Chihiro no Kamikakushi</a></h5>
+                                        <h5><a th:href="'movie?id='+${movie.getMovie_id()}" th:text="${movie.getName()}"></a></h5>
                                     </div>
                                 </div>
                             </div>
@@ -136,27 +140,44 @@
                         </div>
                     </div>
                     <div class="row justify-content-center">
-                        <div id="totalPageEl" th:data-value="${totalPage}"></div>
-                        <input type="hidden" id="currentPage" th:value="${currentPage}" />
+<!--                        <div id="totalPageEl" th:data-value="${totalPage}"></div>-->
+<!--                        <input type="hidden" id="currentPage" th:value="${currentPage}" />-->
                         <div class="product__pagination" >
                             <div class="row" id="paginationContainer">
-                                <a th:class="${currentPage == 0 ? 'disabled' : ''} +' page1'"
-                                   href="#" th:data-value="${currentPage-1}"><i class="fa fa-angle-double-left"></i></a>
+                                <div th:if="${currentPage == 0 }" >
+                                    <a disabled><i class="fa fa-angle-double-left"></i></a>
+                                </div>
+                                <div th:if="${currentPage != 0 }">
+                                    <a th:href="${url}+'?search-input='+${inputSearch}+'&page='+${currentPage-1}"><i class="fa fa-angle-double-left"></i></a>
+                                </div>
                                 <div th:if="${currentPage > 1}">
-                                    <a class="page1" href="#" th:data-value="0">1</a>
-                                    <a class="disabled">...</a>
+                                    <a th:href="${url}+'?search-input='+${inputSearch}+'&page=0'">1</a>
+                                    <a >...</a>
                                 </div>
                                 <div th:each="i : ${pages}">
-                                    <a th:class="${currentPage == i ? 'current-page' : ''} +' page1'"
-                                       th:data-value="${i}" href="#" th:text = "${i + 1}">
-                                    </a>
+                                    <div th:if="${currentPage == i}">
+                                        <a class="current-page"
+                                           th:text = "${i + 1}"
+                                            >
+                                        </a>
+                                    </div>
+                                    <div th:if="${currentPage != i}">
+                                        <a th:href="${url}+'?search-input='+${inputSearch}+'&page='+${i}"
+                                           th:text = "${i + 1}">
+                                        </a>
+                                    </div>
                                 </div>
                                 <div th:if="${currentPage < totalPage - 2}">
-                                    <a class="disabled">...</a>
-                                    <a class="page1" th:data-value="${totalPage-1}"href="#" th:text=" ${totalPage}"></a>
+                                    <a>...</a>
+                                    <a th:href="${url}+'?search-input='+${inputSearch}+'&page='+${totalPage-1}" th:text=" ${totalPage}"></a>
                                 </div>
-                                <a th:class="${currentPage == totalPage - 1 ? 'disabled' : ''} +' page1'"
-                                   th:data-value="${currentPage+1}" href="#"><i class="fa fa-angle-double-right"></i></a>
+                                <div th:if="${currentPage == totalPage - 1 }" >
+                                    <a><i class="fa fa-angle-double-right"></i></a>
+                                </div>
+                                <div th:if="${currentPage != totalPage - 1 }">
+                                    <a th:href="${url}+'?search-input='+${inputSearch}+'&page='+${currentPage+1}">
+                                        <i class="fa fa-angle-double-right"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
