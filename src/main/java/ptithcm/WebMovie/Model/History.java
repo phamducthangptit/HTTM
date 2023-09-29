@@ -14,6 +14,7 @@ public class History {
     @Column(name = "time_stamp")
     private Timestamp timeStamp;
 
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

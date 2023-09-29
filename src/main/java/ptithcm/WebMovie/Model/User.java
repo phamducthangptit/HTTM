@@ -26,8 +26,8 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "image")
-    private String image;
+    @Column(name = "avatar")
+    private String avatar;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -48,7 +48,7 @@ public class User {
         this.password = password;
         this.name = name;
         this.email = email;
-        this.image = image;
+        this.avatar = image;
     }
 
     public int getUserId() {
@@ -99,11 +99,11 @@ public class User {
         this.role = role;
     }
 
-    public String getImage() {
-        return image;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

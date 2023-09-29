@@ -117,8 +117,6 @@
                                 </div>
                             </div>
                             <div class="anime__details__btn">
-
-
                                 <input type="hidden" id="isFl" th:value="${isFollowing}">
                                 <a th:href="@{/add-collection(id=${movie.get('movie_id')})}" class="follow-btn" id="Follow" ><i class="fa fa-heart-o"></i> Follow</a>
                                 <a th:href="@{/rmv-collection(id=${movie.get('movie_id')})}" class="follow-btn" id="unFollow"><i class="fa fa-heart"></i> UnFollow</a>
@@ -333,68 +331,8 @@
     <script th:src="@{/js/jquery.slicknav.js}"></script>
     <script th:src="@{/js/owl.carousel.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
-<<<<<<< HEAD
     <script th:src="@{/js/comment.js}"></script>
-
-=======
-    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
-    <script>
-        $(document).ready(function() {
-            var isFollowing = document.getElementById('isFl').value;
-            if (isFollowing === 'true') {
-                $('#Follow').hide();
-                $('#unFollow').show();
-            } else if(isFollowing === 'false'){
-                $('#Follow').show();
-                $('#unFollow').hide();
-            } else if(isFollowing === 'nouser'){
-                $('#Follow').hide();
-                $('#unFollow').hide();
-            }
-        });
-    </script>
-
-    <script>
-        $(document).ready(function(){
-            $("#Follow").click(function(event){
-                event.preventDefault();
-                var currentURL = window.location.href;
-                var urlObject = new URL(currentURL);
-                var movieId = urlObject.searchParams.get("id");
-                $.ajax({
-                    type: 'POST',
-                    url: '/add-collection/' + movieId,
-                    contentType: 'application/json',
-                    success: function(data){
-                        $('#Follow').hide();
-                        $('#unFollow').show();
-                    },
-                    error: function(error){
-                        console.log(error)
-                    }
-                });
-            });
-            $("#unFollow").click(function(event){
-                event.preventDefault();
-                var currentURL = window.location.href;
-                var urlObject = new URL(currentURL);
-                var movieId = urlObject.searchParams.get("id");
-                $.ajax({
-                    type: 'POST',
-                    url: '/rmv-collection/' + movieId,
-                    contentType: 'application/json',
-                    success: function(data){
-                        $('#Follow').show();
-                        $('#unFollow').hide();
-                    },
-                    error: function(error){
-                        console.log(error)
-                    }
-                });
-            });
-        });
-    </script>
->>>>>>> a93e37ecfd660f1a3a43cf5f24f6b92f7985808a
+    <script th:src="@{/js/follow.js}"></script>
     </body>
 
     </html>

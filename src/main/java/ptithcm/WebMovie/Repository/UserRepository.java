@@ -24,8 +24,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Modifying
     @Transactional
-    @Query("update User u set u.name = :name, u.email = :email where u.userName = :userName")
-    void updateInformation(@Param("name") String name, @Param("email") String email, @Param("userName") String userName);
+    @Query("update User u set u.name = :name, u.email = :email, u.avatar = :avatar where u.userName = :userName")
+    void updateInformation(@Param("name") String name, @Param("email") String email, @Param("userName") String userName, @Param("avatar") String avatar);
 
     User findByuserNameAndEmail(String userName, String email);
+
+
 }
