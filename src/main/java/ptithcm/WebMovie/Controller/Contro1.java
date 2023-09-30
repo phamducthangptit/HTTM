@@ -177,8 +177,9 @@ public class Contro1 {
     @GetMapping("/movie-watching")
     public String watchMovie(@RequestParam(name = "id") int id,
                              @RequestParam(name = "episode", defaultValue = "1") int episode,
-                             Model model
+                             Model model,HttpSession session
                              ) {
+
         Map<String, ?> movie = movieRequestService.getMovieDetail(id);
         model.addAttribute("movie", movie);
         List<Map<String,?>> episodes = movieRequestService.getMovieEpisode(id);
@@ -217,10 +218,11 @@ public class Contro1 {
                 System.out.println(entry.getKey()+ " : " + entry.getValue());
             }
         }
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("user",user);
         if(session.getAttribute("user") == null){ // chưa login
             model.addAttribute("isFollowing", "nouser");
         } else {
-            User user = (User) session.getAttribute("user");
             // thực hiện tìm bộ sưu tập của user
             if(movieRequestService.getStatusCollection(user.getUserId(), id) == 0){
                 model.addAttribute("isFollowing", "false"); // chưa có trong bst
@@ -259,9 +261,11 @@ public class Contro1 {
 //        System.out.println(comment.getComment());
 //        System.out.println(comment.getValue());
 //        System.out.println(comment.getDate());
-        int result = movieRequestService.saveComment((Integer) comment.get("movie_id"),
-                (Integer) comment.get("user_id"), (String) comment.get("comment"),
-                (Integer) comment.get("value"), now);
+        int movie_id= Integer.parseInt((String) comment.get("movie_id"));
+        int user_id = Integer.parseInt((String) comment.get("user_id"));
+        String commentIN = (String) comment.get("comment");
+        int value = Integer.parseInt((String) comment.get("value"));
+        int result = movieRequestService.saveComment(movie_id,user_id,commentIN,value,now);
         return result;
 
     }
