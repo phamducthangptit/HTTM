@@ -43,5 +43,11 @@ public class MovieRequestServiceImpl implements MovieRequestService {
 
     public List<Map<String,?>> getMovieEpisode( int id) {
         return movieRequestRepository.getMovieEpisode(id);
-    };
+    }
+
+    public int insertInformationMovie(int movie_id, int person_id, int category_id, int language_id, int company_id) {
+        return movieRequestRepository.insertInformationMovie(movie_id, person_id, category_id, language_id, company_id);
+    }
+
+    ;
 }

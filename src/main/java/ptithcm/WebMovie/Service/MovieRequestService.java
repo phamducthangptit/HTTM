@@ -25,4 +25,5 @@ public interface MovieRequestService {
     List<Map<String,?>> getMoviePerson(int id);
 
     List<Map<String,?>> getMovieEpisode( int id);
+    int insertInformationMovie(int movie_id, int person_id ,int category_id,int language_id,int company_id);
 }
