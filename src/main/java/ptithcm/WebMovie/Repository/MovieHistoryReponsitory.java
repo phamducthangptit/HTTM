@@ -13,4 +13,10 @@ public interface MovieHistoryReponsitory extends JpaRepository<History, Integer>
 
     @Query(value = "{call SP_FIND_HISTORY(:userId, :movieId, :episode)}", nativeQuery = true)
     public int findHistory(@Param("userId") int userId, @Param("movieId") int movieId, @Param("episode") int episode);
+
+    @Query(value = "{call SP_DELETE_HISTORY(:userId, :movieId, :episode)}", nativeQuery = true)
+    public int deleteHistory(@Param("userId") int userId, @Param("movieId") int movieId, @Param("episode") int episode);
+
+    @Query(value = "{call SP_UPDATE_VIEW(:userId, :movieId, :episode, :time)}", nativeQuery = true)
+    public int updateViews(@Param("userId") int userId, @Param("movieId") int movieId, @Param("episode") int episode, @Param("time") float time);
 }

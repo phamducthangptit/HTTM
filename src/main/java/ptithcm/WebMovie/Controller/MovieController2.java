@@ -80,4 +80,15 @@ public class MovieController2 {
         }
         return result;
     }
+
+    @PostMapping("/delete-history/{movie_id}/{episode}")
+    @ResponseBody
+    public int deleteHistory(@PathVariable("movie_id") int movieId, @PathVariable("episode") int episode){
+        int result = 0;
+        if(session.getAttribute("user") != null){
+            User user = (User) session.getAttribute("user");
+            result = movieHistoryService.deleteHistory(user.getUserId(), movieId, episode);
+        }
+        return result;
+    }
 }

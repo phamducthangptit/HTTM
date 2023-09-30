@@ -18,5 +18,13 @@ public class MovieHistoryServiceImp implements MovieHistoryService {
         return movieHistoryReponsitory.findHistory(userId, movieId, episode);
     }
 
+    public int deleteHistory(int userId, int movieId, int episode) {
+        return movieHistoryReponsitory.deleteHistory(userId, movieId, episode);
+    }
+
+    public int updateViews(int userId, int movieId, int episode, float time) {
+        return movieHistoryReponsitory.updateViews(userId, movieId, episode, time);
+    }
+
 
 }
