@@ -127,4 +127,8 @@ public class MovieRequestServiceImpl implements MovieRequestService {
     ){
         movieRequestRepository.saveEpisode(name, episode, season, source, movie_id, day_submit);
     };
+
+    public int deleteActor(int id){
+        return movieRequestRepository.deleteActor(id);
+    };
 }

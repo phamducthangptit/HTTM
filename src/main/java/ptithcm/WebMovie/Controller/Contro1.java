@@ -409,4 +409,10 @@ public class Contro1 {
         movieRequestService.saveEpisode(name,episode,season,fileName,movieId,currentDateTime);
         return "redirect:/movie?id="+String.valueOf(movieId);
     }
+
+    @GetMapping("/actors/delete")
+    public String deleteActor( @RequestParam("id") int id){
+        int x = movieRequestService.deleteActor(id);
+        return "redirect:/actors";
+    }
 }

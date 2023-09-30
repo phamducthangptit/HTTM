@@ -84,8 +84,7 @@
                             </a>
                         </td>
                         <td class="text-center align-middle">
-                            <a class=""
-                               href="#" >
+                            <a th:href="'/actors/delete?id='+${a.get('person_id')}" style="background:#0b0c2a;" th:if="${a.get('mv_count') == 0}" >
                                 <i class="fa fa-trash fa-lg" style="color: white;"></i>
                             </a>
                         </td>
@@ -140,13 +139,56 @@
 
 
 
+<!--    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"-->
+<!--         aria-hidden="true">-->
+<!--        <div class="modal-dialog" role="document">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="exampleModalLabel">Question</h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <form>-->
+<!--                <div class="modal-body">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="recipient-name" class="col-form-label">Recipient:</label>-->
+<!--                            <input type="text" class="form-control" id="recipient-name">-->
+<!--                        </div>-->
+
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>-->
+<!--                    <button type="submit" class="btn btn-primary">Yes</button>-->
+<!--                </div>-->
+<!--                    <form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
 
 
     <!-- Footer Section Begin -->
     <div th:insert="~{footer.html}"></div>
     <!-- Search model end -->
+<!--    <script th:src="@{https://code.jquery.com/jquery-3.5.1.slim.min.js}"></script>-->
+<!--    <script th:src="@{https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js}"></script>-->
+<!--    <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>-->
 
+<!--<script>-->
 
+<!--    $(document).ready(function() {-->
+<!--            $('#exampleModal').on('show.bs.modal', function (event) {-->
+<!--             console.log("Modal is about to be shown.");-->
+<!--                var button = $(event.relatedTarget) // Button that triggered the modal-->
+<!--                  var recipient = button.data('whatever') // Extract info from data-* attributes-->
+<!--                   console.log(recipient);-->
+<!--                  var modal = $(this)-->
+
+<!--                  modal.find('.modal-body input').val(recipient)-->
+<!--            })-->
+<!--         });-->
+<!--</script>-->
     <!-- Js Plugins -->
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>

@@ -78,4 +78,6 @@ public interface MovieRequestService {
                      int movie_id,
                      LocalDateTime day_submit
     );
+
+    int deleteActor( int id);
 }
