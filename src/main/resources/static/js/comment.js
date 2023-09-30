@@ -2,35 +2,45 @@ const textarea = document.getElementById('txtComment');
 const submitButton = document.getElementById('newComment');
 
                 // Sử dụng sự kiện 'input' để kiểm tra khi có thay đổi trong textarea
-textarea.addEventListener('input', function() {
-                    // Kiểm tra nếu textarea không trống thì bật nút submit, ngược lại tắt nút submit
-      if (textarea.value.trim() !== '') {
-         submitButton.removeAttribute('disabled');
-      } else {
-         submitButton.setAttribute('disabled', 'disabled');
-      }
-});
+if (textarea != null) {
+    textarea.addEventListener('input', function() {
+                        // Kiểm tra nếu textarea không trống thì bật nút submit, ngược lại tắt nút submit
+          if (textarea.value.trim() !== '') {
+             submitButton.removeAttribute('disabled');
+          } else {
+             submitButton.setAttribute('disabled', 'disabled');
+          }
+    });
+}
+
 
 $(document).ready(function () {
 
              var comment = {};
              $('#newComment').click(function (e) {
                  e.preventDefault();
+                 var queryString = window.location.search;
+                 var urlParams = new URLSearchParams(queryString);
+                 var id = urlParams.get('id');
                  var ratingContainer = document.querySelector('.rating');
+                 var userId =document.getElementById('userId').getAttribute('data-value');
+                 comment.movie_id = id;
+                 comment.user_id = userId;
                  comment.comment = $('#txtComment').val();
                  comment.value = $('#ratingValue').val();
                  var bookJSON = JSON.stringify(comment);
                  $.ajax({
-                     url: 'http://localhost:8080/movie/CMApi?id=1',
+                     url: 'http://localhost:8080/movie/CMApi',
                      method: 'POST',
                      data: bookJSON,
                      contentType: "application/json; charset=utf-8",
-                     success: function () {
-                         //alert('Saved successfully!');
-                         console.log(comment);
+                     success: function (data) {
+                        if (data === 1 ) {
+                             refreshComments(id,0,6);
+                        }
                      },
                      error: function (error) {
-                         alert(error);
+                         console.log(error);
                      }
                  })
              })
@@ -47,7 +57,7 @@ $(document).ready(function () {
                 var dataFromModel =document.getElementById('totalPageEl').getAttribute('data-value');
                 var urlSearchParams = new URLSearchParams(window.location.search);
                 var id = urlSearchParams.get("id");
-                alert(dataFromModel);
+                //alert(dataFromModel);
 
                 buildPagination(currentPage, dataFromModel);
                 refreshComments(id,currentPage*6,6);
@@ -98,20 +108,18 @@ $(document).ready(function () {
             paginationContainer.empty();
 
             var previousLink = $('<a>');
-            previousLink.attr('class', currentPage == 0 ? 'disabled page1' : 'page1');
-            previousLink.attr('href', 'javascript:void(0);');
+            previousLink.attr('class', currentPage == 0 ? 'disabled' : 'page1');
             previousLink.attr('data-value', currentPage - 1);
             previousLink.html('<i class="fa fa-angle-double-left"></i>');
             paginationContainer.append(previousLink);
             if (currentPage > 1) {
                 var dot1 = $('<a>');
                 dot1.attr('class', 'page1');
-
                 dot1.attr('data-value', 1);
                 dot1.attr('href', 'javascript:void(0);');
                 dot1.html('1');
                 paginationContainer.append(dot1);
-                var dots = $('<a>');
+                var dot2 = $('<a>');
                 dot2.attr('class', 'disabled');
                 dot2.html('...');
                 paginationContainer.append(dot2);
@@ -132,7 +140,7 @@ $(document).ready(function () {
                 paginationContainer.append(tmp);
             }
             if (currentPage < totalPage - 2) {
-                var dots = $('<a>');
+                var dot2 = $('<a>');
                 dot2.attr('class', 'disabled');
                 dot2.html('...');
                 paginationContainer.append(dot2);
@@ -145,8 +153,7 @@ $(document).ready(function () {
 
             }
             var afterLink = $('<a>');
-            afterLink.attr('class', currentPage == totalPage - 1 ? 'disabled page1' : 'page1');
-            afterLink.attr('href', 'javascript:void(0);');
+            afterLink.attr('class', currentPage == totalPage - 1 ? 'disabled' : 'page1');
             afterLink.attr('data-value', currentPage + 1);
             afterLink.html('<i class="fa fa-angle-double-right"></i>');
             paginationContainer.append(afterLink);

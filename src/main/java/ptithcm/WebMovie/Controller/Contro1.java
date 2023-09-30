@@ -1,13 +1,17 @@
 package ptithcm.WebMovie.Controller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ptithcm.WebMovie.Model.Comment;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +21,14 @@ import ptithcm.WebMovie.Model.User;
 import ptithcm.WebMovie.Repository.MovieCollectionRepository;
 import ptithcm.WebMovie.Service.MovieRequestService;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -35,14 +45,27 @@ public class Contro1 {
     @GetMapping("/home")
     public String home(Model model) {
         List<MovieRequest> m = movieRequestService.getMovie(6);
+
+        List<MovieRequest> m1 = movieRequestService.getTopView(7);
+        MovieRequest trend = m1.remove(0);
+
+        List<Map<String,?>> m2 = movieRequestService.getMovieNewComment();
+
+
         model.addAttribute("listMovie", m);
-        List<MovieRequest> m1 = movieRequestService.getTopView(6);
+
         model.addAttribute("listTopView", m1);
+        model.addAttribute("trend", trend);
+
+        model.addAttribute("listNewCM", m2);
         return "home";
     }
     @GetMapping("/movie")
     public String getMovieDetail(@RequestParam(name = "id") int id
-                                    , Model model) {
+                                    , Model model, HttpSession session) {
+
+
+
         Map<String, ?> movie = movieRequestService.getMovieDetail(id);
         List<Map<String,?>> movieL = movieRequestService.getMovieLanguage(id);
 
@@ -51,7 +74,18 @@ public class Contro1 {
         List<Map<String,?>> movieCo = movieRequestService.getMovieCompany(id);
 
         List<Map<String,?>> movieP = movieRequestService.getMoviePerson(id);
+        System.out.println("check null");
+        System.out.println(movie.get("tags"));
+        String[] tags = ((String)movie.get("tags")).split(", ");
 
+        // Chuyển mảng thành danh sách (List)
+        List<String> listTags = Arrays.asList(tags);
+
+        // In danh sách ra màn hình
+        for (String tag : listTags) {
+            System.out.println(tag);
+        }
+        model.addAttribute("listTags",listTags);
 
         String language = "";
         for (Map<String, ?> map : movieL) {
@@ -91,8 +125,7 @@ public class Contro1 {
         int currentPage = 0;
         int pageSize = 6;
         int totalComment = movieRequestService.getCommentCount(id);
-        int totalPage = totalComment / pageSize + 1;
-
+        int totalPage = (totalComment % pageSize == 0)?totalComment / pageSize:totalComment / pageSize + 1;
         int startPage = (currentPage - 1 > 0) ? currentPage - 1: 0;
         int endPage = (totalPage - 1 > currentPage +1 )? currentPage+1 : totalPage -1;
 
@@ -112,17 +145,33 @@ public class Contro1 {
                 System.out.println(entry.getKey()+ " : " + entry.getValue());
             }
         }
-        if(session.getAttribute("user") == null){ // chưa login
+        User user = (User) session.getAttribute("user");
+        if(user == null){ // chưa login
             model.addAttribute("isFollowing", "nouser");
+            model.addAttribute("user",null);
         } else {
-            User user = (User) session.getAttribute("user");
+            model.addAttribute("user",user);
             // thực hiện tìm bộ sưu tập của user
             if(movieRequestService.getStatusCollection(user.getUserId(), id) == 0){
                 model.addAttribute("isFollowing", "false"); // chưa có trong bst
             } else model.addAttribute("isFollowing", "true"); // đã có trong bst
         }
-
-
+        System.out.println(movie.get("tags"));
+        List<MovieRequest> listYouLike = movieRequestService.getSearchMovie((String) movie.get("tags"),0, 5);
+        System.out.println("check len null");
+        System.out.println(listYouLike.size());
+        System.out.println("check len null");
+        for (MovieRequest item : listYouLike) {
+            System.out.println(item.getName());
+            if (item.getMovie_id() == ((int)movie.get("movie_id"))) {
+                listYouLike.remove(item);
+                break;
+            }
+        }
+        for (MovieRequest item : listYouLike) {
+            System.out.println(item.getName());
+        }
+        model.addAttribute("listYouLike", listYouLike);
         return "movie-details";
     }
     @GetMapping("/movie-watching")
@@ -130,8 +179,8 @@ public class Contro1 {
                              @RequestParam(name = "episode", defaultValue = "1") int episode,
                              Model model
                              ) {
-
-
+        Map<String, ?> movie = movieRequestService.getMovieDetail(id);
+        model.addAttribute("movie", movie);
         List<Map<String,?>> episodes = movieRequestService.getMovieEpisode(id);
         Map<String,?> episode1 = null;
         for (Map<String, ?> map : episodes) {
@@ -147,7 +196,7 @@ public class Contro1 {
         int currentPage = 0;
         int pageSize = 6;
         int totalComment = movieRequestService.getCommentCount(id);
-        int totalPage = totalComment / pageSize + 1;
+        int totalPage = (totalComment % pageSize == 0)?totalComment / pageSize:totalComment / pageSize + 1;
 
         int startPage = (currentPage - 1 > 0) ? currentPage - 1: 0;
         int endPage = (totalPage - 1 > currentPage +1 )? currentPage+1 : totalPage -1;
@@ -178,7 +227,17 @@ public class Contro1 {
             } else model.addAttribute("isFollowing", "true"); // đã có trong bst
         }
 
-
+        List<MovieRequest> listYouLike = movieRequestService.getSearchMovie((String) movie.get("tags"),0, 5);
+        for (MovieRequest item : listYouLike) {
+            if (item.getMovie_id() == ((int)movie.get("movie_id"))) {
+                listYouLike.remove(item);
+                break;
+            }
+        }
+        for (MovieRequest item : listYouLike) {
+            System.out.println(item.getName());
+        }
+        model.addAttribute("listYouLike", listYouLike);
         return "movie-watching";
     }
 
@@ -193,32 +252,157 @@ public class Contro1 {
 
     @PostMapping("/movie/CMApi")
     @ResponseBody
-    public void postAPICM(@RequestParam(name = "id") int id, @RequestBody Comment comment) {
+    public int postAPICM( @RequestBody Map<String,Object> comment) {
         LocalDateTime now = LocalDateTime.now();
 
         // Chuyển đổi thành chuỗi
-        comment.setDate(now);
-        System.out.println(comment.getComment());
-        System.out.println(comment.getValue());
-        System.out.println(comment.getDate());
+//        System.out.println(comment.getComment());
+//        System.out.println(comment.getValue());
+//        System.out.println(comment.getDate());
+        int result = movieRequestService.saveComment((Integer) comment.get("movie_id"),
+                (Integer) comment.get("user_id"), (String) comment.get("comment"),
+                (Integer) comment.get("value"), now);
+        return result;
 
     }
+
     @GetMapping("/search")
-    public String getMovieSearch(@RequestParam(name = "input") int id) {
-        int currentPage = 0;
-        int pageSize = 6;
-        int totalComment = movieRequestService.getCommentCount(id);
+    public String getMovieSearch(@RequestParam(name = "search-input") String input,
+                                 @RequestParam(name = "page",defaultValue = "0") int page,
+                                 Model model
+                                 ) {
+        int currentPage = page;
+        int pageSize = 12;
+        int totalComment = movieRequestService.getSearchMovieCount(input);
         int totalPage = totalComment / pageSize + 1;
+
 
         int startPage = (currentPage - 1 > 0) ? currentPage - 1: 0;
         int endPage = (totalPage - 1 > currentPage +1 )? currentPage+1 : totalPage -1;
-
+        String url = "/search";
         List<Integer> pages = new ArrayList<>();
         for (int i = startPage;i<=endPage;i++){
             pages.add(i);
         }
+        List<MovieRequest> listMovie = movieRequestService.getSearchMovie(input,page*pageSize, pageSize);
+        model.addAttribute("listMovie", listMovie);
+        model.addAttribute("pages", pages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPage",totalPage);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("url",url);
+        model.addAttribute("inputSearch", input);
+        List<MovieRequest> m1 = movieRequestService.getTopView(7);
+        MovieRequest trend = m1.remove(0);
 
+        List<Map<String,?>> m2 = movieRequestService.getMovieNewComment();
+
+
+
+        model.addAttribute("listTopView", m1);
+        model.addAttribute("trend", trend);
+
+        model.addAttribute("listNewCM", m2);
         return "search";
     }
+    @GetMapping("/actors")
+    public String getActors(@RequestParam(name="page",defaultValue = "0") int page, Model model) {
+        int currentPage = page;
+        int pageSize = 12;
+        int totalComment = movieRequestService.getActorCount();
+        int totalPage = totalComment / pageSize + 1;
 
+
+        int startPage = (currentPage - 1 > 0) ? currentPage - 1: 0;
+        int endPage = (totalPage - 1 > currentPage +1 )? currentPage+1 : totalPage -1;
+        String url = "/actors";
+        List<Integer> pages = new ArrayList<>();
+        for (int i = startPage;i<=endPage;i++){
+            pages.add(i);
+        }
+        List<Map<String,Object>> listActor = movieRequestService.getActor(0,12);
+
+
+        model.addAttribute("listActor", listActor);
+        model.addAttribute("pages", pages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPage",totalPage);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("url",url);
+        return "actor";
+    }
+
+    @GetMapping("/actors/add")
+    public String getActor(Model model){
+        List<String> listCountry = movieRequestService.getListCountry();
+
+        model.addAttribute("listCountry", listCountry);
+        return "actor-details";
+    }
+    @PostMapping("/actors/add")
+    public String addActor(@RequestParam("imageInput") MultipartFile file,
+                           @RequestParam("name") String name,
+                           @RequestParam("gender") int gender,
+                           @RequestParam("birthday") Date birthday,
+                           @RequestParam("country") String country,
+                           @RequestParam("describe") String describe
+                           ) {
+        String fileName = "default.png";
+        if(file != null && !file.isEmpty()) { // chọn file mới
+            try {
+
+                String uploadDir = "src/main/resources/static/img/actors";
+                Path filePath;
+
+                //ảnh mới
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                System.out.println(currentDateTime);
+                fileName = name + "_" +
+                        currentDateTime.getHour() + "h" +
+                        currentDateTime.getMinute() + "m" +
+                        currentDateTime.getSecond() + "s" + ".jpg";
+                filePath = Paths.get(uploadDir, fileName);
+                Files.copy(file.getInputStream(), filePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        movieRequestService.saveActor(name,gender,birthday,fileName,describe,country);
+        return "redirect:/actors";
+    }
+
+    @PostMapping("/movie/addEp")
+    public String addEp(@RequestParam("videoInput") MultipartFile file,
+                           @RequestParam("name") String name,
+                           @RequestParam("episode") int episode,
+                           @RequestParam("season") String season,
+                           @RequestParam("movie_id") int movieId,
+                        HttpSession session
+
+    ){
+        User user = (User) session.getAttribute("user");
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        String fileName = "";
+        if(file != null && !file.isEmpty()) { // chọn file mới
+            try {
+
+                String uploadDir = "src/main/resources/static/video";
+                Path filePath;
+
+                //ảnh mới
+
+                System.out.println(currentDateTime);
+                fileName = name + "_" +
+                        currentDateTime.getHour() + "h" +
+                        currentDateTime.getMinute() + "m" +
+                        currentDateTime.getSecond() + "s" + ".jpg";
+                filePath = Paths.get(uploadDir, fileName);
+                Files.copy(file.getInputStream(), filePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        movieRequestService.saveEpisode(name,episode,season,fileName,movieId,currentDateTime);
+        return "redirect:/movie?id="+String.valueOf(movieId);
+    }
 }
