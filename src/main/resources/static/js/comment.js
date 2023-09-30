@@ -24,6 +24,8 @@ $(document).ready(function () {
                  var id = urlParams.get('id');
                  var ratingContainer = document.querySelector('.rating');
                  var userId =document.getElementById('userId').getAttribute('data-value');
+
+                 console.log($('#ratingValue').val());
                  comment.movie_id = id;
                  comment.user_id = userId;
                  comment.comment = $('#txtComment').val();

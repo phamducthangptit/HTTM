@@ -222,7 +222,7 @@
                                             <div class="rating1">
                                                 <span>Vote: </span>
                                                 <a href="javascript:void(0);" class="star1" data-value="1"><i
-                                                        class="fa fa-star-o"></i></a>
+                                                        class="fa fa-star"></i></a>
                                                 <a href="javascript:void(0);" class="star1" data-value="2"><i
                                                         class="fa fa-star-o"></i></a>
                                                 <a href="javascript:void(0);" class="star1" data-value="3"><i
@@ -233,7 +233,7 @@
                                                         class="fa fa-star-o"></i></a>
                                             </div>
                                         </h6>
-                                        <input type="text" id="ratingValue" value="0" style="display: none;">
+                                        <input type="text" id="ratingValue" value="1" style="display: none;">
                                         <textarea placeholder="Your comment" id="txtComment"></textarea>
                                         <button type="submit" id="newComment" disabled><i class="fa fa-location-arrow"></i>
                                             Review</button>
@@ -246,7 +246,7 @@
                         <div class="login__register" th:if="${user == null}">
                             <h4 style="color: #ffffff;">Login to comment</h4>
                             <br>
-                            <a href="#" class="primary-btn">Login</a>
+                            <a href="/login" class="primary-btn">Login</a>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
