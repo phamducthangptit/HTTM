@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Anime Template">
+    <meta name="keywords" content="Anime, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Anime | Template</title>
+
+    <!-- Google Font -->
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap}" rel="stylesheet">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap}"
+          rel="stylesheet">
+    <!-- Css Styles -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/plyr.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/nice-select.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <div th:insert="~{header.html}"></div>
+
+    <section class="blog-details spad">
+        <div class="container">
+            <div class="anime__details__content">
+                <div class="product__page__title">
+                    <div class="section-title">
+
+                        <h4>ACTORS</h4>
+                        <br>
+                        <div class="anime__details__btn">
+                            <a href="/actors/add" class="follow-btn"><i class="fa fa-image"></i>
+                                Add New</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table" style="color: white;">
+                <thead>
+                    <tr class="justify-content-center">
+                        <th scope="col" class="col-2 text-center align-middle">Image</th>
+                        <th scope="col" class="text-center align-middle">Information</th>
+                        <th scope="col" class="col-1 text-center align-middle">Update</th>
+                        <th scope="col" class="col-1 text-center align-middle">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="a :${listActor}">
+                        <th scope="row">
+                                <div class="card h-100 d-flex align-items-center border-0" style="background: #0b0c2a;">
+                                    <a href="#">
+                                        <img th:src="'../img/actors/'+${a.get('image')}" class="card-img-top" alt="..." style="height: 70px;
+                                    width: 70px;
+                                    border-radius:50%;">
+                                    </a>
+                                </div>
+                        </th>
+                        <td>
+                            <div class="blog__details__comment">
+                                <div class="blog__details__comment__item">
+                                    <div class="blog__details__comment__item__text">
+                                        <span><div th:text="'Birthday: '+${a.get('day_of_birth')}"></div></span>
+                                        <h5><div th:text="'Name: '+${a.get('actor_name')}"></div></h5>
+                                        <p><div th:text="${a.get('describe')}"></div></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center align-middle">
+                            <a href="#">
+                                <i class="fa fa-cog fa-lg" style="color: white;"></i>
+                            </a>
+                        </td>
+                        <td class="text-center align-middle">
+                            <a class=""
+                               href="#" >
+                                <i class="fa fa-trash fa-lg" style="color: white;"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div class="row justify-content-center">
+                <!--                        <div id="totalPageEl" th:data-value="${totalPage}"></div>-->
+                <!--                        <input type="hidden" id="currentPage" th:value="${currentPage}" />-->
+                <div class="product__pagination" >
+                    <div class="row" id="paginationContainer">
+                        <div th:if="${currentPage == 0 }" >
+                            <a disabled><i class="fa fa-angle-double-left"></i></a>
+                        </div>
+                        <div th:if="${currentPage != 0 }">
+                            <a th:href="${url}+'?search-input='+${inputSearch}+'&page='+${currentPage-1}"><i class="fa fa-angle-double-left"></i></a>
+                        </div>
+                        <div th:if="${currentPage > 1}">
+                            <a th:href="${url}+'?search-input='+${inputSearch}+'&page=0'">1</a>
+                            <a >...</a>
+                        </div>
+                        <div th:each="i : ${pages}">
+                            <div th:if="${currentPage == i}">
+                                <a class="current-page"
+                                   th:text = "${i + 1}"
+                                >
+                                </a>
+                            </div>
+                            <div th:if="${currentPage != i}">
+                                <a th:href="${url}+'?search-input='+${inputSearch}+'&page='+${i}"
+                                   th:text = "${i + 1}">
+                                </a>
+                            </div>
+                        </div>
+                        <div th:if="${currentPage < totalPage - 2}">
+                            <a>...</a>
+                            <a th:href="${url}+'?search-input='+${inputSearch}+'&page='+${totalPage-1}" th:text=" ${totalPage}"></a>
+                        </div>
+                        <div th:if="${currentPage == totalPage - 1 }" >
+                            <a><i class="fa fa-angle-double-right"></i></a>
+                        </div>
+                        <div th:if="${currentPage != totalPage - 1 }">
+                            <a th:href="${url}+'?search-input='+${inputSearch}+'&page='+${currentPage+1}">
+                                <i class="fa fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <!-- Footer Section Begin -->
+    <div th:insert="~{footer.html}"></div>
+    <!-- Search model end -->
+
+
+    <!-- Js Plugins -->
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/player.js}"></script>
+    <script th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script th:src="@{/js/mixitup.min.js}"></script>
+    <script th:src="@{/js/jquery.slicknav.js}"></script>
+    <script th:src="@{/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/custom.js}"></script>
+
+</body>
+
+</html>

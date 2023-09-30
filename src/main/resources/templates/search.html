@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Anime Template">
+    <meta name="keywords" content="Anime, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Anime | Template</title>
+
+    <!-- Google Font -->
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap}" rel="stylesheet">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap}"
+          rel="stylesheet">
+    <!-- Css Styles -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/plyr.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/nice-select.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    <div th:insert="~{header.html}"></div>
+    <!-- Header End -->
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="./home"><i class="fa fa-home"></i> Home</a>
+                        <a href="#" class = "search-switch">Search</a>
+                        <span>
+                            <div th:text="${inputSearch}"></div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Product Section Begin -->
+    <section class="product-page spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="product__page__content">
+                        <div class="product__page__title">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-6">
+                                    <div class="section-title">
+                                        <h4>SEARCH...</h4>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6">
+<!--                                    <div class="product__page__filter">-->
+<!--                                        <p>Order by:</p>-->
+<!--                                        <select>-->
+<!--                                            <option value="">A-Z</option>-->
+<!--                                            <option value="">1-10</option>-->
+<!--                                            <option value="">10-50</option>-->
+<!--                                        </select>-->
+<!--                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6" th:each="movie : ${listMovie}">
+                                <div class="product__item">
+                                    <a th:href="'movie?id='+${movie.getMovie_id()}" >
+                                        <div class="product__item__pic set-bg" th:attr="data-setbg='img/movie/'+${movie.getImage()}">
+                                            <div class="ep" th:text="${movie.getEpisode()} + '/' + ${movie.getEpisodes()}"></div>
+                                            <div class="comment"><i class="fa fa-comments" th:text="${movie.getCm_count()}"></i></div>
+                                            <div class="view"><i class="fa fa-eye" th:text="${movie.getViews()}"></i> </div>
+                                        </div>
+                                    </a>
+                                    <div class="product__item__text">
+<!--                                        <ul>-->
+<!--                                            <li>Active</li>-->
+<!--                                            <li>Movie</li>-->
+<!--                                        </ul>-->
+                                        <h5><a th:href="'movie?id='+${movie.getMovie_id()}" th:text="${movie.getName()}"></a></h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+<!--                        <div id="totalPageEl" th:data-value="${totalPage}"></div>-->
+<!--                        <input type="hidden" id="currentPage" th:value="${currentPage}" />-->
+                        <div class="product__pagination" >
+                            <div class="row" id="paginationContainer">
+                                <div th:if="${currentPage == 0 }" >
+                                    <a disabled><i class="fa fa-angle-double-left"></i></a>
+                                </div>
+                                <div th:if="${currentPage != 0 }">
+                                    <a th:href="${url}+'?search-input='+${inputSearch}+'&page='+${currentPage-1}"><i class="fa fa-angle-double-left"></i></a>
+                                </div>
+                                <div th:if="${currentPage > 1}">
+                                    <a th:href="${url}+'?search-input='+${inputSearch}+'&page=0'">1</a>
+                                    <a >...</a>
+                                </div>
+                                <div th:each="i : ${pages}">
+                                    <div th:if="${currentPage == i}">
+                                        <a class="current-page"
+                                           th:text = "${i + 1}"
+                                            >
+                                        </a>
+                                    </div>
+                                    <div th:if="${currentPage != i}">
+                                        <a th:href="${url}+'?search-input='+${inputSearch}+'&page='+${i}"
+                                           th:text = "${i + 1}">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div th:if="${currentPage < totalPage - 2}">
+                                    <a>...</a>
+                                    <a th:href="${url}+'?search-input='+${inputSearch}+'&page='+${totalPage-1}" th:text=" ${totalPage}"></a>
+                                </div>
+                                <div th:if="${currentPage == totalPage - 1 }" >
+                                    <a><i class="fa fa-angle-double-right"></i></a>
+                                </div>
+                                <div th:if="${currentPage != totalPage - 1 }">
+                                    <a th:href="${url}+'?search-input='+${inputSearch}+'&page='+${currentPage+1}">
+                                        <i class="fa fa-angle-double-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-8">
+                    <div class="product__sidebar">
+                        <div class="product__sidebar__view">
+                            <div class="section-title">
+                                <h5>Top Views</h5>
+                            </div>
+                            <!--                            <ul class="filter__controls">
+                                                            <li class="active" data-filter="*">Day</li>
+                                                            <li data-filter=".week">Week</li>
+                                                            <li data-filter=".month">Month</li>
+                                                            <li data-filter=".years">Years</li>
+                                                        </ul> -->
+
+                            <div class="filter__gallery" th:each="movie : ${listTopView}">
+                                <div class="product__sidebar__view__item set-bg mix day years"
+                                     th:data-setbg="'img/movie/'+${movie.getImage()}" >
+                                    <div class="ep" th:text="${movie.getEpisode()} + '/' + ${movie.getEpisodes()}"></div>
+                                    <div class="view"><i class="fa fa-eye" th:text="${movie.getViews()}"></i></div>
+                                    <h5><a th:href="'movie?id='+${movie.getMovie_id()}" th:text="${movie.getName()}"></a></h5>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="product__sidebar__comment">
+                            <div class="section-title">
+                                <h5>New Comment</h5>
+                            </div>
+                            <div class="product__sidebar__comment__item" th:each="m:${listNewCM}">
+                                <div class="product__sidebar__comment__item__pic">
+                                    <img th:src="'img/movie/'+${m.get('image')}" alt="">
+                                </div>
+                                <div class="product__sidebar__comment__item__text">
+                                    <h5><a th:href="'movie?id='+${m.get('movie_id')}" th:text="${m.get('name')}"></a></h5>
+                                    <span><i class="fa fa-eye"></i> <div th:text="${m.get('views')}"></div> Viewes</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Section End -->
+
+    <!-- Footer Section Begin -->
+    <div th:insert="~{footer.html}"></div>
+    <!-- Js Plugins -->
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/player.js}"></script>
+    <script th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script th:src="@{/js/mixitup.min.js}"></script>
+    <script th:src="@{/js/jquery.slicknav.js}"></script>
+    <script th:src="@{/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+
+</body>
+
+</html>

@@ -2,7 +2,9 @@ package ptithcm.WebMovie.Model;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Comment")
@@ -19,7 +21,7 @@ public class Comment {
     private int value;
 
     @Column(name = "date")
-    private Time date;
+    private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
@@ -32,8 +34,8 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(int commentId, String comment, int value, Time date) {
-        this.commentId = commentId;
+
+    public Comment( String comment, int value, LocalDateTime date) {
         this.comment = comment;
         this.value = value;
         this.date = date;
@@ -63,11 +65,13 @@ public class Comment {
         this.value = value;
     }
 
-    public Time getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Time date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
+
+
 }

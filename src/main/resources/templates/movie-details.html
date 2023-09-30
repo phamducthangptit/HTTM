@@ -22,6 +22,8 @@
     <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/slicknav.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js}"></script>
+
 </head>
 
 <body>
@@ -30,59 +32,17 @@
         <div class="loader"></div>
     </div>
 
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-2">
-                    <div class="header__logo">
-                        <a href="./index.html">
-                            <img src="img/logo.png" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="header__nav">
-                        <nav class="header__menu mobile-menu">
-                            <ul>
-                                <li class="active"><a href="./index.html">Homepage</a></li>
-                                <li><a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
-                                    <ul class="dropdown">
-                                        <li><a href="./categories.html">Categories</a></li>
-                                        <li><a href="movie-details.html">Anime Details</a></li>
-                                        <li><a href="./anime-watching.html">Anime Watching</a></li>
-                                        <li><a href="./blog-details.html">Blog Details</a></li>
-                                        <li><a href="./signup.html">Sign Up</a></li>
-                                        <li><a href="./login.html">Login</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="./blog.html">Our Blog</a></li>
-                                <li><a href="#">Contacts</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="./login.html"><span class="icon_profile"></span></a>
-                    </div>
-                </div>
-            </div>
-            <div id="mobile-menu-wrap"></div>
-        </div>
-    </header>
-    <!-- Header End -->
+    <div th:insert="~{header.html}"></div>
 
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="breadcrumb__links">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <a href="./categories.html">Categories</a>
-                        <span>Romance</span>
+                    <div class="breadcrumb__links" >
+                        <a style="display:inline-block;" href="/home"><i class="fa fa-home"></i> Home</a>
+                        <a style="display:inline-block;" href="javascript:void(0);" th:text="${movie.get('country')}"></a>
+                        <span style="display:inline-block;" th:text="${movie.get('name')}"></span>
                     </div>
                 </div>
             </div>
@@ -96,7 +56,7 @@
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="anime__details__pic set-bg" th:attr="data-setbg='../img/trending/'+${movie.get('image')}">
+                        <div class="anime__details__pic set-bg" th:attr="data-setbg='../img/movie/'+${movie.get('image')}">
                             <div class="comment"><i class="fa fa-comments" th:text="${movie.get('cm_count')}"></i> </div>
                             <div class="view"><i class="fa fa-eye" th:text="${movie.get('view')}"></i></div>
                         </div>
@@ -107,16 +67,16 @@
                                 <h3 th:text="${movie.get('name')}"></h3>
                                 <span ></span>
                             </div>
-                            <div class="anime__details__rating">
-                                <div class="rating">
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star-half-o"></i></a>
-                                </div>
-                                <span>1.029 Votes</span>
-                            </div>
+<!--                            <div class="anime__details__rating">-->
+<!--                                <div class="rating">-->
+<!--                                    <a href="#"><i class="fa fa-star"></i></a>-->
+<!--                                    <a href="#"><i class="fa fa-star"></i></a>-->
+<!--                                    <a href="#"><i class="fa fa-star"></i></a>-->
+<!--                                    <a href="#"><i class="fa fa-star"></i></a>-->
+<!--                                    <a href="#"><i class="fa fa-star-half-o"></i></a>-->
+<!--                                </div>-->
+<!--                                <span>1.029 Votes</span>-->
+<!--                            </div>-->
                             <div th:if="${movie.get('movie_content').equals('')}">
                                 <p>Đang cập nhật</p>
                             </div>
@@ -128,32 +88,40 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <ul>
-                                            <li><span>Type:</span><h7 th:text="${listCategory}"></h7>
+                                            <li ><span>Type:</span><div style="display:inline-block;" th:text="${listCategory}"></div>
                                             </li>
-                                            <li><span>Company:</span> <h7 th:text="${listCompany}"></h7>
+                                            <li><span>Company:</span> <div style="display:inline-block;"th:text="${listCompany}"></div>
                                             </li>
-                                            <li><span>Language: </span> <h7 th:text="${listLanguage}"></h7>
+                                            <li><span>Language: </span> <div style="display:inline-block;" th:text="${listLanguage}"></div>
                                             </li>
-                                            <li><span>Status:</span> <h7 th:text="${movie.get('episode') +'/'+movie.get('episodes') }"></h7>
+                                            <li><span>Status:</span> <div style="display:inline-block;" th:text="${movie.get('episode') +'/'+movie.get('episodes') }"></div>
                                             </li>
-                                            <li><span></span> </li>
+                                            <li ><span>Tags:</span>
+                                                <div class="blog__details__tags" style="display:inline-block;">
+                                                    <a href="#" th:each="t:${listTags}" th:text="${t}"></a>
+                                                </div>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <ul>
-                                            <li><span>Country: </span><h7 th:text="${movie.get('country')}"></h7></li>
-                                            <li><span>Rating:</span> 8.5 / 161 times</li>
-                                            <li><span>Duration:</span> 24 min/ep</li>
-                                            <li><span>Quality:</span> HD</li>
-                                            <li><span>Views:</span> 131,541</li>
+                                            <li><span>Country: </span><div style="display:inline-block;" th:text="${movie.get('country')}"></div></li>
+                                            <li><span>View:</span> <div style="display:inline-block;" th:text="${movie.get('views')}"></div></li>
+                                            <li><span>Comment:</span> <div style="display:inline-block;" th:text="${movie.get('cm_count')}"></div></li>
+<!--                                            <li><span>Quality:</span> HD</li>-->
+
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="anime__details__btn">
-                                <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
-                                <a th:href="'../movie'+'?id='+${movie.get('movie_id')}+'&?episode='" class="watch-btn"><span>Watch Now</span> <i
-                                    class="fa fa-angle-right"></i></a>
+                                <input type="hidden" id="isFl" th:value="${isFollowing}">
+                                <a th:href="@{/add-collection(id=${movie.get('movie_id')})}" class="follow-btn" id="Follow" ><i class="fa fa-heart-o"></i> Follow</a>
+                                <a th:href="@{/rmv-collection(id=${movie.get('movie_id')})}" class="follow-btn" id="unFollow"><i class="fa fa-heart"></i> UnFollow</a>
+                                <a th:href="'../movie-watching'+'?id='+${movie.get('movie_id')}+'&episode='" class="watch-btn"><span>Watch Now</span>
+                                    <i class="fa fa-angle-right"></i></a>
+                                <a th:if="${user != null && user.role.roleId == 1}"href="#" class="follow-btn" id="addEp"><span>Add Episode</span></a>
+
                                 </div>
                             </div>
                         </div>
@@ -165,7 +133,6 @@
                             <h5>Danh sách diễn viên</h5>
                         </div>
                         <div class="row">
-
                             <div class="col-md-1" th:each="p:${listPerson}">
                                 <div class="card h-100 d-flex align-items-center border-0" style="background: #0b0c2a;">
                                     <a href="#">
@@ -182,77 +149,104 @@
                             </div>
                         </div>
                     </div>
-
+                </div>
+                <div class = "row">
                     <div class="col-lg-8 col-md-8">
-                        <div class="anime__details__review">
+
+                        <div class="anime__details__review" >
                             <div class="section-title">
                                 <h5>Reviews</h5>
                             </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="../static/img/anime/review-2.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                                    <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                    "demons" LOL</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-2.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                                    <p>Finally it came out ages ago</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-3.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                                    <p>Where is the episode 15 ? Slow update! Tch</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-4.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                                    <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                    "demons" LOL</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-5.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                                    <p>Finally it came out ages ago</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-6.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                                    <p>Where is the episode 15 ? Slow update! Tch</p>
+                            <div id = "commentList">
+                                <div class="anime__review__item"  th:each="cm:${listComment}">
+                                    <div class="anime__review__item__pic">
+                                        <img th:src="'../img/user/'+${cm.get('avatar')}" alt="">
+                                    </div>
+                                    <div class="anime__review__item__text">
+                                        <div class="row">
+                                            <h6 th:text="${cm.get('name')}+' - '"></h6>
+                                                <p th:text="${cm.get('day_cm')}"></p>
+                                            <div class="rating">
+                                                <a href="javascript:void(0);"
+                                                   th:each="number : ${#numbers.sequence(1, 5)}"
+                                                ><i th:class="${number <= cm.get('value') ? 'fa fa-star':'fa fa-star-o'}"></i>
+                                                </a>
+                                             </div>
+                                        </div>
+                                        <p th:text="${cm.get('comment')}"></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="anime__details__form">
-                            <div class="section-title">
+
+                        <div class="row justify-content-center">
+                            <div id="totalPageEl" th:data-value="${totalPage}"></div>
+                            <input type="hidden" id="currentPage" th:value="${currentPage}" />
+                            <div class="product__pagination" >
+                                <div class="row" id="paginationContainer">
+                                    <a th:class="${currentPage == 0 ? 'disabled' : 'page1'}"
+                                    th:data-value="${currentPage-1}"><i class="fa fa-angle-double-left"></i></a>
+                                    <div th:if="${currentPage > 1}">
+                                        <a class="page1"  th:data-value="0">1</a>
+                                        <a class="disabled">...</a>
+                                    </div>
+                                    <div th:each="i : ${pages}">
+                                        <a th:class="${currentPage == i ? 'current-page' : ''} +' page1'"
+                                           th:data-value="${i}"  th:text = "${i + 1}">
+                                        </a>
+                                    </div>
+                                <div th:if="${currentPage < totalPage - 2}">
+                                    <a class="disabled">...</a>
+                                    <a class="page1" th:data-value="${totalPage-1}"href="#" th:text=" ${totalPage}"></a>
+                                </div>
+                                <a th:class="${currentPage == totalPage - 1 ? 'disabled' : 'page1'}"
+                                   th:data-value="${currentPage+1}" ><i class="fa fa-angle-double-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="anime__details__form"th:if="${user != null}">
+                            <div class="section-title" >
                                 <h5>Your Comment</h5>
                             </div>
-                            <form action="#">
-                                <textarea placeholder="Your Comment"></textarea>
-                                <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
-                            </form>
+                            <div class="anime__review__item" >
+                                <div class="anime__review__item__pic">
+                                    <img src="img/anime/review-1.jpg" alt="">
+                                </div>
+                                <div class="anime__review__item__text">
+                                    <div id="userId" th:data-value="${user.getUserId()}"></div>
+                                    <form action="#">
+                                        <h6> <div th:text="${user.getUserName()}"></div>
+                                            <div class="rating1">
+                                                <span>Vote: </span>
+                                                <a href="javascript:void(0);" class="star1" data-value="1"><i
+                                                        class="fa fa-star-o"></i></a>
+                                                <a href="javascript:void(0);" class="star1" data-value="2"><i
+                                                        class="fa fa-star-o"></i></a>
+                                                <a href="javascript:void(0);" class="star1" data-value="3"><i
+                                                        class="fa fa-star-o"></i></a>
+                                                <a href="javascript:void(0);" class="star1" data-value="4"><i
+                                                        class="fa fa-star-o"></i></a>
+                                                <a href="javascript:void(0);" class="star1" data-value="5"><i
+                                                        class="fa fa-star-o"></i></a>
+                                            </div>
+                                        </h6>
+                                        <input type="text" id="ratingValue" value="0" style="display: none;">
+                                        <textarea placeholder="Your comment" id="txtComment"></textarea>
+                                        <button type="submit" id="newComment" disabled><i class="fa fa-location-arrow"></i>
+                                            Review</button>
+                                    </form>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="login__register" th:if="${user == null}">
+                            <h4 style="color: #ffffff;">Login to comment</h4>
+                            <br>
+                            <a href="#" class="primary-btn">Login</a>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
@@ -260,78 +254,92 @@
                             <div class="section-title">
                                 <h5>you might like...</h5>
                             </div>
-                            <div class="product__sidebar__view__item set-bg" data-setbg="img/sidebar/tv-1.jpg">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">Boruto: Naruto next generations</a></h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg" data-setbg="img/sidebar/tv-2.jpg">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg" data-setbg="img/sidebar/tv-3.jpg">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">Sword art online alicization war of underworld</a></h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg" data-setbg="img/sidebar/tv-4.jpg">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">Fate/stay night: Heaven's Feel I. presage flower</a></h5>
+                            <div  th:each="y : ${listYouLike}" class="product__sidebar__view__item set-bg"
+                                  th:data-setbg="'img/movie/'+${y.getImage()}">
+                                <div class="ep" th:text="${y.getEpisode()} + '/' + ${y.getEpisodes()}"></div>
+                                <div class="view"><i class="fa fa-eye" th:text="${y.getViews()}"></i></div>
+                                <h5><a th:href="'movie?id='+${y.getMovie_id()}" th:text="${y.getName()}"></a></h5>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div></div>
             </div>
-        </section>
+        </div>
+    </section>
         <!-- Anime Section End -->
 
         <!-- Footer Section Begin -->
-        <footer class="footer">
-            <div class="page-up">
-                <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="footer__logo">
-                            <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="footer__nav">
-                            <ul>
-                                <li class="active"><a href="./index.html">Homepage</a></li>
-                                <li><a href="./categories.html">Categories</a></li>
-                                <li><a href="./blog.html">Our Blog</a></li>
-                                <li><a href="#">Contacts</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                          Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+    <div th:insert="~{footer.html}"></div>
+        <!-- Search model end -->
+    <div class="add-ep"
+         style="display:none;
+         position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background: #0b0c2a;
+            z-index: 99999;
+            ">
+        <div class="align-items-center justify-content-center" >
 
-                      </div>
-                  </div>
-              </div>
-          </footer>
-          <!-- Footer Section End -->
+            <div class="blog__details__form" style="padding-top:30px;">
+                <form class="" id="add-ep-form" action="/movie/addEp" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="search-close-switch" id ="add-close-switch" style="margin-left:30px; top:0px;"><i class="icon_close"></i></div>
+                    </div>
+                        <input type="hidden" name ="movie_id" th:value="${movie.get('movie_id')}" />
+                    <div class="col-lg-4">
+                        <div class="col-lg-12">
+                            <label style="color: #ffffff;">Name:</label>
+                            <input type="text" name ="name" id ="add-name-ep" placeholder="Name" required="required">
+                        </div>
+                        <div class="col-lg-12">
+                            <label style="color: #ffffff;">Episode:</label>
+                            <input type="number" name ="episode"id="add-episode"placeholder="Episode" min="1">
+                        </div>
+                        <div class="col-lg-12">
+                            <label style="color: #ffffff;">Season:</label>
+                            <input type="text" name="season" id="add-season-ep" placeholder="Season">
+                        </div>
+                        <div class="col-lg-12">
+                            <label style="color: #ffffff;">Source:</label>
+                            <input type="file" name="videoInput" id="fileInput"  style="background:none;" required="required" >
+                        </div>
 
-          <!-- Search model Begin -->
-          <div class="search-model">
-            <div class="h-100 d-flex align-items-center justify-content-center">
-                <div class="search-close-switch"><i class="icon_close"></i></div>
-                <form class="search-model-form">
-                    <input type="text" id="search-input" placeholder="Search here.....">
-                </form>
+                    </div>
+                    <div class="col-lg-4">
+                    </div>
+                    </div>
+                <div class="row justify-content-center">
+                    <button type="submit" class="site-btn">Add new</button>
+                </div>
+
+            </form>
             </div>
         </div>
-        <!-- Search model end -->
-
+    </div>
         <!-- Js Plugins -->
+<script>
+    $(document).ready(function() {
+        $("#addEp").click(function() {
+            $(".add-ep").fadeIn(300); // Hiển thị form
+        });
+        $("#add-close-switch").click(function() {
+            $(".add-ep").fadeOut(300); // Ẩn form
+        });
+
+
+    $("#add-ep-form").submit(function(e) {
+
+
+    });
+});
+
+
+
+</script>
+
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/player.js}"></script>
@@ -340,8 +348,8 @@
     <script th:src="@{/js/jquery.slicknav.js}"></script>
     <script th:src="@{/js/owl.carousel.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
-
-
+    <script th:src="@{/js/comment.js}"></script>
+    <script th:src="@{/js/follow.js}"></script>
     </body>
 
     </html>

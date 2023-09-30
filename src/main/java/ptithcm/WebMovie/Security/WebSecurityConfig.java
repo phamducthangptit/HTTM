@@ -12,13 +12,17 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        return http
-                .authorizeRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers("/**")
-                                .permitAll()
-                )
-                .build();
+
+        http.csrf().disable()
+                .authorizeRequests()
+                .requestMatchers("/**")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/home")
+                .permitAll();
+        return http.build();
 
     }
 //    @Bean

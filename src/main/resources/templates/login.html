@@ -59,14 +59,14 @@
                                 <input type="password" placeholder="Password" name="password"  id="password" th:field="*{password}">
                                 <span class="icon_lock"></span>
                             </div>
-                            <div class="input__item" id="errorMessage" style="color:red;">
+                            <div class="input__item" id="errorLogin" style="color:red;" th:text="${errorLogin}">
                             </div>
                             <button id="buttonLogin" type="submit" class="site-btn">Login Now</button>
                             <a id="forgotPasswordLink" href="forgotPassword" class="forget_pass">Forgot Your Password?</a>
                         </form>
 
                         <!--phấn form đăng kí-->
-                        <form id="registerForm" th:action="@{/register}" th:object="${user}" method="post" style="display: none;" onsubmit="return validationPass()">
+                        <form id="registerForm" th:action="@{/register}" th:object="${user}" method="post" style="display: none;" onsubmit="return validationPass()" enctype="multipart/form-data">
                             <h3>Register</h3>
                             <!-- Thêm các trường và nút submit của form đăng ký -->
                             <div class="input__item">
@@ -88,6 +88,10 @@
                             <div class="input__item">
                                 <input type="password" placeholder="Retype Password" name="retypePassword" id="retypePasswordRegister" oninput="checkPasswordsMatch()" required>
                                 <span class="icon_lock"></span>
+                            </div>
+                            <div>
+                                <img id="selectedImage" src="" alt="Selected Image" style="max-width: 300px; display: none;">
+                                <input type="file" name="imageInput" id="imageInput" accept="image/*">
                             </div>
                             <div class="input__item" th:text="${errorRegister}" style="color:red;"></div>
                             <div class="input__item" id="passwordMessage" style="color:red;"></div>
@@ -118,7 +122,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="login__register" id="divNoAccount" style="display: block">
-                        <h3>Dont’t Have An Account?</h3>
+                        <h3>Don’t Have An Account?</h3>
                         <button id="registerLink" type="button" class="site-btn">Register Now</button>
                     </div>
 
@@ -142,47 +146,7 @@
     <!-- Login Section End -->
 
     <!-- Footer Section Begin -->
-    <footer class="footer">
-        <div class="page-up">
-            <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="footer__logo">
-                        <a href="./index.html"><img src="../static/img/logo.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="footer__nav">
-                        <ul>
-                            <li class="active"><a href="./index.html">Homepage</a></li>
-                            <li><a href="./categories.html">Categories</a></li>
-                            <li><a href="./blog.html">Our Blog</a></li>
-                            <li><a href="#">Contacts</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                      Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                      <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-
-                  </div>
-              </div>
-          </div>
-      </footer>
-      <!-- Footer Section End -->
-
-      <!-- Search model Begin -->
-      <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch"><i class="icon_close"></i></div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
-        </div>
-    </div>
+    <div th:insert="~{footer.html}"></div>
     <!-- Search model end -->
 
     <!-- Js Plugins -->
@@ -195,124 +159,9 @@
     <script th:src="@{/js/owl.carousel.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
     <script th:src="@{/js/custom.js}"></script>
+    <script th:src="@{/js/login.js}"></script>
     <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
 
-
-    <script>
-        $(document).ready(function() {
-        var generatedCode;
-            $("#submitEmailButton").click(function(event) {
-                event.preventDefault(); // Ngăn form gửi đi một cách thông thường
-                var formData = new FormData($("#submitEmailForm")[0]);
-                $.ajax({
-                    type: "POST",
-                    url: "/send-email",
-                    data: formData,
-                    contentType: false, // Không cần set contentType khi sử dụng FormData
-                    processData: false, // Không cần xử lý dữ liệu
-                    success: function(response) {
-                        if(response === 'Please enter correct username and email'){
-                            document.getElementById('errorF').innerHTML = 'Please enter correct username and email';
-                            document.getElementById('submitEmailButton').style.display = 'block';
-                            document.getElementById('divCodeEmail').style.display = 'none';
-                            document.getElementById('confirmCodeButton').style.display = 'none';
-                        } else {
-                            document.getElementById('errorF').innerHTML = '';
-                            generatedCode = response;
-                            document.getElementById('submitEmailButton').style.display = 'none';
-                            document.getElementById('divCodeEmail').style.display = 'block';
-                            document.getElementById('confirmCodeButton').style.display = 'block';
-                        }
-
-                    },
-                    error: function(error) {
-                        // Xử lý lỗi (nếu có)
-                        alert('error')
-                    }
-                });
-            });
-            $("#confirmCodeButton").click(function(event) {
-                event.preventDefault();
-                var userEnteredCode = $("#code").val();
-                if (generatedCode === userEnteredCode) {
-                    // Mã trùng khớp, cho phép submit form
-                    $("#submitEmailForm").submit();
-                    document.getElementById('errorC').innerHTML = '';
-                    alert('Please check your email!')
-
-                } else {
-                    document.getElementById('errorC').innerHTML = 'Please enter correct code';
-                }
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Lấy tham chiếu đến các phần tử
-            var registerLink = document.getElementById('registerLink');
-            var registerForm = document.getElementById('registerForm');
-            var loginForm = document.getElementById('loginForm');
-            var divNoAccount = document.getElementById('divNoAccount');
-            var divHaveAccount = document.getElementById('divHaveAccount');
-            var forgotPasswordLink = document.getElementById('forgotPasswordLink');
-            var submitEmailForm = document.getElementById('submitEmailForm');
-            var submitEmailButton = document.getElementById('submitEmailButton');
-            var confirmCodeButton = document.getElementById('confirmCodeButton');
-            var divCodeEmail = document.getElementById('divCodeEmail');
-
-
-            //click register
-            registerLink.addEventListener('click', function(e) {
-                e.preventDefault(); // Ngăn chặn hành động mặc định của link
-                registerForm.style.display = 'block';
-                loginForm.style.display = 'none';
-                divNoAccount.style.display = 'none'
-                divHaveAccount.style.display = 'block'
-                submitEmailForm.style.display = 'none'
-            });
-
-            // khi click vào login
-            loginLink.addEventListener('click', function(e) {
-                e.preventDefault(); // Ngăn chặn hành động mặc định của link
-                registerForm.style.display = 'none';
-                loginForm.style.display = 'block';
-                divNoAccount.style.display = 'block'
-                divHaveAccount.style.display = 'none'
-                submitEmailForm.style.display = 'none'
-            });
-
-            //click forgot pass
-            forgotPasswordLink.addEventListener('click', function(e) {
-                e.preventDefault(); // Ngăn chặn hành động mặc định của link
-                registerForm.style.display = 'none';
-                loginForm.style.display = 'none';
-                divNoAccount.style.display = 'block'
-                divHaveAccount.style.display = 'none'
-                submitEmailForm.style.display = 'block'
-                confirmCodeButton.style.display = 'none'
-                submitEmailButton.style.display = 'block'
-                divCodeEmail.style.display = 'none'
-            });
-
-            //click send email
-            submitEmailButton.addEventListener('click', function(e) {
-                e.preventDefault(); // Ngăn chặn hành động mặc định của link
-                var str = document.getElementById('emailForgotPass').value; //check xem da nhap email chua
-                var errorEmailForgotPass = document.getElementById('errorEmailForgotPass');
-                if(str === ''){
-                    errorEmailForgotPass.style.display = 'block'
-                    errorEmailForgotPass.innerHTML = 'Please enter email';
-                } else {
-                    registerForm.style.display = 'none';
-                    loginForm.style.display = 'none';
-                    divNoAccount.style.display = 'block'
-                    divHaveAccount.style.display = 'none'
-                    submitEmailForm.style.display = 'block'
-                    errorEmailForgotPass.style.display = 'none'
-                }
-
-            });
-        });
-    </script>
 </body>
 
 </html>
