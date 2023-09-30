@@ -4,14 +4,14 @@
 <header class="header" >
     <div class="container">
         <div class="row">
-            <div class="col-lg-2">
+            <div class="col-lg-1">
                 <div class="header__logo">
                     <a href="/home" >
                         <img src="/img/logo1.png" alt="" style="height:30px;width:40px;margin-left:50px">
                     </a>
                 </div>
             </div>
-            <div class="col-lg-7">
+            <div class="col-lg-8">
                 <div class="header__nav">
                     <nav class="header__menu mobile-menu">
                         <ul>
@@ -27,7 +27,8 @@
                                 </ul>
                             </li>
                             <div style="display:inline-block;" th:if="${session.user != null && session.user.role.roleId == 1}" >
-                            <li><a href="./blog.html">Our Blog</a></li>
+                            <li><a href="./blog.html">Movie</a></li>
+
                                 <li><a th:href="@{/actors}">Actors</a></li>
                             </div>
                             <!--công việc cho từng đối tượng-->

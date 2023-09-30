@@ -11,6 +11,10 @@ import ptithcm.WebMovie.Repository.UserRepository;
 import ptithcm.WebMovie.Service.MovieCollectionService;
 import ptithcm.WebMovie.Service.MovieHistoryService;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @RestController
 public class MovieController2 {
     @Autowired
@@ -90,5 +94,24 @@ public class MovieController2 {
             result = movieHistoryService.deleteHistory(user.getUserId(), movieId, episode);
         }
         return result;
+    }
+
+    @PostMapping("/find-episode-delete-movie/{id}")
+    @ResponseBody
+    public List<Integer> findAllEpisodeNow(@PathVariable("id") int movieId){
+        return movieCollectionService.findAllEpisodeNow(movieId);
+    }
+
+    @PostMapping("/delete-episode/{id}")
+    @ResponseBody
+    public int deleteEpisode(@PathVariable("id") int movieId, @RequestBody int[] selected){
+        Set<Integer> episoded = new HashSet<>();
+        for(int i = 0; i < selected.length; i++){
+            episoded.add(selected[i]);
+        }
+        for(int x : episoded){
+            movieCollectionService.deleteEpisode(movieId, x);
+        }
+        return 0;
     }
 }

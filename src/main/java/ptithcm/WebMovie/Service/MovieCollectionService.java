@@ -9,4 +9,9 @@ public interface MovieCollectionService {
     int removeMovieToCollection(int userId, int movieId);
 
     List<Map<String, ?>> findMyCollection(int userId);
+
+    List<Map<String, ?>> selectListMovie();
+    List<Integer> findAllEpisodeNow(int movieId);
+
+    int deleteEpisode(int movieId, int episode);
 }
