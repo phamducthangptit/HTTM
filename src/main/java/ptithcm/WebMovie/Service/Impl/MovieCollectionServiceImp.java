@@ -25,5 +25,17 @@ public class MovieCollectionServiceImp implements MovieCollectionService {
         return movieCollectionRepository.findMyCollection(userId);
     }
 
+    public List<Map<String, ?>> selectListMovie() {
+        return movieCollectionRepository.selectListMovie();
+    }
+
+    public List<Integer> findAllEpisodeNow(int movieId) {
+        return movieCollectionRepository.findAllEpisodeNow(movieId);
+    }
+
+    public int deleteEpisode(int movieId, int episode) {
+        return movieCollectionRepository.deleteEpisode(movieId, episode);
+    }
+
 
 }
