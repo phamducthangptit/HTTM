@@ -41,8 +41,6 @@
                 <div class="breadcrumb__links">
                     <a th:href="@{/home}"><i class="fa fa-home"></i> Home</a>
                     <span>Collection</span>
-<!--                    <a href="./categories.html">Collection</a>-->
-                    <span>Romance</span>
                 </div>
             </div>
         </div>
@@ -63,25 +61,20 @@
                                     <h4>Collection</h4>
                                 </div>
                             </div>
-<!--                            <div class="col-lg-4 col-md-4 col-sm-6">-->
-<!--                                <div class="product__page__filter">-->
-<!--                                    <p>Order by:</p>-->
-<!--                                    <select>-->
-<!--                                        <option value="">A-Z</option>-->
-<!--                                        <option value="">1-10</option>-->
-<!--                                        <option value="">10-50</option>-->
-<!--                                    </select>-->
-<!--                                </div>-->
-<!--                            </div>-->
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-sm-6" th:each="mc:${myCollection}">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" th:data-setbg="@{img/movie/__${mc.get('image')}__}">
+                                    <div class="ep" th:text="${mc.get('episode')} + '/' + ${mc.get('episodes')}"></div>
                                     <div class="view" ><i class="fa fa-eye" th:text="${mc.get('views')}"></i></div>
                                 </div>
                                 <div class="product__item__text">
+                                    <ul>
+                                        <li>Active</li>
+                                        <li>Movie</li>
+                                    </ul>
                                     <h5><a th:href="@{/movie(id=${mc.get('movie_id')})}" th:text="${mc.get('name')}"></a></h5>
                                 </div>
                             </div>

@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log(error)
             }
         });
+
         event.preventDefault();
         event.returnValue = '';
   });
@@ -52,11 +53,22 @@ $(document).ready(function(){
                             video.play();
                         });
                     });
+                    $("#close").click(function(event){
+                        $.ajax({
+                            type: 'POST',
+                            url: '/delete-history/' + movieId + '/' + episode,
+                            contentType: 'application/json',
+                            success:function(data){
+                            },
+                            error: function(error){
+                                console.log(error)
+                            }
+                        });
+                    });
                 }
             },
             error: function(error){
                 console.log(error)
             }
         });
-
 });
