@@ -81,17 +81,17 @@
                             <div class="col-lg-4 col-md-6 col-sm-6" th:each="movie : ${listMovie}">
                                 <div class="product__item">
                                     <a th:href="'movie?id='+${movie.getMovie_id()}" >
-                                        <div class="product__item__pic set-bg" th:attr="data-setbg='img/trending/'+${movie.getImage()}">
+                                        <div class="product__item__pic set-bg" th:attr="data-setbg='img/movie/'+${movie.getImage()}">
                                             <div class="ep" th:text="${movie.getEpisode()} + '/' + ${movie.getEpisodes()}"></div>
                                             <div class="comment"><i class="fa fa-comments" th:text="${movie.getCm_count()}"></i></div>
                                             <div class="view"><i class="fa fa-eye" th:text="${movie.getViews()}"></i> </div>
                                         </div>
                                     </a>
                                     <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
+<!--                                        <ul>-->
+<!--                                            <li>Active</li>-->
+<!--                                            <li>Movie</li>-->
+<!--                                        </ul>-->
                                         <h5><a th:href="'movie?id='+${movie.getMovie_id()}" th:text="${movie.getName()}"></a></h5>
                                     </div>
                                 </div>

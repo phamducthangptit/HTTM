@@ -74,7 +74,8 @@ public class Contro1 {
         List<Map<String,?>> movieCo = movieRequestService.getMovieCompany(id);
 
         List<Map<String,?>> movieP = movieRequestService.getMoviePerson(id);
-
+        System.out.println("check null");
+        System.out.println(movie.get("tags"));
         String[] tags = ((String)movie.get("tags")).split(", ");
 
         // Chuyển mảng thành danh sách (List)
@@ -155,10 +156,16 @@ public class Contro1 {
                 model.addAttribute("isFollowing", "false"); // chưa có trong bst
             } else model.addAttribute("isFollowing", "true"); // đã có trong bst
         }
+        System.out.println(movie.get("tags"));
         List<MovieRequest> listYouLike = movieRequestService.getSearchMovie((String) movie.get("tags"),0, 5);
+        System.out.println("check len null");
+        System.out.println(listYouLike.size());
+        System.out.println("check len null");
         for (MovieRequest item : listYouLike) {
+            System.out.println(item.getName());
             if (item.getMovie_id() == ((int)movie.get("movie_id"))) {
                 listYouLike.remove(item);
+                break;
             }
         }
         for (MovieRequest item : listYouLike) {
@@ -224,6 +231,7 @@ public class Contro1 {
         for (MovieRequest item : listYouLike) {
             if (item.getMovie_id() == ((int)movie.get("movie_id"))) {
                 listYouLike.remove(item);
+                break;
             }
         }
         for (MovieRequest item : listYouLike) {
