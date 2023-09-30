@@ -3,6 +3,7 @@ package ptithcm.WebMovie.Service;
 import org.springframework.data.repository.query.Param;
 import ptithcm.WebMovie.Model.MovieRequest;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,28 @@ public interface MovieRequestService {
 
     int getStatusCollection(int userId, int movieId);
 
+    List<Map<String,Object>> getActor(int start,
+                                 int size);
+    int getActorCount();
 
+    List<String> getListCountry();
 
+    int checkCountry(int name);
+
+    void saveActor(String name,
+                  int gender,
+                  Date day_of_birth,
+                  String image,
+                  String describe,
+                  String name_cn
+    );
+    List<Map<String,?>> getMovieNewComment();
+
+    void saveEpisode(String name,
+                     int episode,
+                     String season,
+                     String source,
+                     int movie_id,
+                     LocalDateTime day_submit
+    );
 }

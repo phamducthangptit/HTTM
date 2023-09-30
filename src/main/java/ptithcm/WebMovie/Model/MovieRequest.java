@@ -2,18 +2,42 @@ package ptithcm.WebMovie.Model;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.Date;
-@NamedStoredProcedureQuery(name="Comment.insertComment",
-    procedureName = "SP_INSERT_COMMENT", parameters = {
-        @StoredProcedureParameter(mode=ParameterMode.IN, name="movie_id", type = Integer.class),
-        @StoredProcedureParameter(mode=ParameterMode.IN, name="user_id", type = Integer.class),
-        @StoredProcedureParameter(mode=ParameterMode.IN, name="comment", type = String.class),
-        @StoredProcedureParameter(mode=ParameterMode.IN, name="value", type = Integer.class),
-        @StoredProcedureParameter(mode=ParameterMode.IN, name="date", type = LocalDateTime.class),
-        @StoredProcedureParameter(mode=ParameterMode.OUT, name="result", type = Integer.class)
-    }
-)
+
+
+@NamedStoredProcedureQueries({
+    @NamedStoredProcedureQuery(name="Comment.insertComment",
+        procedureName = "SP_INSERT_COMMENT", parameters = {
+            @StoredProcedureParameter(mode=ParameterMode.IN, name="movie_id", type = Integer.class),
+            @StoredProcedureParameter(mode=ParameterMode.IN, name="user_id", type = Integer.class),
+            @StoredProcedureParameter(mode=ParameterMode.IN, name="comment", type = String.class),
+            @StoredProcedureParameter(mode=ParameterMode.IN, name="value", type = Integer.class),
+            @StoredProcedureParameter(mode=ParameterMode.IN, name="date", type = LocalDateTime.class),
+            @StoredProcedureParameter(mode=ParameterMode.OUT, name="result", type = Integer.class)
+        }
+    ),
+        @NamedStoredProcedureQuery(name="Person.insertActor",
+                procedureName = "SP_INSERT_ACTOR", parameters = {
+                @StoredProcedureParameter(mode=ParameterMode.IN, name="name", type = String.class),
+                @StoredProcedureParameter(mode=ParameterMode.IN, name="gender", type = Integer.class),
+                @StoredProcedureParameter(mode=ParameterMode.IN, name="day_of_birth", type = Date.class),
+                @StoredProcedureParameter(mode=ParameterMode.IN, name="image", type = String.class),
+                @StoredProcedureParameter(mode=ParameterMode.IN, name="describe", type = String.class),
+                @StoredProcedureParameter(mode=ParameterMode.IN, name="name_cn", type = String.class)
+        }
+        ),
+        @NamedStoredProcedureQuery(name="Episode.insert",
+                procedureName = "SP_INSERT_EPISODE", parameters = {
+                @StoredProcedureParameter(mode=ParameterMode.IN, name="name", type = String.class),
+                @StoredProcedureParameter(mode=ParameterMode.IN, name="episode", type = Integer.class),
+                @StoredProcedureParameter(mode=ParameterMode.IN, name="season", type = String.class),
+                @StoredProcedureParameter(mode=ParameterMode.IN, name="source", type = String.class),
+                @StoredProcedureParameter(mode=ParameterMode.IN, name="movie_id", type = Integer.class),
+                @StoredProcedureParameter(mode=ParameterMode.IN, name="day_submit", type = LocalDateTime.class)
+        }
+        )
+})
 @Entity
 public class MovieRequest {
 

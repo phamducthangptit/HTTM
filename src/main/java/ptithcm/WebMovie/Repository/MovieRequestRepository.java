@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ptithcm.WebMovie.Model.MovieRequest;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -68,4 +69,38 @@ public interface MovieRequestRepository extends JpaRepository<MovieRequest, Inte
                     LocalDateTime date
                     );
 
+
+    @Query(value ="{call SP_GET_ACTOR( :start, :size)}", nativeQuery = true)
+    List<Map<String,Object>> getActor(@Param("start") int start,
+                                   @Param("size") int size);
+
+    @Query(value ="{call SP_GET_ACTOR_COUNT()}", nativeQuery = true)
+    int getActorCount();
+
+    @Query(value ="{call SP_GET_COUNTRY()}", nativeQuery = true)
+    List<String> getListCountry();
+
+    @Query(value ="{call SP_CHECK_EXISTS_COUNTRY(:name)}", nativeQuery = true)
+    int checkCountry(@Param("name") int name);
+
+    @Procedure(name="Person.insertActor")
+    void saveActor(String name,
+                    int gender,
+                    Date day_of_birth,
+                    String image,
+                    String describe,
+                    String name_cn
+    );
+
+    @Query(value ="{call SP_FIND_MOVIE_NEW_COMMENT()}", nativeQuery = true)
+    List<Map<String,?>> getMovieNewComment();
+
+    @Procedure(value ="Episode.insert")
+    void saveEpisode(String name,
+                     int episode,
+                     String season,
+                     String source,
+                     int movie_id,
+                     LocalDateTime day_submit
+                     );
 }

@@ -2,14 +2,17 @@ const textarea = document.getElementById('txtComment');
 const submitButton = document.getElementById('newComment');
 
                 // Sử dụng sự kiện 'input' để kiểm tra khi có thay đổi trong textarea
-textarea.addEventListener('input', function() {
-                    // Kiểm tra nếu textarea không trống thì bật nút submit, ngược lại tắt nút submit
-      if (textarea.value.trim() !== '') {
-         submitButton.removeAttribute('disabled');
-      } else {
-         submitButton.setAttribute('disabled', 'disabled');
-      }
-});
+if (textarea != null) {
+    textarea.addEventListener('input', function() {
+                        // Kiểm tra nếu textarea không trống thì bật nút submit, ngược lại tắt nút submit
+          if (textarea.value.trim() !== '') {
+             submitButton.removeAttribute('disabled');
+          } else {
+             submitButton.setAttribute('disabled', 'disabled');
+          }
+    });
+}
+
 
 $(document).ready(function () {
 
@@ -20,21 +23,24 @@ $(document).ready(function () {
                  var urlParams = new URLSearchParams(queryString);
                  var id = urlParams.get('id');
                  var ratingContainer = document.querySelector('.rating');
+                 var userId =document.getElementById('userId').getAttribute('data-value');
                  comment.movie_id = id;
+                 comment.user_id = userId;
                  comment.comment = $('#txtComment').val();
                  comment.value = $('#ratingValue').val();
                  var bookJSON = JSON.stringify(comment);
                  $.ajax({
-                     url: 'http://localhost:8080/movie/CMApi?id=1',
+                     url: 'http://localhost:8080/movie/CMApi',
                      method: 'POST',
                      data: bookJSON,
                      contentType: "application/json; charset=utf-8",
-                     success: function () {
-                         //alert('Saved successfully!');
-                         console.log(comment);
+                     success: function (data) {
+                        if (data === 1 ) {
+                             refreshComments(id,0,6);
+                        }
                      },
                      error: function (error) {
-                         alert(error);
+                         console.log(error);
                      }
                  })
              })
@@ -51,7 +57,7 @@ $(document).ready(function () {
                 var dataFromModel =document.getElementById('totalPageEl').getAttribute('data-value');
                 var urlSearchParams = new URLSearchParams(window.location.search);
                 var id = urlSearchParams.get("id");
-                alert(dataFromModel);
+                //alert(dataFromModel);
 
                 buildPagination(currentPage, dataFromModel);
                 refreshComments(id,currentPage*6,6);
@@ -113,7 +119,7 @@ $(document).ready(function () {
                 dot1.attr('href', 'javascript:void(0);');
                 dot1.html('1');
                 paginationContainer.append(dot1);
-                var dots = $('<a>');
+                var dot2 = $('<a>');
                 dot2.attr('class', 'disabled');
                 dot2.html('...');
                 paginationContainer.append(dot2);
