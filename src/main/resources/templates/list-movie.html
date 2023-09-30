@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Anime Template">
+    <meta name="keywords" content="Anime, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>List Movie</title>
+
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap}" rel="stylesheet">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap}"
+          rel="stylesheet">
+    <!-- Css Styles -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/plyr.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/nice-select.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+</head>
+
+<body>
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Header Section Begin -->
+<div th:insert="~{header.html}"></div>
+<!-- Header End -->
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a th:href="@{/home}"><i class="fa fa-home"></i> Home</a>
+                    <span>Movie</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<div class="modal fade" id="popUp" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Select movie episode</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="close">Close</button>
+                <button type="button" class="btn btn-default" id="deleteEpisodeMovie">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Product Section Begin -->
+<section class="product-page spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="product__page__content">
+                    <div class="product__page__title">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-6">
+                                <div class="section-title">
+                                    <h4>Movie</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6" th:each="lm:${listMovie}">
+                            <div class="product__item">
+                                <div class="product__item__pic set-bg" th:data-setbg="@{img/movie/__${lm.get('image')}__}">
+                                    <div class="ep" th:text="${lm.get('episode')} + '/' + ${lm.get('episodes')}"></div>
+                                    <div class="view" ><i class="fa fa-eye" th:text="${lm.get('views')}"></i></div>
+                                </div>
+                                <div class="product__item__text">
+                                    <ul>
+                                        <li>Active</li>
+                                        <li>Movie</li>
+                                        <li class="icon_archive_alt"
+                                            style="color: red;font-size: 20px;display: flex;justify-content: center;align-items: center">
+                                            <a th:href="@{/find-episode-delete-movie(id=${lm.get('movie_id')})}"></a>
+                                        </li>
+                                    </ul>
+                                    <h5><a th:href="@{/movie(id=${lm.get('movie_id')})}" th:text="${lm.get('name')}"></a></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <div class="product__sidebar">
+                    <div class="product__sidebar__view">
+                        <div class="section-title">
+                            <h5>Top Views</h5>
+                        </div>
+                        <div class="filter__gallery" th:each="topRankMV:${topRankMV}">
+                            <div class="product__sidebar__view__item set-bg mix day years"
+                                 th:data-setbg="@{img/movie/__${topRankMV.image}__}">
+                                <div class="ep" th:text="${topRankMV.episode} + '/' + ${topRankMV.episodes}"></div>
+                                <div class="view"><i class="fa fa-eye" th:text="${topRankMV.views}"></i></div>
+                                <h5><a th:href="@{/movie(id=${topRankMV.movie_id})}" th:text="${topRankMV.name}"></a></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product__sidebar__comment">
+                        <div class="section-title">
+                            <h5>New Comment</h5>
+                        </div>
+                        <div class="product__sidebar__comment__item">
+                            <div class="product__sidebar__comment__item__pic">
+                                <img src="img/sidebar/comment-1.jpg" alt="">
+                            </div>
+                            <div class="product__sidebar__comment__item__text">
+                                <ul>
+                                    <li>Active</li>
+                                    <li>Movie</li>
+                                </ul>
+                                <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
+                                <span><i class="fa fa-eye"></i> 19.141 Viewes</span>
+                            </div>
+                        </div>
+                        <div class="product__sidebar__comment__item">
+                            <div class="product__sidebar__comment__item__pic">
+                                <img src="img/sidebar/comment-2.jpg" alt="">
+                            </div>
+                            <div class="product__sidebar__comment__item__text">
+                                <ul>
+                                    <li>Active</li>
+                                    <li>Movie</li>
+                                </ul>
+                                <h5><a href="#">Shirogane Tamashii hen Kouhan sen</a></h5>
+                                <span><i class="fa fa-eye"></i> 19.141 Viewes</span>
+                            </div>
+                        </div>
+                        <div class="product__sidebar__comment__item">
+                            <div class="product__sidebar__comment__item__pic">
+                                <img src="img/sidebar/comment-3.jpg" alt="">
+                            </div>
+                            <div class="product__sidebar__comment__item__text">
+                                <ul>
+                                    <li>Active</li>
+                                    <li>Movie</li>
+                                </ul>
+                                <h5><a href="#">Kizumonogatari III: Reiket su-hen</a></h5>
+                                <span><i class="fa fa-eye"></i> 19.141 Viewes</span>
+                            </div>
+                        </div>
+                        <div class="product__sidebar__comment__item">
+                            <div class="product__sidebar__comment__item__pic">
+                                <img src="img/sidebar/comment-4.jpg" alt="">
+                            </div>
+                            <div class="product__sidebar__comment__item__text">
+                                <ul>
+                                    <li>Active</li>
+                                    <li>Movie</li>
+                                </ul>
+                                <h5><a href="#">Monogatari Series: Second Season</a></h5>
+                                <span><i class="fa fa-eye"></i> 19.141 Viewes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Section End -->
+
+<!-- Footer Section Begin -->
+<div th:insert="~{footer.html}"></div>
+<!-- Search model end -->
+<!-- Js Plugins -->
+<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/player.js}"></script>
+<script th:src="@{/js/jquery.nice-select.min.js}"></script>
+<script th:src="@{/js/mixitup.min.js}"></script>
+<script th:src="@{/js/jquery.slicknav.js}"></script>
+<script th:src="@{/js/owl.carousel.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/listmovie.js}"></script>
+
+</body>
+
+</html>

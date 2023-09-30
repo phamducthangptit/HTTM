@@ -19,4 +19,13 @@ public interface MovieCollectionRepository extends JpaRepository<Movie_Collectio
 
     @Query(value = "{call SP_FIND_COLLECTION(:user_id)}", nativeQuery = true)
     List<Map<String, ?>> findMyCollection(@Param("user_id") int userId);
+
+    @Query(value = "{call SP_SELECT_LIST_MOVIE}", nativeQuery = true)
+    List<Map<String, ?>> selectListMovie();
+
+    @Query(value = "{call SP_FIND_EPISODE_DELETE_MOVIE(:movie_id)}", nativeQuery = true)
+    List<Integer> findAllEpisodeNow(@Param("movie_id") int movieId);
+
+    @Query(value = "{call SP_DELETE_EPISODE(:movie_id, :episode)}", nativeQuery = true)
+    int deleteEpisode(@Param("movie_id") int movieId, @Param("episode") int episode);
 }

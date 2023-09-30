@@ -202,4 +202,13 @@ public class MovieController1 {
         model.addAttribute("topRankMV", topRankMovie);
         return "my-collection";
     }
+
+    @GetMapping("/list-movie")
+    public String listMovie(Model model){
+        List<Map<String, ?>> listMovie = movieCollectionService.selectListMovie();
+        List<MovieRequest> topRankMovie = movieRequestService.getTopView(5);
+        model.addAttribute("listMovie", listMovie);
+        model.addAttribute("topRankMV", topRankMovie);
+        return "list-movie";
+    }
 }
