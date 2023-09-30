@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Anime Template">
+    <meta name="keywords" content="Anime, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add Movie</title>
+
+
+    <!-- Google Font -->
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap}" rel="stylesheet">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap}"
+          rel="stylesheet">
+    <!-- Css Styles -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/plyr.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/nice-select.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js}"></script>
+    <style>
+        /* Định dạng cho form */
+       #checkboxCategory {
+            display: none;
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Màu nền mờ khi form xuất hiện */
+            z-index: 1000;
+        }
+        .form-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #e53637;
+
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .form-header h2 {
+            margin: 0;
+        }
+        /* Định dạng cho danh sách mục đã chọn */
+        #selected-items {
+            display: none;
+        }
+          #checkboxLanguage {
+           display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Màu nền mờ khi form xuất hiện */
+            z-index: 1000;
+        }
+        #checkboxActor {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Màu nền mờ khi form xuất hiện */
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!--header-->
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                    <a href="./categories.html">Categories</a>
+                    <span>Romance</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Anime Section Begin -->
+<section class="anime-details spad">
+    <div class="container">
+        <form method="post" th:action="@{/AddMovie/add}" enctype="multipart/form-data">
+        <div class="anime__details__content">
+
+            <div class="row">
+
+                <div class="col-lg-3">
+
+                    <div class="anime__details__pic set-bg" id="image-movie" th:data-setbg="@{img/movie/default-movie.jpg}"></div>
+                    <div class="anime__details__btn" style="display: flex; justify-content: center; margin-top: 10px;">
+                        <input type="file" id="image-input"  name="image-input" accept="image/*" style="display: none;">
+                        <a href="#" onclick="openImageDialog()" class="follow-btn"><i class="fa fa-file-image-o"></i> Add Image</a>
+                    </div>
+
+                    <script>
+                        function openImageDialog() {
+                            const imageInput = document.getElementById("image-input");
+                            imageInput.click();
+
+                            imageInput.addEventListener("change", function () {
+                                const imageContainer = document.getElementById("image-movie");
+                                const file = imageInput.files[0];
+
+                                if (file) {
+                                    const reader = new FileReader();
+
+                                    reader.onload = function (e) {
+                                        const newImageUrl = e.target.result;
+                                        imageContainer.style.backgroundImage = `url(${newImageUrl})`;
+                                    };
+
+                                    reader.readAsDataURL(file);
+                                }
+                            });
+                        }
+                    </script>
+
+                </div>
+                <div class="col-lg-9">
+                    <div class="anime__details__text">
+                        <div class="anime__details__title">
+                            <h4>
+                                <div class="input__item" style="display: flex; justify-content: flex-start;align-items: flex-start;color: white;">
+                                    <label for="movieName"  style="width:fit-content; margin-right: 10px;">Movie name : </label>
+                                    <input type="text" id ="movieName" name ="movieName" style="flex: 1;">
+                                </div>
+                            </h4>
+
+                        </div>
+                        <div class="anime__details__widget">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h5 style="color:white">Company:</h5>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <label for="company"></label>
+                                            <input type="text" id="company" name="company" list="companyList" >
+                                            <datalist id="companyList">
+                                                <!-- Dưới đây, bạn có thể tạo các tùy chọn cho datalist từ danh sách genres -->
+                                                <th:block th:each="company : ${companies}">
+                                                    <option th:value="${company.name}" th:text="${company.name}"></option>
+                                                </th:block>
+                                            </datalist>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h5 style="color:white">Movie schedule :</h5>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                            <div class="product__page__filter">
+                                                <select id = "movieSchedule" name="movieSchedule">
+                                                    <option id= "Sunday" name="Sunday" value="1">Sunday</option>
+                                                    <option id= "Monday" name="Monday" value="2">Monday</option>
+                                                    <option id= "Tuesday" name="Tuesday" value="3">Tuesday</option>
+                                                    <option id= "Wednesday" name="Wednesday" value="4">Wednesday</option>
+                                                    <option id= "Thursday" name="Thursday" value="5">Thursday</option>
+                                                    <option id= "Friday" name="Friday" value="6">Friday</option>
+                                                    <option id= "Saturday" name="Saturday" value="7">Saturday</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h5 style="color:white">Language:</h5>
+                                        </div>
+
+                                            <a href="#" style="border: 3px solid #fff; padding: 1px; text-decoration: none;color : #fff; margin-right: 10px; margin-left: 15px" id="openFormLanguage">Select</a>
+                                            <div id="checkboxLanguage">
+                                                <div class="form-content">
+                                                    <div class="form-header">
+                                                        <h2 style=" margin-right: 10px">Select Languages</h2>
+                                                        <a href="#" id="close-form-language-button" style="border: 3px solid #fff; padding: 10px; text-decoration: none;color : #fff" >X</a>
+                                                    </div>
+                                                    <div id="checkboxLanguage-options">
+
+                                                    </div>
+                                                    <input type="text" id="language-movie" name="language-movie" hidden="hidden">
+
+                                                    <a href="#" id="add-newLanguage-button" hidden="hidden">Add new</a>
+                                                    <a href="#"  id="submitLanguage-button" style="border: 3px solid #fff;display: flex;justify-content: center; align-items: center; padding: 5px; text-decoration: none;color : #fff">Selected</a>
+                                                    <p class="error-language" id="error-language" hidden="hidden" ></p>
+                                                </div>
+                                            </div>
+
+                                         <span>
+                                            <div id="selected-language-options" style="color: white; width : 250px;margin-right : 10px"></div>
+                                        </span>
+
+                                    </div>
+                                    <br>
+
+                                        <script th:inline="javascript">
+                                            // Lấy tham chiếu đến các phần tử DOM
+                                            const openFormLanguageButton = document.getElementById('openFormLanguage');
+                                            const checkboxLanguageForm = document.getElementById('checkboxLanguage');
+                                            var checkboxLanguageOptions = $("#checkboxLanguage-options");
+                                            const newOptionLanguageInput = document.getElementById('newLanguage-options');
+                                            const addNewLanguageButton = document.getElementById('add-newLanguage-button');
+                                            const submitLanguageButton = document.getElementById('submitLanguage-button');
+                                            const selectedLanguageOptions = document.getElementById('selected-language-options');
+                                            const errorLanguageMessage = document.getElementById('error-language');
+                                            const closeFormLanguageButton = document.getElementById('close-form-language-button');
+
+                                            // Danh sách lựa chọn đã có
+                                             const existingLanguageOptions = [[${languages}]];
+
+                                            // Lặp qua danh sách lựa chọn đã có và tạo các checkbox tương ứng
+                                            checkboxLanguageOptions.empty();
+                                            existingLanguageOptions.forEach((option, index) => {
+
+                                                var labelLanguage = $('<label>');
+                                                //labelLanguage.style.paddingLeft = '10px';
+                                                labelLanguage.html(option.name);
+                                                var checkbox = $('<input>');
+                                                checkbox.attr('type', 'checkbox');
+                                                checkbox.attr('name', option.language_id);
+                                                checkbox.attr('value', option.name);
+
+
+
+
+                                                console.log(option.language_id);
+                                                console.log(option.name);
+                                                labelLanguage.append(checkbox);
+
+                                                //labelLanguage.appendChild(document.createTextNode(option.name));
+                                                checkboxLanguageOptions.append(labelLanguage);
+
+                                                // Thêm dòng mới trừ trường hợp cuối cùng
+
+                                            });
+
+                                            // Danh sách lựa chọn mới đã thêm vào
+                                            const newLanguageOptions = [];
+
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Mở Form"
+                                            openFormLanguageButton.addEventListener('click', () => {
+                                                checkboxLanguageForm.style.display = 'block';
+
+                                                // Cập nhật danh sách checkbox
+                                                updateCheckboxList();
+                                            });
+
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Đóng"
+                                            closeFormLanguageButton.addEventListener('click', () => {
+                                                checkboxLanguageForm.style.display = 'none';
+                                            });
+
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Thêm mới"
+                                            addNewLanguageButton.addEventListener('click', (e) => {
+                                                e.preventDefault();
+
+                                                // Lấy giá trị nhập vào
+                                                const newOption = newOptionLanguageInput.value.trim();
+
+                                                // Kiểm tra xem lựa chọn mới đã tồn tại trong danh sách chưa và không trùng với danh sách lựa chọn mới
+                                                if (newOption !== '' && !existingLanguageOptions.includes(newOption) && !newLanguageOptions.includes(newOption)) {
+                                                    // Thêm lựa chọn mới vào danh sách lựa chọn mới
+                                                    newLanguageOptions.push(newOption);
+
+                                                    // Hiển thị lựa chọn mới ra màn hình
+                                                    selectedLanguageOptions.textContent += ', ' + newOption;
+
+                                                    // Thêm checkbox tương ứng với lựa chọn mới vào form
+                                                    const labelLanguage = document.createElement('label');
+                                                    const checkbox = document.createElement('input');
+                                                    checkbox.type = 'checkbox';
+                                                    checkbox.name = newOption;
+                                                    checkbox.value = newOption;
+                                                    labelLanguage.appendChild(checkbox);
+                                                    labelLanguage.appendChild(document.createTextNode(newOption));
+                                                    checkboxLanguageOptions.appendChild(labelLanguage);
+
+                                                    // Xóa giá trị nhập vào ô nhập liệu
+                                                    newOptionLanguageInput.value = '';
+                                                } else if (newOption !== '') {
+                                                    errorLanguageMessage.textContent = 'This selection is invalid or already exists. Please re-enter.';
+                                                    return;
+                                                }
+
+                                                // Xóa thông báo lỗi nếu có
+                                                errorLanguageMessage.textContent = '';
+                                            });
+
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Chọn xong"
+                                            submitLanguageButton.addEventListener('click', (e) => {
+                                                e.preventDefault();
+
+                                                // Lấy danh sách các ô đánh dấu đã được chọn
+                                                const selectedLanguageCheckboxes = checkboxLanguageForm.querySelectorAll('input[type="checkbox"]:checked');
+
+                                                // Lặp qua các ô đánh dấu đã chọn và lưu giá trị vào mảng
+                                                const selectedValuesLanguage = [];
+                                                const selectedIdLanguage = [];
+                                                selectedLanguageCheckboxes.forEach((checkbox) => {
+                                                    selectedValuesLanguage.push(checkbox.value);
+                                                    selectedIdLanguage.push(checkbox.name);
+
+                                                });
+
+                                                // Hiển thị các giá trị đã chọn lên trang web
+                                                selectedLanguageOptions.textContent = selectedValuesLanguage.join(', ');
+                                                var inputElement = document.getElementById("language-movie");
+                                                inputElement.value = selectedIdLanguage;
+                                                // Ẩn form đi sau khi hoàn thành
+
+                                                checkboxLanguageForm.style.display = 'none';
+                                            });
+
+                                            // Cập nhật danh sách checkbox
+                                            function updateCheckboxList() {
+                                                // Xóa tất cả các checkbox hiện có
+                                                checkboxLanguageOptions.innerHTML = '';
+
+                                                // Thêm các checkbox từ danh sách đã có
+                                                existingLanguageOptions.forEach((option) => {
+                                                    const labelLanguage = document.createElement('label');
+                                                    const checkbox = document.createElement('input');
+                                                    checkbox.type = 'checkbox';
+                                                    checkbox.name = option;
+                                                    checkbox.value = option;
+                                                    labelLanguage.appendChild(checkbox);
+                                                    labelLanguage.appendChild(document.createTextNode(option));
+                                                    checkboxLanguageOptions.appendChild(labelLanguage);
+                                                });
+
+                                                // Thêm các checkbox từ danh sách lựa chọn mới
+                                                newLanguageOptions.forEach((option) => {
+                                                    const labelLanguage = document.createElement('label');
+                                                    const checkbox = document.createElement('input');
+                                                    checkbox.type = 'checkbox';
+                                                    checkbox.name = option;
+                                                    checkbox.value = option;
+                                                    labelLanguage.append(checkbox);
+                                                    labelLanguage.append(document.createTextNode(option));
+                                                    checkboxLanguageOptions.append(labelLanguage);
+                                                });
+                                            }
+                                        </script>
+
+
+                                    <div class="row">
+
+                                    <div class="col-lg-3">
+                                        <h5 style="color:white">Country:</h5>
+                                    </div>
+                                        <div class="col-lg-9">
+                                             <label for="country"></label>
+                                               <input type="text" id="country" name="country" list="countryList" >
+                                             <datalist id="countryList">
+                                           <!-- Dưới đây, bạn có thể tạo các tùy chọn cho datalist từ danh sách genres -->
+                                             <th:block th:each="country : ${countries}">
+                                                 <option th:value="${country.name}" th:text="${country.name}"></option>
+                                               </th:block>
+                                             </datalist>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                    <div class="col-lg-3">
+                                        <h5 style="color:white">Category:</h5>
+                                    </div>
+
+                                            <a href="#" style="border: 3px solid #fff; padding: 1px; text-decoration: none;color : #fff;margin-right: 10px; margin-left: 15px" id="openFormCategory">Select</a>
+                                            <div id="checkboxCategory">
+                                                <div class="form-content">
+                                                    <div class="form-header">
+                                                        <h2>Select Categories </h2>
+                                                        <a href="#" id="close-form-button" style="border: 3px solid #fff; padding: 10px; text-decoration: none;color : #fff" >X</a>
+                                                    </div>
+                                                    <div id="checkboxCategory-options">
+                                                    </div>
+                                                    <input type="text" id="category-movie" name ="category-movie"   hidden="hidden">
+                                                    <a href="#" id="add-newCategory-button" hidden="hidden">Add new</a>
+                                                    <a href="#"  id="submitCategory-button" style="border: 3px solid #fff;display: flex;justify-content: center; align-items: center; padding: 5px; text-decoration: none;color : #fff">Selected</a>
+                                                    <p class="error-message" id="error-message" hidden="hidden" ></p>
+                                                </div>
+
+                                        </div>
+                                            <span>
+                                            <div id="selected-options" style="width : 250px; margin-right : 10px; color : white;"></div>
+                                            </span>
+
+                                    </div>
+
+                                        <script th:inline="javascript">
+                                            // Lấy tham chiếu đến các phần tử DOM
+                                            const openFormButton = document.getElementById('openFormCategory');
+                                            const checkboxForm = document.getElementById('checkboxCategory');
+                                            var checkboxOptions = $("#checkboxCategory-options");
+                                            const newOptionInput = document.getElementById('newCategory-options');
+                                            const addNewButton = document.getElementById('add-newCategory-button');
+                                            const submitButton = document.getElementById('submitCategory-button');
+                                            const selectedOptions = document.getElementById('selected-options');
+                                            const errorMessage = document.getElementById('error-message');
+                                            const closeFormButton = document.getElementById('close-form-button');
+
+                                            // Danh sách lựa chọn đã có
+                                             const existingOptions = [[${categories}]];
+
+                                            // Lặp qua danh sách lựa chọn đã có và tạo các checkbox tương ứng
+                                            checkboxOptions.empty();
+                                            existingOptions.forEach((option, index) => {
+
+                                                var label = $('<label>');
+                                                //label.style.paddingLeft = '10px';
+                                                label.html(option.name);
+                                                var checkbox = $('<input>');
+                                                checkbox.attr('type', 'checkbox');
+                                                checkbox.attr('name', option.categoryId);
+                                                checkbox.attr('value', option.name);
+
+
+
+
+                                                console.log(option.categoryId);
+                                                console.log(option.name);
+                                                label.append(checkbox);
+
+                                                //label.appendChild(document.createTextNode(option.name));
+                                                checkboxOptions.append(label);
+
+                                                // Thêm dòng mới trừ trường hợp cuối cùng
+
+                                            });
+
+                                            // Danh sách lựa chọn mới đã thêm vào
+                                            const newOptions = [];
+
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Mở Form"
+                                            openFormButton.addEventListener('click', () => {
+                                                checkboxForm.style.display = 'block';
+
+                                                // Cập nhật danh sách checkbox
+                                                updateCheckboxList();
+                                            });
+
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Đóng"
+                                            closeFormButton.addEventListener('click', () => {
+                                                checkboxForm.style.display = 'none';
+                                            });
+
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Thêm mới"
+                                            addNewButton.addEventListener('click', (e) => {
+                                                e.preventDefault();
+
+                                                // Lấy giá trị nhập vào
+                                                const newOption = newOptionInput.value.trim();
+
+                                                // Kiểm tra xem lựa chọn mới đã tồn tại trong danh sách chưa và không trùng với danh sách lựa chọn mới
+                                                if (newOption !== '' && !existingOptions.includes(newOption) && !newOptions.includes(newOption)) {
+                                                    // Thêm lựa chọn mới vào danh sách lựa chọn mới
+                                                    newOptions.push(newOption);
+
+                                                    // Hiển thị lựa chọn mới ra màn hình
+                                                    selectedOptions.textContent += ', ' + newOption;
+
+                                                    // Thêm checkbox tương ứng với lựa chọn mới vào form
+                                                    const label = document.createElement('label');
+                                                    const checkbox = document.createElement('input');
+                                                    checkbox.type = 'checkbox';
+                                                    checkbox.name = newOption;
+                                                    checkbox.value = newOption;
+                                                    label.appendChild(checkbox);
+                                                    label.appendChild(document.createTextNode(newOption));
+                                                    checkboxOptions.appendChild(label);
+
+                                                    // Xóa giá trị nhập vào ô nhập liệu
+                                                    newOptionInput.value = '';
+                                                } else if (newOption !== '') {
+                                                    errorMessage.textContent = 'This selection is invalid or already exists. Please re-enter.';
+                                                    return;
+                                                }
+
+                                                // Xóa thông báo lỗi nếu có
+                                                errorMessage.textContent = '';
+                                            });
+
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Chọn xong"
+                                            submitButton.addEventListener('click', (e) => {
+                                                e.preventDefault();
+
+                                                // Lấy danh sách các ô đánh dấu đã được chọn
+                                                const selectedCheckboxes = checkboxForm.querySelectorAll('input[type="checkbox"]:checked');
+
+                                                // Lặp qua các ô đánh dấu đã chọn và lưu giá trị vào mảng
+                                                const selectedValuesCategory = [];
+                                                const selectedIdCategory = [];
+                                                selectedCheckboxes.forEach((checkbox) => {
+                                                    selectedValuesCategory.push(checkbox.value);
+                                                    selectedIdCategory.push(checkbox.name);
+                                                });
+<!--                                                console.log(selectedIdCategory);-->
+                                                // Hiển thị các giá trị đã chọn lên trang web
+                                                selectedOptions.textContent = selectedValuesCategory.join(', ');
+                                                var inputElement = document.getElementById("category-movie");
+
+                                                // Gán giá trị cho thẻ input
+                                                inputElement.value = selectedIdCategory;
+                                                // Ẩn form đi sau khi hoàn thành
+                                                checkboxForm.style.display = 'none';
+                                            });
+
+                                            // Cập nhật danh sách checkbox
+                                            function updateCheckboxList() {
+                                                // Xóa tất cả các checkbox hiện có
+                                                checkboxOptions.innerHTML = '';
+
+                                                // Thêm các checkbox từ danh sách đã có
+                                                existingOptions.forEach((option) => {
+                                                    const label = document.createElement('label');
+                                                    const checkbox = document.createElement('input');
+                                                    checkbox.type = 'checkbox';
+                                                    checkbox.name = option;
+                                                    checkbox.value = option;
+                                                    label.appendChild(checkbox);
+                                                    label.appendChild(document.createTextNode(option));
+                                                    checkboxOptions.appendChild(label);
+                                                });
+
+                                                // Thêm các checkbox từ danh sách lựa chọn mới
+                                                newOptions.forEach((option) => {
+                                                    const label = document.createElement('label');
+                                                    const checkbox = document.createElement('input');
+                                                    checkbox.type = 'checkbox';
+                                                    checkbox.name = option;
+                                                    checkbox.value = option;
+                                                    label.appendChild(checkbox);
+                                                    label.appendChild(document.createTextNode(option));
+                                                    checkboxOptions.appendChild(label);
+                                                });
+                                            }
+                                        </script>
+                                        <br>
+                                    <div class="row">
+                                    <div class="col-lg-3">
+                                        <h5 style="color:white">Number of episodes:</h5>
+                                    </div>
+                                    <div class="col-lg-9">
+                                       <input style="margin-right : 10px;" type="number" id="NofE" name="NofE" placeholder="Input number of episodes">
+                                    </div>
+                                    </div>
+                                    <br>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <h5 style="color:white">Actors:</h5>
+                                            </div>
+
+                                            <a href="#" style="border: 3px solid #fff; padding: 1px; text-decoration: none;color : #fff; margin-right: 10px; margin-left: 15px" id="openFormActor">Select</a>
+                                            <div id="checkboxActor">
+                                                <div class="form-content">
+                                                    <div class="form-header">
+                                                        <h2 style=" margin-right: 10px">Select Actors  </h2>
+                                                        <a href="#" id="close-form-Actor-button" style="border: 3px solid #fff; padding: 10px; text-decoration: none;color : #fff" >X</a>
+                                                    </div>
+                                                    <div id="checkboxActor-options">
+                                                    </div>
+                                                    <input type="text" id="actor-movie" name="actor-movie" hidden="hidden">
+                                                    <a href="#" id="add-newActor-button" hidden="hidden">Add new</a>
+                                                    <a href="#"  id="submitActor-button" style="border: 3px solid #fff;display: flex;justify-content: center; align-items: center; padding: 5px; text-decoration: none;color : #fff">Selected</a>
+                                                    <p class="error-Actor" id="error-Actor" hidden="hidden" ></p>
+                                                </div>
+
+                                    </div>
+                                            <span>
+                                            <div id="selected-Actor-options" style="color : white; display: flex; width : 250px;margin-right : 10px"></div>
+                                                </span>
+
+                                    </div>
+                                    <br>
+                                        <script th:inline="javascript">
+                                            // Lấy tham chiếu đến các phần tử DOM
+                                            const openFormActorButton = document.getElementById('openFormActor');
+                                            const checkboxActorForm = document.getElementById('checkboxActor');
+                                            var checkboxActorOptions = $("#checkboxActor-options");
+                                            const newOptionActorInput = document.getElementById('newActor-options');
+                                            const addNewActorButton = document.getElementById('add-newActor-button');
+                                            const submitActorButton = document.getElementById('submitActor-button');
+                                            const selectedActorOptions = document.getElementById('selected-Actor-options');
+                                            const errorActorMessage = document.getElementById('error-Actor');
+                                            const closeFormActorButton = document.getElementById('close-form-Actor-button');
+
+                                            // Danh sách lựa chọn đã có
+                                             //const existingActorOptions = document.getElementById('person').getAttribute('data-value');
+                                             const existingActorOptions = /*[[${persons}]]*/;
+                                           // console.log(existingActorOptions);
+
+                                            // Lặp qua danh sách lựa chọn đã có và tạo các checkbox tương ứng
+                                            checkboxActorOptions.empty();
+                                            existingActorOptions.forEach((option, index) => {
+
+                                                var labelActor = $('<label>');
+
+                                                labelActor.html(option.name);
+                                                var checkbox = $('<input>');
+                                                checkbox.attr('type', 'checkbox');
+                                                checkbox.attr('name', option.person_id);
+                                                checkbox.attr('value', option.name);
+
+
+
+
+                                                console.log(option.person_id);
+                                                console.log(option.name);
+                                                labelActor.append(checkbox);
+
+
+                                                checkboxActorOptions.append(labelActor);
+
+                                                // Thêm dòng mới trừ trường hợp cuối cùng
+
+                                            });
+
+                                            // Danh sách lựa chọn mới đã thêm vào
+                                            const newActorOptions = [];
+
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Mở Form"
+                                            openFormActorButton.addEventListener('click', () => {
+                                                checkboxActorForm.style.display = 'block';
+
+                                                // Cập nhật danh sách checkbox
+                                                updateCheckboxList();
+                                            });
+
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Đóng"
+                                            closeFormActorButton.addEventListener('click', () => {
+                                                checkboxActorForm.style.display = 'none';
+                                            });
+
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Thêm mới"
+                                            addNewActorButton.addEventListener('click', (e) => {
+                                                e.preventDefault();
+
+                                                // Lấy giá trị nhập vào
+                                                const newOption = newOptionActorInput.value.trim();
+
+                                                // Kiểm tra xem lựa chọn mới đã tồn tại trong danh sách chưa và không trùng với danh sách lựa chọn mới
+                                                if (newOption !== '' && !existingActorOptions.includes(newOption) && !newActorOptions.includes(newOption)) {
+                                                    // Thêm lựa chọn mới vào danh sách lựa chọn mới
+                                                    newActorOptions.push(newOption);
+
+                                                    // Hiển thị lựa chọn mới ra màn hình
+                                                    selectedActorOptions.textContent += ', ' + newOption;
+
+                                                    // Thêm checkbox tương ứng với lựa chọn mới vào form
+                                                    const labelActor = document.createElement('label');
+                                                    const checkbox = document.createElement('input');
+                                                    checkbox.type = 'checkbox';
+                                                    checkbox.name = newOption;
+                                                    checkbox.value = newOption;
+                                                    labelActor.appendChild(checkbox);
+                                                    labelActor.appendChild(document.createTextNode(newOption));
+                                                    checkboxActorOptions.appendChild(labelActor);
+
+                                                    // Xóa giá trị nhập vào ô nhập liệu
+                                                    newOptionActorInput.value = '';
+                                                } else if (newOption !== '') {
+                                                    errorActorMessage.textContent = 'This selection is invalid or already exists. Please re-enter.';
+                                                    return;
+                                                }
+
+                                                // Xóa thông báo lỗi nếu có
+                                                errorActorMessage.textContent = '';
+                                            });
+
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Chọn xong"
+                                            submitActorButton.addEventListener('click', (e) => {
+                                                e.preventDefault();
+
+                                                // Lấy danh sách các ô đánh dấu đã được chọn
+                                                const selectedActorCheckboxes = checkboxActorForm.querySelectorAll('input[type="checkbox"]:checked');
+
+                                                // Lặp qua các ô đánh dấu đã chọn và lưu giá trị vào mảng
+                                                const selectedValuesActor = [];
+                                                const selectedIdActor = [];
+                                                selectedActorCheckboxes.forEach((checkbox) => {
+                                                    selectedValuesActor.push(checkbox.value);
+                                                    selectedIdActor.push(checkbox.name);
+                                                });
+
+                                                // Hiển thị các giá trị đã chọn lên trang web
+                                                selectedActorOptions.textContent = selectedValuesActor.join(', ');
+<!--                                                console.log(selectedValuesActor);-->
+
+                                                var inputElement = document.getElementById("actor-movie");
+
+                                                // Gán giá trị cho thẻ input
+                                                inputElement.value = selectedIdActor;
+<!--                                                alert(document.getElementById("actor-movie").value);-->
+                                                // Ẩn form đi sau khi hoàn thành
+                                                checkboxActorForm.style.display = 'none';
+                                            });
+
+                                            // Cập nhật danh sách checkbox
+                                            function updateCheckboxList() {
+                                                // Xóa tất cả các checkbox hiện có
+                                                checkboxActorOptions.innerHTML = '';
+
+                                                // Thêm các checkbox từ danh sách đã có
+                                                existingActorOptions.forEach((option) => {
+                                                    const labelActor = document.createElement('label');
+                                                    const checkbox = document.createElement('input');
+                                                    checkbox.type = 'checkbox';
+                                                    checkbox.name = option;
+                                                    checkbox.value = option;
+                                                    labelActor.appendChild(checkbox);
+                                                    labelActor.appendChild(document.createTextNode(option));
+                                                    checkboxActorOptions.appendChild(labelActor);
+                                                });
+
+                                                // Thêm các checkbox từ danh sách lựa chọn mới
+                                                newActorOptions.forEach((option) => {
+                                                    const labelActor = document.createElement('label');
+                                                    const checkbox = document.createElement('input');
+                                                    checkbox.type = 'checkbox';
+                                                    checkbox.name = option;
+                                                    checkbox.value = option;
+                                                    labelActor.append(checkbox);
+                                                    labelActor.append(document.createTextNode(option));
+                                                    checkboxActorOptions.append(labelActor);
+                                                });
+                                            }
+                                        </script>
+                                    </ul>
+
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <h5 style="color:white">Movie Content:</h5>
+                                </div>
+
+                                    <textarea type="text" id ="movieContent" name ="movieContent"  rows="4" style="flex: 1;resize: none;"></textarea>
+                            </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="anime__details__btn" style="display: flex;justify-content: center">
+                            <button type="submit" class="follow-btn"><i class="fa fa-floppy-o"></i> Save</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</section>
+<!-- Anime Section End -->
+
+<!-- Footer Section Begin -->
+<footer class="footer">
+    <div class="page-up">
+        <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="footer__logo">
+                    <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="footer__nav">
+                    <ul>
+                        <li class="active"><a href="./index.html">Homepage</a></li>
+                        <li><a href="./categories.html">Categories</a></li>
+                        <li><a href="./blog.html">Our Blog</a></li>
+                        <li><a href="#">Contacts</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Section End -->
+
+<!-- Search model Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch"><i class="icon_close"></i></div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search model end -->
+
+<!-- Js Plugins -->
+<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/player.js}"></script>
+<script th:src="@{/js/jquery.nice-select.min.js}"></script>
+<script th:src="@{/js/mixitup.min.js}"></script>
+<script th:src="@{/js/jquery.slicknav.js}"></script>
+<script th:src="@{/js/owl.carousel.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+
+</body>
+
+</html>

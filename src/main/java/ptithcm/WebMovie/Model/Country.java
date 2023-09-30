@@ -9,8 +9,9 @@ import java.util.List;
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "country_id")
-    private int id;
+
+    private int country_id;
+
 
     @Column(name = "name")
     private String name;
@@ -25,16 +26,16 @@ public class Country {
     private List<Movie> movies;
 
     public Country(int id, String name) {
-        this.id = id;
+        this.country_id = id;
         this.name = name;
     }
 
     public int getId() {
-        return id;
+        return country_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.country_id = id;
     }
 
     public String getName() {

@@ -1,16 +1,19 @@
 package ptithcm.WebMovie.Model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.sql.Time;
 import java.util.List;
 
 @Entity
+@Data
 @Table(name = "Person")
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "person_id")
+    private int person_id;
 
     @Column(name = "name")
     private String name;
@@ -36,8 +39,8 @@ public class Person {
     public Person() {
     }
 
-    public Person(int id, String name, int gender, Time dayOfBirth, String image, String describe) {
-        this.id = id;
+    public Person(int person_id, String name, int gender, Time dayOfBirth, String image, String describe) {
+        this.person_id = person_id;
         this.name = name;
         this.gender = gender;
         this.dayOfBirth = dayOfBirth;
@@ -45,12 +48,12 @@ public class Person {
         this.describe = describe;
     }
 
-    public int getId() {
-        return id;
+    public int getPerson_id() {
+        return person_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPerson_id(int person_id) {
+        this.person_id = person_id;
     }
 
     public String getName() {
@@ -91,5 +94,21 @@ public class Person {
 
     public void setDescribe(String describe) {
         this.describe = describe;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public List<Movie_Person> getMovie_personList() {
+        return movie_personList;
+    }
+
+    public void setMovie_personList(List<Movie_Person> movie_personList) {
+        this.movie_personList = movie_personList;
     }
 }

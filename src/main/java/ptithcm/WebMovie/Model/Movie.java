@@ -8,6 +8,7 @@ import java.util.List;
 @Table(name = "Movie")
 public class Movie {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "movie_id")
     private int movieId;
 
@@ -98,5 +99,37 @@ public class Movie {
 
     public int getViews() {
         return views;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMovieContent(String movieContent) {
+        this.movieContent = movieContent;
+    }
+
+    public void setEpisodes(int episodes) {
+        this.episodes = episodes;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public void setMovieShedule(int movieShedule) {
+        this.movieShedule = movieShedule;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 }

@@ -42,6 +42,12 @@ public interface MovieRequestRepository extends JpaRepository<MovieRequest, Inte
     List<Map<String,?>> getMovieEpisode(@Param("id") int id);
 
 
+    @Query(value ="{call SP_INSERT_INFORMATION_MOVIE(:movie_id ,:person_id ,:category_id,:language_id,:company_id)}", nativeQuery = true)
+    int insertInformationMovie(@Param("movie_id") int movie_id, @Param("person_id") int person_id ,@Param("category_id") int category_id,@Param("language_id") int language_id,@Param("company_id") int company_id);
+
+
+
+
     @Query(value ="{call SP_FIND_COMMENT_MOVIE(:id, :start, :size)}", nativeQuery = true)
     List<Map<String,?>> getComment(@Param("id") int id,
                                    @Param("start") int start,
