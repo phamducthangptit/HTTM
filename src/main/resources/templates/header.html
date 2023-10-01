@@ -27,7 +27,7 @@
                                 </ul>
                             </li>
                             <div style="display:inline-block;" th:if="${session.user != null && session.user.role.roleId == 1}" >
-                            <li><a href="./blog.html">Movie</a></li>
+                            <li><a href="/list-movie">Movie</a></li>
 
                                 <li><a th:href="@{/actors}">Actors</a></li>
                             </div>

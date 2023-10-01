@@ -71,7 +71,7 @@ public interface MovieRequestService {
     );
     List<Map<String,?>> getMovieNewComment();
 
-    void saveEpisode(String name,
+    int saveEpisode(String name,
                      int episode,
                      String season,
                      String source,
@@ -80,4 +80,7 @@ public interface MovieRequestService {
     );
 
     int deleteActor( int id);
+
+    List<MovieRequest> getMovieTopCategory(int rank,
+                                           String category);
 }

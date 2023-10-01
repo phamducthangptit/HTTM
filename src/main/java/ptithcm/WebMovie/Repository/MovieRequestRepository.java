@@ -18,6 +18,11 @@ public interface MovieRequestRepository extends JpaRepository<MovieRequest, Inte
     @Query(value = "{call SP_FIND_NEW_MOVIE(:rank)}", nativeQuery = true)
     List<MovieRequest> getMovie(@Param("rank") int rank);
 
+    @Query(value = "{call SP_FIND_TOP_MOVIE_CATEGORY(:rank,:category)}", nativeQuery = true)
+    List<MovieRequest> getMovieTopCategory(@Param("rank") int rank,
+                                           @Param("category") String category);
+
+
     @Query(value = "{call SP_FIND_TOP_VIEW_MOVIE(:rank)}", nativeQuery = true)
     List<MovieRequest> getTopView(@Param("rank") int rank);
 
@@ -101,13 +106,13 @@ public interface MovieRequestRepository extends JpaRepository<MovieRequest, Inte
     @Query(value ="{call SP_FIND_MOVIE_NEW_COMMENT()}", nativeQuery = true)
     List<Map<String,?>> getMovieNewComment();
 
-    @Procedure(value ="Episode.insert")
-    void saveEpisode(String name,
-                     int episode,
-                     String season,
-                     String source,
-                     int movie_id,
-                     LocalDateTime day_submit
+    @Query(value ="{call SP_INSERT_EPISODE(:name, :episode, :season,:source,:movie_id, :day_submit)}", nativeQuery = true)
+    int saveEpisode(@Param("name") String name,
+                     @Param("episode") int episode,
+                     @Param("season")  String season,
+                     @Param("source") String source,
+                     @Param("movie_id") int movie_id,
+                     @Param("day_submit") LocalDateTime day_submit
                      );
 
     @Query(value ="{call SP_DELETE_ACTORS(:id)}", nativeQuery = true)
