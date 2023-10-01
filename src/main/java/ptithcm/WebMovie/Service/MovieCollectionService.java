@@ -14,4 +14,6 @@ public interface MovieCollectionService {
     List<Integer> findAllEpisodeNow(int movieId);
 
     int deleteEpisode(int movieId, int episode);
+
+    int deleteMovie(int movieId);
 }

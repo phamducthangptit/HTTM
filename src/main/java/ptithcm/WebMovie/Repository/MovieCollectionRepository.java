@@ -28,4 +28,7 @@ public interface MovieCollectionRepository extends JpaRepository<Movie_Collectio
 
     @Query(value = "{call SP_DELETE_EPISODE(:movie_id, :episode)}", nativeQuery = true)
     int deleteEpisode(@Param("movie_id") int movieId, @Param("episode") int episode);
+
+    @Query(value = "{call SP_DELETE_MOVIE(:movie_id)}", nativeQuery = true)
+    int deleteMovie(@Param("movie_id") int movieId);
 }

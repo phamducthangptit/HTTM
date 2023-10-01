@@ -37,5 +37,7 @@ public class MovieCollectionServiceImp implements MovieCollectionService {
         return movieCollectionRepository.deleteEpisode(movieId, episode);
     }
 
-
+    public int deleteMovie(int movieId) {
+        return movieCollectionRepository.deleteMovie(movieId);
+    }
 }
