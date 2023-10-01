@@ -27,10 +27,27 @@ for (var i = 0; i < lis.length; i++) {
         url: '/find-episode-delete-movie/' + id,
         contentType: 'application/json',
         success: function(data){
+        $('#popUp').modal('show');
             if(data.length != 0){ // neeus có nhiều hơn 1 tập thì xử lí xóa
                 selected = []
-                $('#popUp').modal('show');
                 createButtons(data);
+            } else { // chưa có tập nào thì xóa phim
+                createButtons(0);
+                $("#deleteEpisodeMovie").click(function(event){
+                    $('#popUp').modal('hide');
+                    $.ajax({
+                        type: 'POST',
+                        url : '/delete-movie/' + id,
+                        contentType: 'application/json',
+                        success: function(data){
+                            window.location.href = window.location.href; // load lai trang
+                        },
+                        error: function(error){
+                            console.log(error)
+                        }
+                    });
+                });
+
             }
         },
         error: function(error){
@@ -73,7 +90,7 @@ function createButtons(data) {
 }
 
 $("#deleteEpisodeMovie").click(function(event){
-$('#popUp').modal('hide');
+    $('#popUp').modal('hide');
     if(selected.length > 0){ // nếu đã chọn 1 trong những nút bất kì
         $.ajax({
             type: 'POST',

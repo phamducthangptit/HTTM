@@ -102,9 +102,16 @@ public class MovieController2 {
         return movieCollectionService.findAllEpisodeNow(movieId);
     }
 
+    @PostMapping("/delete-movie/{id}")
+    @ResponseBody
+    public int deleteMovie(@PathVariable("id") int id){
+        return movieCollectionService.deleteMovie(id);
+    }
+
     @PostMapping("/delete-episode/{id}")
     @ResponseBody
     public int deleteEpisode(@PathVariable("id") int movieId, @RequestBody int[] selected){
+
         Set<Integer> episoded = new HashSet<>();
         for(int i = 0; i < selected.length; i++){
             episoded.add(selected[i]);
