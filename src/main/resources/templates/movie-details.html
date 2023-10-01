@@ -118,8 +118,10 @@
                                 <input type="hidden" id="isFl" th:value="${isFollowing}">
                                 <a th:href="@{/add-collection(id=${movie.get('movie_id')})}" class="follow-btn" id="Follow" ><i class="fa fa-heart-o"></i> Follow</a>
                                 <a th:href="@{/rmv-collection(id=${movie.get('movie_id')})}" class="follow-btn" id="unFollow"><i class="fa fa-heart"></i> UnFollow</a>
-                                <a th:href="'../movie-watching'+'?id='+${movie.get('movie_id')}+'&episode='" class="watch-btn"><span>Watch Now</span>
+                                <a th:if="${movie.get('episode') != 0}" th:href="'../movie-watching'+'?id='+${movie.get('movie_id')}+'&episode='" class="watch-btn"><span>Watch Now</span>
                                     <i class="fa fa-angle-right"></i></a>
+                                <a th:if="${movie.get('episode') == 0}" class="follow-btn"><span>Comming Soon</span>
+                                    </a>
                                 <a th:if="${user != null && user.role.roleId == 1}"href="#" class="follow-btn" id="addEp"><span>Add Episode</span></a>
 
                                 </div>
