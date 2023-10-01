@@ -118,10 +118,37 @@
                                         </div>
                                     </a>
                                     <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
+                                        <h5><a th:href="'movie?id='+${movie.getMovie_id()}" th:text="${movie.getName()}"></a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="trending__product">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="section-title">
+                                    <h4>Anime</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="btn__all">
+                                    <a href="#"  class="primary-btn">View All <span class="arrow_right"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"  >
+                            <div class="col-lg-4 col-md-6 col-sm-6" th:each="movie : ${listTopCategory}">
+                                <div class="product__item">
+                                    <a th:href="'movie?id='+${movie.getMovie_id()}" >
+                                        <div class="product__item__pic set-bg" th:attr="data-setbg='img/movie/'+${movie.getImage()}">
+                                            <div class="ep" th:text="${movie.getEpisode()} + '/' + ${movie.getEpisodes()}"></div>
+                                            <div class="comment"><i class="fa fa-comments" th:text="${movie.getCm_count()}"></i></div>
+                                            <div class="view"><i class="fa fa-eye" th:text="${movie.getViews()}"></i> </div>
+                                        </div>
+                                    </a>
+                                    <div class="product__item__text">
+
                                         <h5><a th:href="'movie?id='+${movie.getMovie_id()}" th:text="${movie.getName()}"></a></h5>
                                     </div>
                                 </div>

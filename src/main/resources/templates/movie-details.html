@@ -181,7 +181,7 @@
                             </div>
                         </div>
 
-                        <div class="row justify-content-center">
+                        <div th:if="${listComment.size()!=0}" class="row justify-content-center">
                             <div id="totalPageEl" th:data-value="${totalPage}"></div>
                             <input type="hidden" id="currentPage" th:value="${currentPage}" />
                             <div class="product__pagination" >

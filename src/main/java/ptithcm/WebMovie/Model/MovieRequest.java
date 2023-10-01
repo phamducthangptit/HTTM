@@ -27,16 +27,6 @@ import java.time.LocalDateTime;
                 @StoredProcedureParameter(mode=ParameterMode.IN, name="name_cn", type = String.class)
         }
         ),
-        @NamedStoredProcedureQuery(name="Episode.insert",
-                procedureName = "SP_INSERT_EPISODE", parameters = {
-                @StoredProcedureParameter(mode=ParameterMode.IN, name="name", type = String.class),
-                @StoredProcedureParameter(mode=ParameterMode.IN, name="episode", type = Integer.class),
-                @StoredProcedureParameter(mode=ParameterMode.IN, name="season", type = String.class),
-                @StoredProcedureParameter(mode=ParameterMode.IN, name="source", type = String.class),
-                @StoredProcedureParameter(mode=ParameterMode.IN, name="movie_id", type = Integer.class),
-                @StoredProcedureParameter(mode=ParameterMode.IN, name="day_submit", type = LocalDateTime.class)
-        }
-        )
 })
 @Entity
 public class MovieRequest {

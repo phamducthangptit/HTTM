@@ -58,6 +58,9 @@ public class Contro1 {
         model.addAttribute("trend", trend);
 
         model.addAttribute("listNewCM", m2);
+
+        List<MovieRequest> m3 = movieRequestService.getMovieTopCategory(6,"anime");
+        model.addAttribute("listTopCategory", m3);
         return "home";
     }
     @GetMapping("/movie")
@@ -390,7 +393,7 @@ public class Contro1 {
         if(file != null && !file.isEmpty()) { // chọn file mới
             try {
 
-                String uploadDir = "src/main/resources/static/video";
+                String uploadDir = "src/main/resources/static/videos";
                 Path filePath;
 
                 //ảnh mới
@@ -399,14 +402,20 @@ public class Contro1 {
                 fileName = name + "_" +
                         currentDateTime.getHour() + "h" +
                         currentDateTime.getMinute() + "m" +
-                        currentDateTime.getSecond() + "s" + ".jpg";
+                        currentDateTime.getSecond() + "s" + ".mp4";
                 filePath = Paths.get(uploadDir, fileName);
                 Files.copy(file.getInputStream(), filePath);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        movieRequestService.saveEpisode(name,episode,season,fileName,movieId,currentDateTime);
+        System.out.println(name);
+        System.out.println(episode);
+        System.out.println(season);
+        System.out.println(fileName);
+        System.out.println(movieId);
+        System.out.println(currentDateTime);
+       int x= movieRequestService.saveEpisode(name,episode,season,fileName,movieId,currentDateTime);
         return "redirect:/movie?id="+String.valueOf(movieId);
     }
 
