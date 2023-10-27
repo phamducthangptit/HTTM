@@ -21,16 +21,16 @@ import ptithcm.WebMovie.Model.User;
 import ptithcm.WebMovie.Repository.MovieCollectionRepository;
 import ptithcm.WebMovie.Service.MovieRequestService;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class Contro1 {
@@ -257,20 +257,16 @@ public class Contro1 {
 
     @PostMapping("/movie/CMApi")
     @ResponseBody
-    public int postAPICM( @RequestBody Map<String,Object> comment) {
+    public int postAPICM( @RequestBody Map<String,Object> comment, HttpSession session) {
         LocalDateTime now = LocalDateTime.now();
-
+        User user = (User) session.getAttribute("user");
         // Chuyển đổi thành chuỗi
-//        System.out.println(comment.getComment());
-//        System.out.println(comment.getValue());
-//        System.out.println(comment.getDate());
         int movie_id= Integer.parseInt((String) comment.get("movie_id"));
         int user_id = Integer.parseInt((String) comment.get("user_id"));
         String commentIN = (String) comment.get("comment");
         int value = Integer.parseInt((String) comment.get("value"));
         int result = movieRequestService.saveComment(movie_id,user_id,commentIN,value,now);
         return result;
-
     }
 
     @GetMapping("/search")
@@ -328,6 +324,10 @@ public class Contro1 {
             pages.add(i);
         }
         List<Map<String,Object>> listActor = movieRequestService.getActor(0,12);
+        List<String> listCountry = movieRequestService.getListCountry();
+
+        model.addAttribute("listCountry", listCountry);
+
 
 
         model.addAttribute("listActor", listActor);
@@ -364,10 +364,10 @@ public class Contro1 {
                 //ảnh mới
                 LocalDateTime currentDateTime = LocalDateTime.now();
                 System.out.println(currentDateTime);
-                fileName = name + "_" +
+                fileName = name.replace(" ", "") + "_" +
                         currentDateTime.getHour() + "h" +
                         currentDateTime.getMinute() + "m" +
-                        currentDateTime.getSecond() + "s" + ".jpg";
+                        currentDateTime.getSecond() + "s" + ".png";
                 filePath = Paths.get(uploadDir, fileName);
                 Files.copy(file.getInputStream(), filePath);
             } catch (Exception e) {
@@ -423,5 +423,78 @@ public class Contro1 {
     public String deleteActor( @RequestParam("id") int id){
         int x = movieRequestService.deleteActor(id);
         return "redirect:/actors";
+    }
+
+
+    @GetMapping("/actors/getAPI")
+    @ResponseBody
+    public Map<String,Object> getActorInfo(@RequestParam(name = "id") int id) {
+        Map<String, Object> actorInfo = movieRequestService.getActorInfo(id);
+
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+
+        // Parse the input string to obtain a java.util.Date
+        java.util.Date utilDate = null;
+        try {
+            utilDate = inputFormat.parse(actorInfo.get("day_of_birth").toString());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Convert java.util.Date to java.sql.Date
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+        // Now, 'date' contains the parsed date and time
+        System.out.println("Date: " + sqlDate);
+//        System.out.println(actorInfo.get("day_of_birth"));
+//        System.out.println(new Date((Long) actorInfo.get("day_of_birth")));
+        //actorInfo.remove("day_of_birth");
+        Map<String, Object> actorInfo1 = new HashMap<>();
+        actorInfo1.put("person_id", actorInfo.get("id"));
+        actorInfo1.put("name_actor",  actorInfo.get("name_actor"));
+        actorInfo1.put("gender",  actorInfo.get("gender"));
+        actorInfo1.put("day_of_birth", sqlDate);
+        actorInfo1.put("image",  actorInfo.get("image"));
+        actorInfo1.put("describe",  actorInfo.get("describe"));
+        actorInfo1.put("name_country",  actorInfo.get("name_country"));
+
+        System.out.println(actorInfo1.get("person_id"));
+        return actorInfo1;
+    }
+
+    @PostMapping("/actors/postAPI")
+    @ResponseBody
+    public int updateActor(@RequestParam("imageInput") MultipartFile file,
+                           @RequestParam("id") int id,
+                           @RequestParam("name") String name,
+                           @RequestParam("gender") int gender,
+                           @RequestParam("birthday") Date birthday,
+                           @RequestParam("country") String country,
+                           @RequestParam("describe") String describe,
+                           @RequestParam("imageName") String fileName) {
+        if(file != null && !file.isEmpty()) { // chọn file mới
+            try {
+
+                String uploadDir = "src/main/resources/static/img/actors";
+                Path filePath;
+
+                //ảnh mới
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                System.out.println(currentDateTime);
+                fileName = name.replace(" ", "") + "_" +
+                        currentDateTime.getHour() + "h" +
+                        currentDateTime.getMinute() + "m" +
+                        currentDateTime.getSecond() + "s" + ".png";
+                filePath = Paths.get(uploadDir, fileName);
+                Files.copy(file.getInputStream(), filePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        int result = movieRequestService.updateActor(id,name,gender,birthday,fileName, describe,country);
+        if (result == 1) {
+            return 1;
+        }
+        return 0;
     }
 }

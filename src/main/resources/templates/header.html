@@ -44,7 +44,7 @@
                                 <li><a href="#" class="search-switch"><span class="icon_search"></span></a></li>
                                 <li><a href="/login"  th:if="${session.user == null}">
                                     <span class="icon_profile"></span></a></li>
-                               <div th:if="${session.user != null}" >
+                               <div style="display:inline-block;" th:if="${session.user != null}" >
                                    <li><a th:href="@{/user-information}"><span class="icon_profile"></span></a>
                                    <li><a th:text="${session.user.userName}"><span class="arrow_carrot-down"></span></a>
                                    <ul class="dropdown">

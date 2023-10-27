@@ -135,4 +135,19 @@ public class MovieRequestServiceImpl implements MovieRequestService {
                                            String category){
         return movieRequestRepository.getMovieTopCategory(rank,category);
     };
+
+    public Map<String, Object> getActorInfo(int id){
+        return movieRequestRepository.getActorInfo(id);
+    };
+
+    public int updateActor(int id,
+                    String name,
+                    int gender,
+                    Date day,
+                    String image,
+                    String describe,
+                    String name_cn
+    ) {
+        return movieRequestRepository.updateActor(id,name,gender,day,image,describe,name_cn);
+    };
 }

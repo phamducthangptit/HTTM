@@ -37,9 +37,9 @@ $(document).ready(function () {
                      data: bookJSON,
                      contentType: "application/json; charset=utf-8",
                      success: function (data) {
-                        if (data === 1 ) {
-                             refreshComments(id,0,6);
-                        }
+                         if (data === 1 ) {
+                           refreshComments(id,0,6);
+                         }
                      },
                      error: function (error) {
                          console.log(error);

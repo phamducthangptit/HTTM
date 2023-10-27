@@ -117,4 +117,17 @@ public interface MovieRequestRepository extends JpaRepository<MovieRequest, Inte
 
     @Query(value ="{call SP_DELETE_ACTORS(:id)}", nativeQuery = true)
     int deleteActor(@Param("id") int id);
+
+    @Query(value ="{call SP_GET_ACTOR_INFO(:id)}", nativeQuery = true)
+    Map<String, Object> getActorInfo(@Param("id") int id);
+
+    @Procedure(name="Person.updateActor")
+    int updateActor(int id,
+                    String name,
+                    int gender,
+                    Date day,
+                    String image,
+                    String describe,
+                    String name_cn
+    );
 }

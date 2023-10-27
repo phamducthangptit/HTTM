@@ -83,4 +83,15 @@ public interface MovieRequestService {
 
     List<MovieRequest> getMovieTopCategory(int rank,
                                            String category);
+
+    Map<String, Object> getActorInfo(int id);
+
+    int updateActor(int id,
+                    String name,
+                    int gender,
+                    Date day,
+                    String image,
+                    String describe,
+                    String name_cn
+    );
 }
