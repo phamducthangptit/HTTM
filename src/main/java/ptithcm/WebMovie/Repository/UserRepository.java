@@ -7,10 +7,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ptithcm.WebMovie.Model.User;
+
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByuserNameAndPassword(String userName, String password);
     User findByuserName(String userName);
+
+    @Query("SELECT u FROM User u WHERE u.userName = :userName")
+    public User getUserByUserName(@Param("userName") String userName);
 
     @Modifying
     @Transactional
@@ -29,5 +35,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findByuserNameAndEmail(String userName, String email);
 
-
+    @Query("SELECT u.password FROM User u WHERE u.userName = :userName")
+    public String findPasswordByUserName(@Param("userName") String userName);
 }
