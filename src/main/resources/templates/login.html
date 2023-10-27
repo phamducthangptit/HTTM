@@ -35,7 +35,7 @@
                 <div class="col-lg-12 text-center">
                     <div class="normal__breadcrumb__text">
                         <h2>Login</h2>
-                        <p>Welcome to the official Anime blog.</p>
+                        <p>Welcome to the movie web</p>
                     </div>
                 </div>
             </div>
@@ -49,14 +49,22 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="login__form">
-                        <form id="loginForm" th:action="@{/login}" th:object="${user}" method="post" onsubmit="return checkLogin()" tyle="display: block;">
+                        <form id="loginForm" th:action="@{/login}" class="user" method="POST" onsubmit="return checkLogin()" style="display: block;">
                             <h3>Login</h3>
+                            <div th:if="${param.error}"
+                                 class="alert alert-warning alert-dismissible fade show"
+                                 role="alert">
+                                <strong>Tài khoản không tồn tại!</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
                             <div class="input__item">
-                                <input type="text" placeholder="Username" name="username" id="username" th:field="*{userName}">
+                                <input type="text" placeholder="Username" name="username" id="username">
                                 <span class="icon_profile"></span>
                             </div>
                             <div class="input__item">
-                                <input type="password" placeholder="Password" name="password"  id="password" th:field="*{password}">
+                                <input type="password" placeholder="Password" name="password"  id="password">
                                 <span class="icon_lock"></span>
                             </div>
                             <div class="input__item" id="errorLogin" style="color:red;" th:text="${errorLogin}">
@@ -66,23 +74,23 @@
                         </form>
 
                         <!--phấn form đăng kí-->
-                        <form id="registerForm" th:action="@{/register}" th:object="${user}" method="post" style="display: none;" onsubmit="return validationPass()" enctype="multipart/form-data">
+                        <form id="registerForm" th:action="@{/register}" method="post" style="display: none;" onsubmit="return validationPass()" enctype="multipart/form-data">
                             <h3>Register</h3>
                             <!-- Thêm các trường và nút submit của form đăng ký -->
                             <div class="input__item">
-                                <input type="text" placeholder="User Name" name="userName" required th:field="*{userName}">
+                                <input type="text" placeholder="User Name" name="userName" required>
                                 <span class="icon_profile"></span>
                             </div>
                             <div class="input__item">
-                                <input type="text" placeholder="Full Name" name="fullName" required th:field="*{name}">
+                                <input type="text" placeholder="Full Name" name="fullName" required>
                                 <span class="icon_profile"></span>
                             </div>
                             <div class="input__item">
-                                <input type="text" placeholder="Email address" name="email" required th:field="*{email}">
+                                <input type="text" placeholder="Email address" name="email" required>
                                 <span class="icon_mail"></span>
                             </div>
                             <div class="input__item">
-                                <input type="password" placeholder="Password" name="password" id="passwordRegister" required th:field="*{password}">
+                                <input type="password" placeholder="Password" name="password" id="passwordRegister" required>
                                 <span class="icon_lock"></span>
                             </div>
                             <div class="input__item">
@@ -90,7 +98,7 @@
                                 <span class="icon_lock"></span>
                             </div>
                             <div>
-                                <img id="selectedImage" src="" alt="Selected Image" style="max-width: 300px; display: none;">
+                                <img id="selectedImage" th:src="@{/img/user/default.jpg}" alt="Selected Image" style="max-width: 300px; display: block;">
                                 <input type="file" name="imageInput" id="imageInput" accept="image/*">
                             </div>
                             <div class="input__item" th:text="${errorRegister}" style="color:red;"></div>
