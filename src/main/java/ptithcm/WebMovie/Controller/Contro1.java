@@ -42,7 +42,7 @@ public class Contro1 {
         super();
         this.movieRequestService = movieRequestService;
     }
-    @GetMapping("/home")
+    @GetMapping(value = {"/home", "/"})
     public String home(Model model) {
         List<MovieRequest> m = movieRequestService.getMovie(6);
 

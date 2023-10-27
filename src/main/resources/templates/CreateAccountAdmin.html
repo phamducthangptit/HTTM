@@ -70,7 +70,7 @@
                             <span class="icon_lock"></span>
                         </div>
                         <div>
-                            <img id="selectedImage" src="" alt="Selected Image" style="max-width: 300px; display: none;">
+                            <img id="selectedImage" th:src="@{/img/user/default.jpg}" alt="Selected Image" style="max-width: 300px; display: block;">
                             <input type="file" name="imageInput" id="imageInput" accept="image/*">
                         </div>
                         <div class="input__item" th:text="${errorAddAccAdmin}" style="color:red;"></div>

@@ -40,7 +40,7 @@ public class MovieController2 {
         if(userRepository.findByuserNameAndEmail(userName, email) != null){// tim ra duoc user
             GenrateCode genrateCode = new GenrateCode();
             String code = genrateCode.generateCode();
-            emailService.sendEmail(email, "Thư lấy lại mật khẩu", "Mã xác thực tài khoản của bạn là: " + code);
+            emailService.sendEmail(email, "Thư lấy lại mật khẩu", "Mã xác nhận lấy lại mật khẩu của bạn là: " + code);
             return code;
         } else {
             String error = "Please enter correct username and email";
@@ -70,6 +70,8 @@ public class MovieController2 {
         if(session.getAttribute("user") != null){
             User user = (User) session.getAttribute("user");
             movieHistoryService.saveHistory(user.getUserId(), movieId, episode, time);
+        } else {
+            movieHistoryService.saveHistory(0, movieId, episode, time);
         }
         return "success";
     }
@@ -117,6 +119,7 @@ public class MovieController2 {
             episoded.add(selected[i]);
         }
         for(int x : episoded){
+            System.out.println(x);
             movieCollectionService.deleteEpisode(movieId, x);
         }
         return 0;

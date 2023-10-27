@@ -27,14 +27,14 @@ for (var i = 0; i < lis.length; i++) {
         url: '/find-episode-delete-movie/' + id,
         contentType: 'application/json',
         success: function(data){
-        $('#popUp').modal('show');
             if(data.length != 0){ // neeus có nhiều hơn 1 tập thì xử lí xóa
+                $('#popUp').modal('show');
                 selected = []
                 createButtons(data);
             } else { // chưa có tập nào thì xóa phim
-                createButtons(0);
-                $("#deleteEpisodeMovie").click(function(event){
-                    $('#popUp').modal('hide');
+                $('#popUp1').modal('show');
+                $("#deleteEpisodeMovie1").click(function(event){
+                    $('#popUp1').modal('hide');
                     $.ajax({
                         type: 'POST',
                         url : '/delete-movie/' + id,
