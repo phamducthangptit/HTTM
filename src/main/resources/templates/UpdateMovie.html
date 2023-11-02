@@ -219,13 +219,17 @@
                                             // Danh sách lựa chọn đã có
                                              const existingCompanyOptions = [[${companies}]];
                                                const selectedValuesCompany = [];
+                                                const selectedIdCompany = [];
                                                var size = [[${movie.movie_companyList.size()}]];
                                                const tempCom = [[${movie.movie_companyList}]];
                                                for (let i = 0 ; i < size ;i++)
                                                {
                                                     selectedValuesCompany.push(tempCom[i].name);
+                                                    selectedIdCompany.push(tempCom[i].companyId);
                                                }
                                                selectedCompanyOptions.textContent = selectedValuesCompany.join(', ');
+                                               var inputElement = document.getElementById("company-movie");
+                                                inputElement.value = selectedIdCompany;
                                             // Lặp qua danh sách lựa chọn đã có và tạo các checkbox tương ứng
                                             checkboxCompanyOptions.empty();
                                             existingCompanyOptions.forEach((option, index) => {
@@ -381,14 +385,17 @@
                                             // Danh sách lựa chọn đã có
                                              const existingLanguageOptions = [[${languages}]];
                                                const selectedValuesLanguage = [];
+                                               const selectedIdLanguage = [];
                                                var size = [[${movie.movie_languageList.size()}]];
                                                const tempLang = [[${movie.movie_languageList}]];
                                                for (let i = 0 ; i < size ;i++)
                                                {
                                                     selectedValuesLanguage.push(tempLang[i].name);
+                                                    selectedIdLanguage.push(tempLang[i].language_id);
                                                }
                                                selectedLanguageOptions.textContent = selectedValuesLanguage.join(', ');
-
+                                                var inputElement = document.getElementById("language-movie");
+                                                inputElement.value = selectedIdLanguage;
                                             // Lặp qua danh sách lựa chọn đã có và tạo các checkbox tương ứng
                                             checkboxLanguageOptions.empty();
                                             existingLanguageOptions.forEach((option, index) => {
@@ -539,14 +546,20 @@
 
                                             // Danh sách lựa chọn đã có
                                              const existingOptions = [[${categories}]];
-                                              const selectedValues = [];
+                                              const selectedValuesCategory = [];
+                                              const selectedIdCategory = [];
                                                var size = [[${movie.movie_categoryList.size()}]];
                                                const tempCa = [[${movie.movie_categoryList}]];
                                                for (let i = 0 ; i < size ;i++)
                                                {
-                                                    selectedValues.push(tempCa[i].name);
+                                                    selectedValuesCategory.push(tempCa[i].name);
+                                                     selectedIdCategory.push(tempCa[i].categoryId);
                                                }
-                                               selectedOptions.textContent = selectedValues.join(', ');
+                                               selectedOptions.textContent = selectedValuesCategory.join(', ');
+                                                var inputElement = document.getElementById("category-movie");
+
+                                                // Gán giá trị cho thẻ input
+                                                inputElement.value = selectedIdCategory;
                                             // Lặp qua danh sách lựa chọn đã có và tạo các checkbox tương ứng
                                             checkboxOptions.empty();
                                             existingOptions.forEach((option, index) => {
@@ -686,14 +699,19 @@
                                             // Danh sách lựa chọn đã có
                                             const existingActorOptions = /*[[${persons}]]*/;
                                               const selectedValuesActor = [];
+                                               const selectedIdActor = [];
                                                var size = [[${movie.movie_personList.size()}]];
                                                const tempAct = [[${movie.movie_personList}]];
                                                for (let i = 0 ; i < size ;i++)
                                                {
                                                     selectedValuesActor.push(tempAct[i].name);
+                                                    selectedIdActor.push(tempAct[i].person_id);
                                                }
                                                selectedActorOptions.textContent = selectedValuesActor.join(', ');
+                                                var inputElement = document.getElementById("actor-movie");
 
+                                                // Gán giá trị cho thẻ input
+                                                inputElement.value = selectedIdActor;
                                             // Lặp qua danh sách lựa chọn đã có và tạo các checkbox tương ứng
                                             checkboxActorOptions.empty();
                                             existingActorOptions.forEach((option, index) => {
