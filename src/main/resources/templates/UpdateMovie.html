@@ -6,7 +6,7 @@
     <meta name="keywords" content="Anime, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add Movie</title>
+    <title>Update Movie</title>
 
 
     <!-- Google Font -->
@@ -113,7 +113,7 @@
                 <div class="breadcrumb__links">
                     <a href="./home.html"><i class="fa fa-home"></i> Home</a>
                     <a href="./movie-details.html">Movie</a>
-                    <span>Add Movie</span>
+                    <span>Cập Nhật Phim</span>
                 </div>
             </div>
         </div>
@@ -124,214 +124,224 @@
 <!-- Anime Section Begin -->
 <section class="anime-details spad">
     <div class="container">
-        <form method="post" th:action="@{/AddMovie/add}" enctype="multipart/form-data">
-        <div class="anime__details__content">
+        <form method="post" th:action="@{/UpdateMovie/update}" enctype="multipart/form-data">
+            <div class="anime__details__content">
 
-            <div class="row">
+                <div class="row">
 
-                <div class="col-lg-3">
+                    <div class="col-lg-3">
 
-                    <div class="anime__details__pic set-bg" id="image-movie" th:data-setbg="@{img/movie/default-movie.jpg}"></div>
-                    <div class="anime__details__btn" style="display: flex; justify-content: center; margin-top: 10px;">
-                        <input type="file" id="image-input"  name="image-input" accept="image/*" style="display: none;">
-                        <a href="#" onclick="openImageDialog()" class="follow-btn"><i class="fa fa-file-image-o"></i> Chọn Ảnh</a>
-                    </div>
-
-                    <script>
-                        function openImageDialog() {
-                            const imageInput = document.getElementById("image-input");
-                            imageInput.click();
-
-                            imageInput.addEventListener("change", function () {
-                                const imageContainer = document.getElementById("image-movie");
-                                const file = imageInput.files[0];
-
-                                if (file) {
-                                    const reader = new FileReader();
-
-                                    reader.onload = function (e) {
-                                        const newImageUrl = e.target.result;
-                                        imageContainer.style.backgroundImage = `url(${newImageUrl})`;
-                                    };
-
-                                    reader.readAsDataURL(file);
-                                }
-                            });
-                        }
-                    </script>
-
-                </div>
-                <div class="col-lg-9">
-                    <div class="anime__details__text">
-                        <div class="anime__details__title">
-                            <h4>
-                                <div class="input__item" style="display: flex; justify-content: flex-start;align-items: flex-start;color: white;">
-                                    <label for="movieName"  style="width:fit-content; margin-right: 10px;">Tên phim :   </label>
-                                    <input type="text" id ="movieName" name ="movieName" style="flex: 1;border-radius: 10px;margin-left: 95px;" required>
-                                </div>
-                            </h4>
-
+                        <div class="anime__details__pic set-bg" id="image-movie" th:data-setbg="@{'img/movie/' + ${movie.image}}"></div>
+                        <div class="anime__details__btn" style="display: flex; justify-content: center; margin-top: 10px;">
+                            <input type="file" id="image-input"  name="image-input" accept="image/*" style="display: none;">
+                            <a href="#" onclick="openImageDialog()" class="follow-btn"><i class="fa fa-file-image-o"></i> Chọn Ảnh</a>
                         </div>
-                        <div class="anime__details__widget">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <h5 style="color:white">Công ty:</h5>
-                                        </div>
 
-                                        <a href="#" style="border: 3px solid #fff; padding: 1px; text-decoration: none;color : #fff; margin-right: 10px; margin-left: 15px" id="openFormCompany" >Chọn</a>
-                                        <div id="checkboxCompany">
-                                            <div class="form-content">
-                                                <div class="form-header">
-                                                    <h2 style=" margin-right: 10px">Chọn công ty</h2>
-                                                    <a href="#" id="close-form-Company-button" style="border: 3px solid #fff;border-radius: 50%; padding: 10px; text-decoration: none;color : #fff" >X</a>
-                                                </div>
-                                                <div id="checkboxCompany-options">
+                        <script>
+                            function openImageDialog() {
+                                const imageInput = document.getElementById("image-input");
+                                imageInput.click();
 
-                                                </div>
-                                                <input type="text" id="company-movie" name="company-movie" hidden="hidden" required>
-                                                <div class="row" style="justify-content: center; align-items: center;margin-top:20px; ">
-                                                <a href="#"  id="submitCompany-button" style="border: 3px solid #fff; padding: 5px; text-decoration: none;color : #fff">Chọn xong</a>
-                                                </div>
-                                                <p class="error-Company" id="error-Company" hidden="hidden" ></p>
+                                imageInput.addEventListener("change", function () {
+                                    const imageContainer = document.getElementById("image-movie");
+                                    const file = imageInput.files[0];
+
+                                    if (file) {
+                                        const reader = new FileReader();
+
+                                        reader.onload = function (e) {
+                                            const newImageUrl = e.target.result;
+                                            imageContainer.style.backgroundImage = `url(${newImageUrl})`;
+                                        };
+
+                                        reader.readAsDataURL(file);
+                                    }
+                                });
+                            }
+                        </script>
+
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="anime__details__text">
+                            <div class="anime__details__title">
+                                <h4>
+                                    <div class="input__item" style="display: flex; justify-content: flex-start;align-items: flex-start;color: white;">
+                                        <input type="text" id="movie_id" name="movie_id" hidden="hidden" th:value="${movie.movieId}" readonly>
+                                        <label for="movieName"  style="width:fit-content; margin-right: 10px;">Tên phim :   </label>
+                                        <input type="text" id ="movieName" name ="movieName" th:value="${movie.name}" style="flex: 1;border-radius: 10px;margin-left: 95px;" required>
+                                    </div>
+                                </h4>
+
+                            </div>
+                            <div class="anime__details__widget">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <h5 style="color:white">Công ty:</h5>
                                             </div>
-                                        </div>
 
-                                        <span>
+                                            <a href="#" style="border: 3px solid #fff; padding: 1px; text-decoration: none;color : #fff; margin-right: 10px; margin-left: 15px" id="openFormCompany" >Chọn</a>
+                                            <div id="checkboxCompany">
+                                                <div class="form-content">
+                                                    <div class="form-header">
+                                                        <h2 style=" margin-right: 10px">Chọn công ty</h2>
+                                                        <a href="#" id="close-form-Company-button" style="border: 3px solid #fff;border-radius: 50%; padding: 10px; text-decoration: none;color : #fff" >X</a>
+                                                    </div>
+                                                    <div id="checkboxCompany-options">
+
+                                                    </div>
+                                                    <input type="text" id="company-movie" name="company-movie" hidden="hidden" required>
+                                                    <div class="row" style="justify-content: center; align-items: center;margin-top:20px; ">
+                                                        <a href="#"  id="submitCompany-button" style="border: 3px solid #fff; padding: 5px; text-decoration: none;color : #fff">Chọn xong</a>
+                                                    </div>
+                                                    <p class="error-Company" id="error-Company" hidden="hidden" ></p>
+                                                </div>
+                                            </div>
+
+                                            <span>
         <div id="selected-Company-options" style="color: white; width : 250px;margin-right : 10px"></div>
     </span>
 
-                                    </div>
-                                    <br>
+                                        </div>
+                                        <br>
 
-                                    <script th:inline="javascript">
-                                        // Lấy tham chiếu đến các phần tử DOM
-                                        const openFormCompanyButton = document.getElementById('openFormCompany');
-                                        const checkboxCompanyForm = document.getElementById('checkboxCompany');
-                                        var checkboxCompanyOptions = $("#checkboxCompany-options");
-                                        const submitCompanyButton = document.getElementById('submitCompany-button');
-                                        const selectedCompanyOptions = document.getElementById('selected-Company-options');
-                                        const errorCompanyMessage = document.getElementById('error-Company');
-                                        const closeFormCompanyButton = document.getElementById('close-form-Company-button');
+                                        <script th:inline="javascript">
+                                            // Lấy tham chiếu đến các phần tử DOM
+                                            const openFormCompanyButton = document.getElementById('openFormCompany');
+                                            const checkboxCompanyForm = document.getElementById('checkboxCompany');
+                                            var checkboxCompanyOptions = $("#checkboxCompany-options");
+                                            const submitCompanyButton = document.getElementById('submitCompany-button');
+                                            const selectedCompanyOptions = document.getElementById('selected-Company-options');
+                                            const errorCompanyMessage = document.getElementById('error-Company');
+                                            const closeFormCompanyButton = document.getElementById('close-form-Company-button');
 
-                                        // Danh sách lựa chọn đã có
-                                         const existingCompanyOptions = [[${companies}]];
-                                         selectedCompanyOptions.textContent = 'Vui lòng chọn ít nhất 1 công ty';
-                                        // Lặp qua danh sách lựa chọn đã có và tạo các checkbox tương ứng
-                                        checkboxCompanyOptions.empty();
-                                        existingCompanyOptions.forEach((option, index) => {
+                                            // Danh sách lựa chọn đã có
+                                             const existingCompanyOptions = [[${companies}]];
+                                               const selectedValuesCompany = [];
+                                               var size = [[${movie.movie_companyList.size()}]];
+                                               const tempCom = [[${movie.movie_companyList}]];
+                                               for (let i = 0 ; i < size ;i++)
+                                               {
+                                                    selectedValuesCompany.push(tempCom[i].name);
+                                               }
+                                               selectedCompanyOptions.textContent = selectedValuesCompany.join(', ');
+                                            // Lặp qua danh sách lựa chọn đã có và tạo các checkbox tương ứng
+                                            checkboxCompanyOptions.empty();
+                                            existingCompanyOptions.forEach((option, index) => {
 
-                                            var labelCompany = $('<h5>');
-                                            labelCompany.attr('style', 'color:white;margin-top:10px');
-                                            labelCompany.html(option.name);
-                                            var checkbox = $('<input>');
-                                            checkbox.attr('style', 'margin-left: 10px');
-                                            checkbox.attr('type', 'checkbox');
-                                            checkbox.attr('name', option.companyId);
-                                            checkbox.attr('value', option.name);
+                                                var labelCompany = $('<h5>');
+                                                labelCompany.attr('style', 'color:white;margin-top:10px');
+                                                labelCompany.html(option.name);
+                                                var checkbox = $('<input>');
+                                                checkbox.attr('style', 'margin-left: 10px');
+                                                checkbox.attr('type', 'checkbox');
+                                                checkbox.attr('name', option.companyId);
+                                                checkbox.attr('value', option.name);
+                                                if (tempCom.some(item => item.name === option.name)) {
+                                                    checkbox.attr('checked', 'true');
+                                                }
+
+                                                console.log(option.companyId);
+                                                console.log(option.name);
+                                                labelCompany.append(checkbox);
+                                                checkboxCompanyOptions.append(labelCompany);
+
+                                                // Thêm dòng mới trừ trường hợp cuối cùng
+
+                                            });
 
 
 
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Mở Form"
+                                            openFormCompanyButton.addEventListener('click', () => {
+                                                checkboxCompanyForm.style.display = 'block';
 
-                                            console.log(option.companyId);
-                                            console.log(option.name);
-                                            labelCompany.append(checkbox);
-                                            checkboxCompanyOptions.append(labelCompany);
+                                                // Cập nhật danh sách checkbox
+                                                updateCheckboxList();
 
-                                            // Thêm dòng mới trừ trường hợp cuối cùng
+                                            });
 
-                                        });
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Đóng"
+                                            closeFormCompanyButton.addEventListener('click', () => {
+                                                checkboxCompanyForm.style.display = 'none';
+                                            });
 
+                                            // Xử lý sự kiện khi người dùng nhấn nút "Chọn xong"
+                                            submitCompanyButton.addEventListener('click', (e) => {
+                                                e.preventDefault();
 
+                                                // Lấy danh sách các ô đánh dấu đã được chọn
+                                                const selectedCompanyCheckboxes = checkboxCompanyForm.querySelectorAll('input[type="checkbox"]:checked');
 
-                                        // Xử lý sự kiện khi người dùng nhấn nút "Mở Form"
-                                        openFormCompanyButton.addEventListener('click', () => {
-                                            checkboxCompanyForm.style.display = 'block';
+                                                // Lặp qua các ô đánh dấu đã chọn và lưu giá trị vào mảng
+                                                const selectedValuesCompany = [];
+                                                const selectedIdCompany = [];
+                                                selectedCompanyCheckboxes.forEach((checkbox) => {
+                                                    selectedValuesCompany.push(checkbox.value);
+                                                    selectedIdCompany.push(checkbox.name);
+
+                                                });
+
+                                                // Hiển thị các giá trị đã chọn lên trang web
+                                                if (selectedValuesCompany.length === 0) {
+                                                    selectedCompanyOptions.textContent = 'Vui lòng chọn ít nhất 1 công ty';
+                                                } else {
+                                                    selectedCompanyOptions.textContent = selectedValuesCompany.join(', ');
+                                                }
+                                                //selectedCompanyOptions.textContent = selectedValuesCompany.join(', ');
+                                                var inputElement = document.getElementById("company-movie");
+                                                inputElement.value = selectedIdCompany;
+                                                // Ẩn form đi sau khi hoàn thành
+
+                                                checkboxCompanyForm.style.display = 'none';
+                                            });
 
                                             // Cập nhật danh sách checkbox
-                                            updateCheckboxList();
+                                            function updateCheckboxList() {
+                                                // Xóa tất cả các checkbox hiện có
+                                                checkboxCompanyOptions.innerHTML = '';
 
-                                        });
+                                                // Thêm các checkbox từ danh sách đã có
+                                                existingCompanyOptions.forEach((option) => {
+                                                    var labelCompany = document.createElement('h5');
+                                                    const checkbox = document.createElement('input');
+                                                    checkbox.type = 'checkbox';
+                                                    checkbox.name = option;
+                                                    checkbox.value = option;
 
-                                        // Xử lý sự kiện khi người dùng nhấn nút "Đóng"
-                                        closeFormCompanyButton.addEventListener('click', () => {
-                                            checkboxCompanyForm.style.display = 'none';
-                                        });
+                                                    labelCompany.append(checkbox, document.createTextNode(option));
+                                                    checkboxCompanyOptions.append(labelCompany);
+                                                });
 
-                                        // Xử lý sự kiện khi người dùng nhấn nút "Chọn xong"
-                                        submitCompanyButton.addEventListener('click', (e) => {
-                                            e.preventDefault();
-
-                                            // Lấy danh sách các ô đánh dấu đã được chọn
-                                            const selectedCompanyCheckboxes = checkboxCompanyForm.querySelectorAll('input[type="checkbox"]:checked');
-
-                                            // Lặp qua các ô đánh dấu đã chọn và lưu giá trị vào mảng
-                                            const selectedValuesCompany = [];
-                                            const selectedIdCompany = [];
-                                            selectedCompanyCheckboxes.forEach((checkbox) => {
-                                                selectedValuesCompany.push(checkbox.value);
-                                                selectedIdCompany.push(checkbox.name);
-
-                                            });
-
-                                            // Hiển thị các giá trị đã chọn lên trang web
-                                            if (selectedValuesCompany.length === 0) {
-                                                selectedCompanyOptions.textContent = 'Vui lòng chọn ít nhất 1 công ty';
-                                            } else {
-                                                selectedCompanyOptions.textContent = selectedValuesCompany.join(', ');
                                             }
-                                            //selectedCompanyOptions.textContent = selectedValuesCompany.join(', ');
-                                            var inputElement = document.getElementById("company-movie");
-                                            inputElement.value = selectedIdCompany;
-                                            // Ẩn form đi sau khi hoàn thành
+                                        </script>
 
-                                            checkboxCompanyForm.style.display = 'none';
-                                        });
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <h5 style="color:white">Lịch Chiếu :</h5>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-6">
+                                                <div class="product__page__filter">
+                                                    <select id = "movieSchedule" name="movieSchedule">
+                                                        <option id= "Sunday" name="Sunday" value="1" th:selected="${movie.movieSchedule == 1}">Chủ Nhật</option>
+                                                        <option id= "Monday" name="Monday" value="2" th:selected="${movie.movieSchedule == 2}">Thứ Hai</option>
+                                                        <option id= "Tuesday" name="Tuesday" value="3" th:selected="${movie.movieSchedule == 3}">Thứ Ba</option>
+                                                        <option id= "Wednesday" name="Wednesday" value="4" th:selected="${movie.movieSchedule == 4}">Thứ Tư</option>
+                                                        <option id= "Thursday" name="Thursday" value="5" th:selected="${movie.movieSchedule == 5}">Thứ Năm</option>
+                                                        <option id= "Friday" name="Friday" value="6" th:selected="${movie.movieSchedule == 6}">Thứ Sáu</option>
+                                                        <option id= "Saturday" name="Saturday" value="7" th:selected="${movie.movieSchedule == 7}">Thứ Bảy</option>
+                                                    </select>
 
-                                        // Cập nhật danh sách checkbox
-                                        function updateCheckboxList() {
-                                            // Xóa tất cả các checkbox hiện có
-                                            checkboxCompanyOptions.innerHTML = '';
-
-                                            // Thêm các checkbox từ danh sách đã có
-                                            existingCompanyOptions.forEach((option) => {
-                                                var labelCompany = document.createElement('h5');
-                                                const checkbox = document.createElement('input');
-                                                checkbox.type = 'checkbox';
-                                                checkbox.name = option;
-                                                checkbox.value = option;
-                                                labelCompany.append(checkbox, document.createTextNode(option));
-                                                checkboxCompanyOptions.append(labelCompany);
-                                            });
-
-                                        }
-                                    </script>
-
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <h5 style="color:white">Lịch Chiếu :</h5>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6">
-                                            <div class="product__page__filter">
-                                                <select id = "movieSchedule" name="movieSchedule">
-                                                    <option id= "Sunday" name="Sunday" value="1">Chủ Nhật</option>
-                                                    <option id= "Monday" name="Monday" value="2">Thứ Hai</option>
-                                                    <option id= "Tuesday" name="Tuesday" value="3">Thứ Ba</option>
-                                                    <option id= "Wednesday" name="Wednesday" value="4">Thứ Tư</option>
-                                                    <option id= "Thursday" name="Thursday" value="5">Thứ Năm</option>
-                                                    <option id= "Friday" name="Friday" value="6">Thứ Sáu</option>
-                                                    <option id= "Saturday" name="Saturday" value="7">Thứ Bảy</option>
-                                                </select>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <h5 style="color:white">Ngôn Ngữ:</h5>
-                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <h5 style="color:white">Ngôn Ngữ:</h5>
+                                            </div>
 
                                             <a href="#" style="border: 3px solid #fff; padding: 1px; text-decoration: none;color : #fff; margin-right: 10px; margin-left: 15px" id="openFormLanguage">Chọn</a>
                                             <div id="checkboxLanguage">
@@ -351,12 +361,12 @@
                                                 </div>
                                             </div>
 
-                                         <span>
+                                            <span>
                                             <div id="selected-language-options" style="color: white; width : 250px;margin-right : 10px"></div>
                                         </span>
 
-                                    </div>
-                                    <br>
+                                        </div>
+                                        <br>
 
                                         <script th:inline="javascript">
                                             // Lấy tham chiếu đến các phần tử DOM
@@ -370,7 +380,15 @@
 
                                             // Danh sách lựa chọn đã có
                                              const existingLanguageOptions = [[${languages}]];
-                                               selectedLanguageOptions.textContent = 'Vui lòng chọn ít nhất 1 ngôn ngữ.';
+                                               const selectedValuesLanguage = [];
+                                               var size = [[${movie.movie_languageList.size()}]];
+                                               const tempLang = [[${movie.movie_languageList}]];
+                                               for (let i = 0 ; i < size ;i++)
+                                               {
+                                                    selectedValuesLanguage.push(tempLang[i].name);
+                                               }
+                                               selectedLanguageOptions.textContent = selectedValuesLanguage.join(', ');
+
                                             // Lặp qua danh sách lựa chọn đã có và tạo các checkbox tương ứng
                                             checkboxLanguageOptions.empty();
                                             existingLanguageOptions.forEach((option, index) => {
@@ -383,10 +401,9 @@
                                                 checkbox.attr('type', 'checkbox');
                                                 checkbox.attr('name', option.language_id);
                                                 checkbox.attr('value', option.name);
-
-
-
-
+                                                if (tempLang.some(item => item.name === option.name)) {
+                                                    checkbox.attr('checked', 'true');
+                                                }
                                                 console.log(option.language_id);
                                                 console.log(option.name);
                                                 labelLanguage.append(checkbox);
@@ -400,10 +417,12 @@
 
                                             // Xử lý sự kiện khi người dùng nhấn nút "Mở Form"
                                             openFormLanguageButton.addEventListener('click', () => {
+
                                                 checkboxLanguageForm.style.display = 'block';
 
                                                 // Cập nhật danh sách checkbox
-                                                updateCheckboxList();
+                                            updateCheckboxList();
+
                                             });
 
                                             // Xử lý sự kiện khi người dùng nhấn nút "Đóng"
@@ -433,7 +452,7 @@
                                                 } else {
                                                     selectedLanguageOptions.textContent = selectedValuesLanguage.join(', ');
                                                 }
-                                               // selectedLanguageOptions.textContent = selectedValuesLanguage.join(', ');
+
                                                 var inputElement = document.getElementById("language-movie");
                                                 inputElement.value = selectedIdLanguage;
                                                 // Ẩn form đi sau khi hoàn thành
@@ -453,6 +472,7 @@
                                                     checkbox.type = 'checkbox';
                                                     checkbox.name = option;
                                                     checkbox.value = option;
+
                                                     labelLanguage.append(checkbox, document.createTextNode(option));
                                                      checkboxLanguageOptions.append(labelLanguage);
                                                 });
@@ -461,27 +481,27 @@
                                         </script>
 
 
-                                    <div class="row">
+                                        <div class="row">
 
-                                    <div class="col-lg-3">
-                                        <h5 style="color:white">Quốc gia:</h5>
-                                    </div>
-                                        <div class="col-lg-9">
-                                             <label for="country"></label>
-                                               <input type="text" style="border-radius: 10px;" id="country" name="country" list="countryList" required>
-                                             <datalist id="countryList">
-                                           <!-- Dưới đây, bạn có thể tạo các tùy chọn cho datalist từ danh sách genres -->
-                                             <th:block th:each="country : ${countries}">
-                                                 <option th:value="${country.name}" th:text="${country.name}"></option>
-                                               </th:block>
-                                             </datalist>
+                                            <div class="col-lg-3">
+                                                <h5 style="color:white">Quốc gia:</h5>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <label for="country"></label>
+                                                <input type="text" style="border-radius: 10px;" th:value="${movie.country.name}" id="country" name="country" list="countryList" required>
+                                                <datalist id="countryList">
+                                                    <!-- Dưới đây, bạn có thể tạo các tùy chọn cho datalist từ danh sách genres -->
+                                                    <th:block th:each="country : ${countries}">
+                                                        <option th:value="${country.name}" th:text="${country.name}"></option>
+                                                    </th:block>
+                                                </datalist>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                    <div class="col-lg-3">
-                                        <h5 style="color:white">Thể loại:</h5>
-                                    </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <h5 style="color:white">Thể loại:</h5>
+                                            </div>
 
                                             <a href="#" style="border: 3px solid #fff; padding: 1px; text-decoration: none;color : #fff;margin-right: 10px; margin-left: 15px" id="openFormCategory">Chọn</a>
                                             <div id="checkboxCategory">
@@ -499,12 +519,12 @@
                                                     <p class="error-message" id="error-message" hidden="hidden" ></p>
                                                 </div>
 
-                                        </div>
+                                            </div>
                                             <span>
                                             <div id="selected-options" style="width : 250px; margin-right : 10px; color : white;"></div>
                                             </span>
 
-                                    </div>
+                                        </div>
 
                                         <script th:inline="javascript">
                                             // Lấy tham chiếu đến các phần tử DOM
@@ -519,7 +539,14 @@
 
                                             // Danh sách lựa chọn đã có
                                              const existingOptions = [[${categories}]];
-                                            selectedOptions.textContent = 'Vui lòng chọn ít nhất 1 thể loại.';
+                                              const selectedValues = [];
+                                               var size = [[${movie.movie_categoryList.size()}]];
+                                               const tempCa = [[${movie.movie_categoryList}]];
+                                               for (let i = 0 ; i < size ;i++)
+                                               {
+                                                    selectedValues.push(tempCa[i].name);
+                                               }
+                                               selectedOptions.textContent = selectedValues.join(', ');
                                             // Lặp qua danh sách lựa chọn đã có và tạo các checkbox tương ứng
                                             checkboxOptions.empty();
                                             existingOptions.forEach((option, index) => {
@@ -532,9 +559,9 @@
                                                 checkbox.attr('type', 'checkbox');
                                                 checkbox.attr('name', option.categoryId);
                                                 checkbox.attr('value', option.name);
-
-
-
+                                                if (tempCa.some(item => item.name === option.name)) {
+                                                    checkbox.attr('checked', 'true');
+                                                }
 
                                                 console.log(option.categoryId);
                                                 console.log(option.name);
@@ -609,15 +636,15 @@
                                             }
                                         </script>
                                         <br>
-                                    <div class="row">
-                                    <div class="col-lg-3">
-                                        <h5 style="color:white">Số tập phim: </h5>
-                                    </div>
-                                    <div class="col-lg-9">
-                                       <input style="margin-right : 10px;" type="number" id="NofE" name="NofE" placeholder="Nhập số tập phim" required>
-                                    </div>
-                                    </div>
-                                    <br>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <h5 style="color:white">Số tập phim: </h5>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <input style="margin-right : 10px;border-radius : 5px" type="number" id="NofE" name="NofE" th:value = "${movie.episodes}" placeholder="Nhập số tập phim" required>
+                                            </div>
+                                        </div>
+                                        <br>
                                         <div class="row">
                                             <div class="col-lg-3">
                                                 <h5 style="color:white">Diễn viên:</h5>
@@ -639,13 +666,13 @@
                                                     <p class="error-Actor" id="error-Actor" hidden="hidden" ></p>
                                                 </div>
 
-                                    </div>
+                                            </div>
                                             <span>
                                             <div id="selected-Actor-options" style="color : white; display: flex; width : 250px;margin-right : 10px"></div>
                                                 </span>
 
-                                    </div>
-                                    <br>
+                                        </div>
+                                        <br>
                                         <script th:inline="javascript">
                                             // Lấy tham chiếu đến các phần tử DOM
                                             const openFormActorButton = document.getElementById('openFormActor');
@@ -658,7 +685,14 @@
 
                                             // Danh sách lựa chọn đã có
                                             const existingActorOptions = /*[[${persons}]]*/;
-                                            selectedActorOptions.textContent = 'Vui lòng chọn ít nhất 1 diễn viên.';
+                                              const selectedValuesActor = [];
+                                               var size = [[${movie.movie_personList.size()}]];
+                                               const tempAct = [[${movie.movie_personList}]];
+                                               for (let i = 0 ; i < size ;i++)
+                                               {
+                                                    selectedValuesActor.push(tempAct[i].name);
+                                               }
+                                               selectedActorOptions.textContent = selectedValuesActor.join(', ');
 
                                             // Lặp qua danh sách lựa chọn đã có và tạo các checkbox tương ứng
                                             checkboxActorOptions.empty();
@@ -672,6 +706,9 @@
                                                 checkbox.attr('type', 'checkbox');
                                                 checkbox.attr('name', option.person_id);
                                                 checkbox.attr('value', option.name);
+                                                if (tempAct.some(item => item.name === option.name)) {
+                                                    checkbox.attr('checked', 'true');
+                                                }
                                                 console.log(option.person_id);
                                                 console.log(option.name);
                                                 labelActor.append(checkbox);
@@ -754,18 +791,18 @@
 
                                             }
                                         </script>
-                                    </ul>
+                                        </ul>
+
+                                    </div>
 
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <h5 style="color:white">Nội dung phim:</h5>
+                                    </div>
 
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <h5 style="color:white">Nội dung phim:</h5>
+                                    <textarea type="text" id ="movieContent" name ="movieContent" th:value="${movie.movieContent}" th:text="${movie.movieContent}" rows="4" style="flex: 1;resize: none;border-radius: 10px;margin-left: 10px;"></textarea>
                                 </div>
-
-                                    <textarea type="text" id ="movieContent" name ="movieContent"  rows="4" style="flex: 1;resize: none;border-radius: 10px;margin-left: 10px;"></textarea>
-                            </div>
 
                             </div>
 

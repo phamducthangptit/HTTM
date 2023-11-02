@@ -29,7 +29,7 @@ public interface MovieRequestService {
     List<Map<String,?>> getMovieEpisode( int id);
 
     int insertInformationMovie(int movie_id, int person_id ,int category_id,int language_id,int company_id);
-
+    int deleteInformationMovie(int movie_id);
 
 
 

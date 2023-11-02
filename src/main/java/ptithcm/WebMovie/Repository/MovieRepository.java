@@ -6,5 +6,5 @@ import ptithcm.WebMovie.Model.Movie;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie,Integer> {
-    Movie findById(int id);
+    Movie findById(int movieId);
 }
