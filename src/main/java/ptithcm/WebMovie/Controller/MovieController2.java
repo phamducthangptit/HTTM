@@ -11,6 +11,10 @@ import ptithcm.WebMovie.Repository.UserRepository;
 import ptithcm.WebMovie.Service.MovieCollectionService;
 import ptithcm.WebMovie.Service.MovieHistoryService;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @RestController
 public class MovieController2 {
     @Autowired
@@ -36,7 +40,7 @@ public class MovieController2 {
         if(userRepository.findByuserNameAndEmail(userName, email) != null){// tim ra duoc user
             GenrateCode genrateCode = new GenrateCode();
             String code = genrateCode.generateCode();
-            emailService.sendEmail(email, "Thư lấy lại mật khẩu", "Mã xác thực tài khoản của bạn là: " + code);
+            emailService.sendEmail(email, "Thư lấy lại mật khẩu", "Mã xác nhận lấy lại mật khẩu của bạn là: " + code);
             return code;
         } else {
             String error = "Please enter correct username and email";
@@ -66,6 +70,8 @@ public class MovieController2 {
         if(session.getAttribute("user") != null){
             User user = (User) session.getAttribute("user");
             movieHistoryService.saveHistory(user.getUserId(), movieId, episode, time);
+        } else {
+            movieHistoryService.saveHistory(0, movieId, episode, time);
         }
         return "success";
     }
@@ -90,5 +96,32 @@ public class MovieController2 {
             result = movieHistoryService.deleteHistory(user.getUserId(), movieId, episode);
         }
         return result;
+    }
+
+    @PostMapping("/find-episode-delete-movie/{id}")
+    @ResponseBody
+    public List<Integer> findAllEpisodeNow(@PathVariable("id") int movieId){
+        return movieCollectionService.findAllEpisodeNow(movieId);
+    }
+
+    @PostMapping("/delete-movie/{id}")
+    @ResponseBody
+    public int deleteMovie(@PathVariable("id") int id){
+        return movieCollectionService.deleteMovie(id);
+    }
+
+    @PostMapping("/delete-episode/{id}")
+    @ResponseBody
+    public int deleteEpisode(@PathVariable("id") int movieId, @RequestBody int[] selected){
+
+        Set<Integer> episoded = new HashSet<>();
+        for(int i = 0; i < selected.length; i++){
+            episoded.add(selected[i]);
+        }
+        for(int x : episoded){
+            System.out.println(x);
+            movieCollectionService.deleteEpisode(movieId, x);
+        }
+        return 0;
     }
 }

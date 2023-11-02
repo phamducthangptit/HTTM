@@ -42,7 +42,7 @@ public class Contro1 {
         super();
         this.movieRequestService = movieRequestService;
     }
-    @GetMapping("/home")
+    @GetMapping(value = {"/home", "/"})
     public String home(Model model) {
         List<MovieRequest> m = movieRequestService.getMovie(6);
 
@@ -58,6 +58,9 @@ public class Contro1 {
         model.addAttribute("trend", trend);
 
         model.addAttribute("listNewCM", m2);
+
+        List<MovieRequest> m3 = movieRequestService.getMovieTopCategory(6,"anime");
+        model.addAttribute("listTopCategory", m3);
         return "home";
     }
     @GetMapping("/movie")
@@ -177,8 +180,9 @@ public class Contro1 {
     @GetMapping("/movie-watching")
     public String watchMovie(@RequestParam(name = "id") int id,
                              @RequestParam(name = "episode", defaultValue = "1") int episode,
-                             Model model
+                             Model model,HttpSession session
                              ) {
+
         Map<String, ?> movie = movieRequestService.getMovieDetail(id);
         model.addAttribute("movie", movie);
         List<Map<String,?>> episodes = movieRequestService.getMovieEpisode(id);
@@ -217,10 +221,11 @@ public class Contro1 {
                 System.out.println(entry.getKey()+ " : " + entry.getValue());
             }
         }
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("user",user);
         if(session.getAttribute("user") == null){ // chưa login
             model.addAttribute("isFollowing", "nouser");
         } else {
-            User user = (User) session.getAttribute("user");
             // thực hiện tìm bộ sưu tập của user
             if(movieRequestService.getStatusCollection(user.getUserId(), id) == 0){
                 model.addAttribute("isFollowing", "false"); // chưa có trong bst
@@ -259,9 +264,11 @@ public class Contro1 {
 //        System.out.println(comment.getComment());
 //        System.out.println(comment.getValue());
 //        System.out.println(comment.getDate());
-        int result = movieRequestService.saveComment((Integer) comment.get("movie_id"),
-                (Integer) comment.get("user_id"), (String) comment.get("comment"),
-                (Integer) comment.get("value"), now);
+        int movie_id= Integer.parseInt((String) comment.get("movie_id"));
+        int user_id = Integer.parseInt((String) comment.get("user_id"));
+        String commentIN = (String) comment.get("comment");
+        int value = Integer.parseInt((String) comment.get("value"));
+        int result = movieRequestService.saveComment(movie_id,user_id,commentIN,value,now);
         return result;
 
     }
@@ -386,7 +393,7 @@ public class Contro1 {
         if(file != null && !file.isEmpty()) { // chọn file mới
             try {
 
-                String uploadDir = "src/main/resources/static/video";
+                String uploadDir = "src/main/resources/static/videos";
                 Path filePath;
 
                 //ảnh mới
@@ -395,14 +402,26 @@ public class Contro1 {
                 fileName = name + "_" +
                         currentDateTime.getHour() + "h" +
                         currentDateTime.getMinute() + "m" +
-                        currentDateTime.getSecond() + "s" + ".jpg";
+                        currentDateTime.getSecond() + "s" + ".mp4";
                 filePath = Paths.get(uploadDir, fileName);
                 Files.copy(file.getInputStream(), filePath);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        movieRequestService.saveEpisode(name,episode,season,fileName,movieId,currentDateTime);
+        System.out.println(name);
+        System.out.println(episode);
+        System.out.println(season);
+        System.out.println(fileName);
+        System.out.println(movieId);
+        System.out.println(currentDateTime);
+       int x= movieRequestService.saveEpisode(name,episode,season,fileName,movieId,currentDateTime);
         return "redirect:/movie?id="+String.valueOf(movieId);
+    }
+
+    @GetMapping("/actors/delete")
+    public String deleteActor( @RequestParam("id") int id){
+        int x = movieRequestService.deleteActor(id);
+        return "redirect:/actors";
     }
 }

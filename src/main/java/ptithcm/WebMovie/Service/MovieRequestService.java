@@ -71,11 +71,16 @@ public interface MovieRequestService {
     );
     List<Map<String,?>> getMovieNewComment();
 
-    void saveEpisode(String name,
+    int saveEpisode(String name,
                      int episode,
                      String season,
                      String source,
                      int movie_id,
                      LocalDateTime day_submit
     );
+
+    int deleteActor( int id);
+
+    List<MovieRequest> getMovieTopCategory(int rank,
+                                           String category);
 }

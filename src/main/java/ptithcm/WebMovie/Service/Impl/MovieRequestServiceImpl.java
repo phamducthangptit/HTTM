@@ -121,13 +121,21 @@ public class MovieRequestServiceImpl implements MovieRequestService {
     public List<Map<String,?>> getMovieNewComment() {
         return movieRequestRepository.getMovieNewComment();
     };
-    public void saveEpisode(String name,
+    public int saveEpisode(String name,
                      int episode,
                      String season,
                      String source,
                      int movie_id,
                      LocalDateTime day_submit
     ){
-        movieRequestRepository.saveEpisode(name, episode, season, source, movie_id, day_submit);
+      return  movieRequestRepository.saveEpisode(name, episode, season, source, movie_id, day_submit);
+    };
+
+    public int deleteActor(int id){
+        return movieRequestRepository.deleteActor(id);
+    };
+    public List<MovieRequest> getMovieTopCategory(int rank,
+                                           String category){
+        return movieRequestRepository.getMovieTopCategory(rank,category);
     };
 }

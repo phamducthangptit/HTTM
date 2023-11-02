@@ -147,7 +147,7 @@ public class MovieController036 {
                 String fileName = movieName + "_" +
                         currentDateTime.getHour() + "h" +
                         currentDateTime.getMinute() + "m" +
-                        currentDateTime.getSecond() + "s" + ".jpg";
+                        currentDateTime.getSecond() + "s" + ".png";
                 String uploadDir = "src/main/resources/static/img/movie";
                 Path filePath = Paths.get(uploadDir, fileName);
                 Files.copy(file.getInputStream(), filePath);

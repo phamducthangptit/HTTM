@@ -114,13 +114,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.getElementById('imageInput').addEventListener('change', function() {
     var selectedImage = document.getElementById('selectedImage');
-    var file = this.files[0];
-    if (file) {
-        selectedImage.style.display = 'block';
+    var imageInput = document.getElementById('imageInput');
+
+    if (imageInput.files.length > 0) {
         var reader = new FileReader();
         reader.onload = function(e) {
             selectedImage.src = e.target.result;
         }
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(imageInput.files[0]);
+    } else {
+        selectedImage.src = "/img/user/default.jpg"; // Nếu không có file nào được chọn, sử dụng ảnh mặc định
     }
 });

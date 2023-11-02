@@ -26,8 +26,9 @@
                                     <li><a href="./login.html">Login</a></li>
                                 </ul>
                             </li>
-                            <div th:if="${session.user != null && session.user.role.roleId == 1}" >
-                            <li><a href="./blog.html">Movie</a></li>
+                            <div style="display:inline-block;" th:if="${session.user != null && session.user.role.roleId == 1}" >
+                            <li><a href="/list-movie">Movie</a></li>
+
                                 <li><a th:href="@{/actors}">Actors</a></li>
                             </div>
                             <!--công việc cho từng đối tượng-->
@@ -41,7 +42,7 @@
                         <nav class="header__menu mobile-menu">
                             <ul style="display:flex; list-style:none;">
                                 <li><a href="#" class="search-switch"><span class="icon_search"></span></a></li>
-                                <li><a href="/login"  th:if="${session.user == null}">
+                                <li><a href="@{/login}"  th:if="${session.user == null}">
                                     <span class="icon_profile"></span></a></li>
                                <div th:if="${session.user != null}" >
                                    <li><a th:href="@{/user-information}"><span class="icon_profile"></span></a>

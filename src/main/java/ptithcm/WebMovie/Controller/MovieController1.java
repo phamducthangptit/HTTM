@@ -3,6 +3,9 @@ package ptithcm.WebMovie.Controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +19,14 @@ import ptithcm.WebMovie.Model.MovieRequest;
 import ptithcm.WebMovie.Model.Role;
 import ptithcm.WebMovie.Model.User;
 import ptithcm.WebMovie.Repository.UserRepository;
+import ptithcm.WebMovie.Security.MovieUserDetails;
 import ptithcm.WebMovie.Service.MovieCollectionService;
 import ptithcm.WebMovie.Service.MovieRequestService;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -31,34 +36,21 @@ public class MovieController1 {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private HttpSession session;
-    @Autowired
     private EmailService emailService;
 
     private MovieCollectionService movieCollectionService;
     private MovieRequestService movieRequestService;
-
     public MovieController1(MovieCollectionService movieCollectionService, MovieRequestService movieRequestService) {
         this.movieCollectionService = movieCollectionService;
         this.movieRequestService = movieRequestService;
     }
-
     @GetMapping("/login")
-    public String login(Model model){
-        model.addAttribute("user", new User());
-        return "login";
-    }
-
-    @PostMapping("/login")
-    public String loginPerform(@ModelAttribute User user, Model model){
-        User userLogin = new User();
-        userLogin = userRepository.findByuserNameAndPassword(user.getUserName(), user.getPassword());
-        if(userLogin != null){
-            session.setAttribute("user", userLogin);
+    public String login(@AuthenticationPrincipal MovieUserDetails logged, Model model){
+        if(logged != null){
+            System.out.println("nhan ve user");
             return "redirect:/home";
-        } else {
-            model.addAttribute("errorLogin", "Wrong password or user name");
         }
+        System.out.println("loi");
         return "login";
     }
 
@@ -69,6 +61,7 @@ public class MovieController1 {
     }
     @PostMapping("/create-account-admin")
     public String createAccountAdmin(@ModelAttribute User user, Model model, @RequestParam("imageInput") MultipartFile file){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());
         Role role = new Role();
         role.setRoleId(1);
         user.setRole(role);
@@ -76,14 +69,21 @@ public class MovieController1 {
             try {
                 String uploadDir = "src/main/resources/static/img/user";
                 String fileName = "";
-                if(file == null){
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                if(file == null || file.isEmpty()){
                     fileName = "default.jpg";
-                } else fileName = user.getUserName() + ".jpg";
-                Path filePath = Paths.get(uploadDir, fileName);
-                Files.copy(file.getInputStream(), filePath);
+                } else {
+                    fileName = user.getUserName() + "_" +
+                            currentDateTime.getHour() + "h" +
+                            currentDateTime.getMinute() + "m" +
+                            currentDateTime.getSecond() + "s" + ".jpg";
+                    System.out.println(fileName);
+                    Path filePath = Paths.get(uploadDir, fileName);
+                    Files.copy(file.getInputStream(), filePath);
+                }
                 user.setAvatar(fileName);
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
                 userRepository.save(user);
-
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -95,19 +95,38 @@ public class MovieController1 {
         }
     }
     @PostMapping("/register")
-    public String registerPerform(@ModelAttribute User user, Model model, @RequestParam("imageInput") MultipartFile file){
+    public String registerPerform(Model model, @RequestParam("imageInput") MultipartFile file, HttpServletRequest request){
         Role role = new Role();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());
         role.setRoleId(2);
+        String userName = request.getParameter("userName");
+        String fullName = request.getParameter("fullName");
+        String email = request.getParameter("email");
+        String password = passwordEncoder.encode(request.getParameter("password"));
+        User user = new User();
+        user.setUserName(userName);
+        user.setName(fullName);
+        user.setEmail(email);
+        user.setPassword(password);
         user.setRole(role);
-        if(userRepository.findByuserName(user.getUserName()) == null){
+
+        if(userRepository.findByuserName(user.getUserName()) == null){ // chưa có user name trong hệ thống
             try {
+                LocalDateTime currentDateTime = LocalDateTime.now();
                 String uploadDir = "src/main/resources/static/img/user";
                 String fileName = "";
-                if(file == null){
+                System.out.println(file.getResource());
+                if(file == null || file.isEmpty()){
                     fileName = "default.jpg";
-                } else fileName = user.getUserName() + ".jpg";
-                Path filePath = Paths.get(uploadDir, fileName);
-                Files.copy(file.getInputStream(), filePath);
+                } else {
+                    fileName = user.getUserName() + "_" +
+                            currentDateTime.getHour() + "h" +
+                            currentDateTime.getMinute() + "m" +
+                            currentDateTime.getSecond() + "s" + ".jpg";
+                    System.out.println(fileName);
+                    Path filePath = Paths.get(uploadDir, fileName);
+                    Files.copy(file.getInputStream(), filePath);
+                }
                 user.setAvatar(fileName);
                 userRepository.save(user);
             } catch (Exception e){
@@ -115,6 +134,7 @@ public class MovieController1 {
             }
         } else {
             model.addAttribute("errorRegister", "User name already exists in the system!");
+            System.out.println("xuat hien loi khi dki");
             return "login";
         }
         return "redirect:/login";
@@ -125,34 +145,36 @@ public class MovieController1 {
         return "ChangePassword";
     }
     @PostMapping("/change-pass")
-    public String changePass(HttpServletRequest request, Model model){
-        User user = (User) session.getAttribute("user");
+    public String changePass(@AuthenticationPrincipal MovieUserDetails user, HttpServletRequest request, Model model){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());
         String oldPass = request.getParameter("oldPassword");
-        String newPass = request.getParameter("newPassword");
-        if(userRepository.findByuserNameAndPassword(user.getUserName(), oldPass) == null){
+        String newPass = passwordEncoder.encode(request.getParameter("newPassword"));
+        System.out.println(userRepository.findPasswordByUserName(user.getUsername()));
+        if(!passwordEncoder.matches(oldPass, userRepository.findPasswordByUserName(user.getUsername()))){
             //nếu là null thì mật khẩu nhập chưa khớp
             model.addAttribute("errorOldPass", "You entered your old password incorrectly");
             System.out.println("loi mk");
         } else {
             //nếu khác null là nhập khớp mật khẩu cũ, tiến hành đi đổi pass
-            userRepository.changePass(newPass, user.getUserName());
+            userRepository.changePass(newPass, user.getUsername());
         }
         return "ChangePassword";
     }
 
     @PostMapping("/reset-password")
     public String resetPassword(@RequestParam("userNameF") String userName, @RequestParam("emailF") String email){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());
         GenrateCode genrateCode = new GenrateCode();
-        String newPass = genrateCode.generateCode();
-        emailService.sendEmail(email, "Thư cấp lại mật khẩu", "Mật khẩu mới của bạn là: " + newPass);
+        String newPassSendUser = genrateCode.generateCode();
+        String newPass = passwordEncoder.encode(newPassSendUser);
+        emailService.sendEmail(email, "Thư cấp lại mật khẩu", "Mật khẩu mới của bạn là: " + newPassSendUser);
         userRepository.resetPass(newPass, userName, email);
         return "redirect:/login";
     }
 
     @GetMapping("/user-information")
-    public String userInformation(Model model){
-        User userInSession = (User) session.getAttribute("user");
-        User user = userRepository.findByuserName(userInSession.getUserName());
+    public String userInformation(@AuthenticationPrincipal MovieUserDetails userInSession, Model model){
+        User user = userRepository.findByuserName(userInSession.getUsername());
         System.out.println(user.getAvatar());
         model.addAttribute("user", user);
         model.addAttribute("img", user.getAvatar());
@@ -160,11 +182,10 @@ public class MovieController1 {
     }
 
     @PostMapping("/user-information")
-    public String userInformation(@ModelAttribute User user, @RequestParam("imageInput") MultipartFile file){
-        User user1 = (User) session.getAttribute("user");
+    public String userInformation(@AuthenticationPrincipal MovieUserDetails user1, @ModelAttribute User user, @RequestParam("imageInput") MultipartFile file){
         if(file != null && !file.isEmpty()){ // chọn file mới
             try {
-                String oldImg = userRepository.findByuserName(user1.getUserName()).getAvatar();
+                String oldImg = userRepository.findByuserName(user1.getUsername()).getAvatar();
                 String uploadDir = "src/main/resources/static/img/user";
                 Path filePath;
                 //xóa ảnh cũ
@@ -194,12 +215,20 @@ public class MovieController1 {
     }
 
     @GetMapping("/my-collection")
-    public String myCollection(Model model){
-        User user = (User) session.getAttribute("user");
+    public String myCollection(@AuthenticationPrincipal MovieUserDetails user, Model model){
         List<Map<String, ?>> myCollection = movieCollectionService.findMyCollection(user.getUserId());
         List<MovieRequest> topRankMovie = movieRequestService.getTopView(5);
         model.addAttribute("myCollection", myCollection);
         model.addAttribute("topRankMV", topRankMovie);
         return "my-collection";
+    }
+
+    @GetMapping("/list-movie")
+    public String listMovie(Model model){
+        List<Map<String, ?>> listMovie = movieCollectionService.selectListMovie();
+        List<MovieRequest> topRankMovie = movieRequestService.getTopView(5);
+        model.addAttribute("listMovie", listMovie);
+        model.addAttribute("topRankMV", topRankMovie);
+        return "list-movie";
     }
 }
