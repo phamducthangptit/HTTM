@@ -52,7 +52,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Select movie episode</h4>
+                <h4 class="modal-title">Chọn tập phim để xóa</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body" id="modal-body">
@@ -70,7 +70,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Do you really want to delete the movie?</h4>
+                <h4 class="modal-title">Bạn có thật sự muốn xóa phim này không?</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-footer">
@@ -101,16 +101,14 @@
                                 <div class="product__item__pic set-bg" th:data-setbg="@{img/movie/__${lm.get('image')}__}">
                                     <div class="ep" th:text="${lm.get('episode')} + '/' + ${lm.get('episodes')}"></div>
                                     <div class="view" ><i class="fa fa-eye" th:text="${lm.get('views')}"></i></div>
+                                    <div class="comment" >
+                                        <a class="icon_archive_alt" style="margin-right: 15px;" th:href="@{/find-episode-delete-movie(id=${lm.get('movie_id')})}"></a>
+                                        <a class="icon_pencil-edit" th:href="@{/UpdateMovie(id=${lm.get('movie_id')})}"></a>
+                                    </div>
                                 </div>
                                 <div class="product__item__text">
-                                    <ul>
-                                        <li>Active</li>
-                                        <li>Movie</li>
-                                        <li class="icon_archive_alt"
-                                            style="color: red;font-size: 20px;display: flex;justify-content: center;align-items: center">
-                                            <a th:href="@{/find-episode-delete-movie(id=${lm.get('movie_id')})}"></a>
-                                        </li>
-                                    </ul>
+
+
                                     <h5><a th:href="@{/movie(id=${lm.get('movie_id')})}" th:text="${lm.get('name')}"></a></h5>
                                 </div>
                             </div>
