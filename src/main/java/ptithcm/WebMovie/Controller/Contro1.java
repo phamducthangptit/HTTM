@@ -170,22 +170,27 @@ public class Contro1 {
                 model.addAttribute("isFollowing", "false"); // chưa có trong bst
             } else model.addAttribute("isFollowing", "true"); // đã có trong bst
         }
-        System.out.println(movie.get("tags"));
-        List<MovieRequest> listYouLike = movieRequestService.getSearchMovie((String) movie.get("tags"),0, 5);
-        System.out.println("check len null");
-        System.out.println(listYouLike.size());
-        System.out.println("check len null");
-        for (MovieRequest item : listYouLike) {
-            System.out.println(item.getName());
-            if (item.getMovie_id() == ((int)movie.get("movie_id"))) {
-                listYouLike.remove(item);
-                break;
+
+        if(movieCate.size() !=0 ) {
+            System.out.println("kiemtra");
+            System.out.println("N\'"+ movieCate.get(0).get("name").toString()+"\'");
+            List<MovieRequest> listYouLike = movieRequestService.getMovieTopCategory(0,5,movieCate.get(0).get("name").toString());
+            System.out.println("check len null");
+            System.out.println(listYouLike.size());
+            System.out.println("check len null");
+            for (MovieRequest item : listYouLike) {
+                System.out.println(item.getName());
+                if (item.getMovie_id() == ((int)movie.get("movie_id"))) {
+                    listYouLike.remove(item);
+                    break;
+                }
             }
+            for (MovieRequest item : listYouLike) {
+                System.out.println(item.getName());
+            }
+            model.addAttribute("listYouLike", listYouLike);
         }
-        for (MovieRequest item : listYouLike) {
-            System.out.println(item.getName());
-        }
-        model.addAttribute("listYouLike", listYouLike);
+
         return "movie-details";
     }
     @GetMapping("/movie-watching")
