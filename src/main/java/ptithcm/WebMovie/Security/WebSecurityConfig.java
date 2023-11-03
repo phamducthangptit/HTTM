@@ -1,5 +1,7 @@
 package ptithcm.WebMovie.Security;
 
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -28,13 +30,16 @@ public class WebSecurityConfig {
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder(10, new SecureRandom());
     }
+    @Autowired
+    private HttpSession session;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/","/home", "/movie","/movie/**", "/movie-watching/**","/send-email", "/register", "/reset-password","/search").permitAll()
-                        .requestMatchers("/create-account-admin","/actors", "/actors/**", "/list-movie", "/AddMovie").hasAuthority("admin")
+                        .requestMatchers("/","/home", "/movie","/movie/**", "/movie-watching/**", "/movie-watching", "/send-email", "/register", "/reset-password", "/connect-use-socket", "/save-history","/search").permitAll()
+                        .requestMatchers("/create-account-admin","/actors", "/actors/**", "/list-movie", "/AddMovie", "/find-episode-delete-movie", "/delete-movie", "/delete-episode").hasAuthority("admin")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login.loginPage("/login")

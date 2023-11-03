@@ -53,7 +53,10 @@ public class MovieRequestServiceImpl implements MovieRequestService {
         return movieRequestRepository.insertInformationMovie(movie_id, person_id, category_id, language_id, company_id);
     }
 
-    ;
+    ;public int deleteInformationMovie(int movie_id)
+    {
+        return movieRequestRepository.deleteInformationMovie(movie_id);
+    }
 
 
 

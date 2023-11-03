@@ -6,5 +6,4 @@ import ptithcm.WebMovie.Model.Company;
 
 @Repository
 public interface CompanyRepository extends JpaRepository <Company,Integer>{
-    Company findByname(String name);
 }

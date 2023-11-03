@@ -1,7 +1,6 @@
 package ptithcm.WebMovie.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -39,6 +38,8 @@ public class MovieController1 {
     private EmailService emailService;
 
     private MovieCollectionService movieCollectionService;
+
+
     private MovieRequestService movieRequestService;
     public MovieController1(MovieCollectionService movieCollectionService, MovieRequestService movieRequestService) {
         this.movieCollectionService = movieCollectionService;

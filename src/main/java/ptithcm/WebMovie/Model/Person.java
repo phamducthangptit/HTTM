@@ -1,5 +1,6 @@
 package ptithcm.WebMovie.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -34,8 +35,9 @@ public class Person {
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @OneToMany(mappedBy = "person")
-    private List<Movie_Person> movie_personList;
+    @ManyToMany(mappedBy = "movie_personList")
+    @JsonBackReference
+    private List<Movie> movie_personList;
     public Person() {
     }
 
@@ -104,11 +106,11 @@ public class Person {
         this.country = country;
     }
 
-    public List<Movie_Person> getMovie_personList() {
+    public List<Movie> getMovie_personList() {
         return movie_personList;
     }
 
-    public void setMovie_personList(List<Movie_Person> movie_personList) {
+    public void setMovie_personList(List<Movie> movie_personList) {
         this.movie_personList = movie_personList;
     }
 }

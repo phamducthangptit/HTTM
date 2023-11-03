@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ptithcm.WebMovie.Model.MovieRequest;
 import ptithcm.WebMovie.Model.User;
 import ptithcm.WebMovie.Repository.MovieCollectionRepository;
+import ptithcm.WebMovie.Repository.UserRepository;
 import ptithcm.WebMovie.Service.MovieRequestService;
 
 import java.io.IOException;
@@ -38,6 +41,9 @@ public class Contro1 {
     private HttpSession session;
     private MovieRequestService movieRequestService;
 
+    @Autowired
+    UserRepository userRepository;
+
     public Contro1(MovieRequestService movieRequestService) {
         super();
         this.movieRequestService = movieRequestService;
@@ -45,6 +51,19 @@ public class Contro1 {
     @GetMapping(value = {"/home", "/"})
     public String home(Model model) {
         List<MovieRequest> m = movieRequestService.getMovie(0,6);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails)principal).getUsername();
+            if(session.getAttribute("user") == null){
+                User user = userRepository.getUserByUserName(username);
+                session.setAttribute("user", user); // nếu login thành công thì sẽ lưu vào session
+                System.out.println(username);
+            }
+        } else {
+            System.out.println("Anonymous");
+        }
+
+
 
         List<MovieRequest> m1 = movieRequestService.getTopView(0,7);
         MovieRequest trend = m1.remove(0);

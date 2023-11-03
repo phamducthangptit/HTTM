@@ -30,6 +30,20 @@ $(document).ready(function() {
             }
         });
     });
+    $("#testAPI").click(function(event) {
+        $.ajax({
+            type: "GET",
+            url: "/connect-use-socket",
+            contentType: 'application/json', // Không cần set contentType khi sử dụng FormData
+            success: function(data) {
+                console.log(data)
+            },
+            error: function(error) {
+                // Xử lý lỗi (nếu có)
+                alert('error')
+            }
+        });
+    });
     $("#confirmCodeButton").click(function(event) {
         event.preventDefault();
         var userEnteredCode = $("#code").val();
