@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ptithcm.WebMovie.Model.*;
 import ptithcm.WebMovie.Repository.*;
@@ -131,6 +128,10 @@ public class MovieController036 {
         String movieSchedule = (String) request.getParameter("movieSchedule");
 
         String movieContent = (String) request.getParameter("movieContent");
+        if (movieContent.equalsIgnoreCase(""))
+        {
+            movieContent = "Đang Cập Nhật";
+        }
         String episodes = (String) request.getParameter("NofE");
         Movie movie = new Movie();
         movie.setName(movieName);
@@ -185,37 +186,11 @@ public class MovieController036 {
         }
 
 
-        return "redirect:/home";
+        return "redirect:/list-movie";
     }
-    @GetMapping("/UpdateMovie")
-    public String updateMovie(Model model) {
-        Movie movie = movieRepository.findById(1);
-
-        System.out.println(movie.getCountry().getName());
-        for (Category x : movie.getMovie_categoryList())
-        {
-            System.out.println(
-                    x.getName()
-            );
-        }
-        for (Company x : movie.getMovie_companyList())
-        {
-            System.out.println(
-                    x.getName()
-            );
-        }
-        for (Language x : movie.getMovie_languageList())
-        {
-            System.out.println(
-                    x.getName()
-            );
-        }
-        for (Person x : movie.getMovie_personList())
-        {
-            System.out.println(
-                    x.getName()
-            );
-        }
+    @GetMapping("/UpdateMovie/{movie_id}")
+    public String updateMovie(Model model, @PathVariable("movie_id") int id) {
+        Movie movie = movieRepository.findById(id);
 
         List<Category> categories = categoryRepository.findAll();
         List<Country> countries = countryRepository.findAll();
@@ -284,6 +259,10 @@ public class MovieController036 {
         String movieSchedule = (String) request.getParameter("movieSchedule");
 
         String movieContent = (String) request.getParameter("movieContent");
+        if (movieContent.equalsIgnoreCase(""))
+        {
+            movieContent = "Đang Cập Nhật";
+        }
         String episodes = (String) request.getParameter("NofE");
         int id = Integer.parseInt(request.getParameter("movie_id"));
         Movie movie = movieRepository.findById(id);
@@ -323,6 +302,6 @@ public class MovieController036 {
             // Xử lý lỗi
             System.err.println("Lỗi: " + e.getMessage());
         }
-        return "redirect:/home";
+        return "redirect:/list-movie";
     }
 }
