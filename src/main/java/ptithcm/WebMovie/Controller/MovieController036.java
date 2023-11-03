@@ -188,8 +188,8 @@ public class MovieController036 {
 
         return "redirect:/list-movie";
     }
-    @GetMapping("/UpdateMovie/{movie_id}")
-    public String updateMovie(Model model, @PathVariable("movie_id") int id) {
+    @RequestMapping("/UpdateMovie")
+    public String updateMovie(Model model, @RequestParam("id") int id) {
         Movie movie = movieRepository.findById(id);
 
         List<Category> categories = categoryRepository.findAll();
