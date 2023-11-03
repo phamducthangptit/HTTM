@@ -14,12 +14,14 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ptithcm.WebMovie.Model.Category;
 import ptithcm.WebMovie.Model.Comment;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ptithcm.WebMovie.Model.MovieRequest;
 import ptithcm.WebMovie.Model.User;
+import ptithcm.WebMovie.Repository.CategoryRepository;
 import ptithcm.WebMovie.Repository.MovieCollectionRepository;
 import ptithcm.WebMovie.Repository.UserRepository;
 import ptithcm.WebMovie.Service.MovieRequestService;
@@ -44,12 +46,16 @@ public class Contro1 {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
     public Contro1(MovieRequestService movieRequestService) {
         super();
         this.movieRequestService = movieRequestService;
     }
     @GetMapping(value = {"/home", "/"})
     public String home(Model model) {
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("listCategory",categories);
         List<MovieRequest> m = movieRequestService.getMovie(0,6);
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
@@ -80,6 +86,8 @@ public class Contro1 {
 
         List<MovieRequest> m3 = movieRequestService.getMovieTopCategory(0,6,"anime");
         model.addAttribute("listTopCategory", m3);
+
+
         return "home";
     }
     @GetMapping("/movie")
