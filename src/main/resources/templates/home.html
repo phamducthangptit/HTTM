@@ -42,14 +42,26 @@
     <section class="hero">
         <div class="container">
             <div class="hero__slider owl-carousel">
-                <div class="hero__items set-bg" th:attr="data-setbg='img/movie/'+${trend.getImage()}">
+                <div class="hero__items set-bg" th:attr="data-setbg='img/movie/'+${trend.getImage()}" style="background-size: auto 462px;background-color:black;">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="hero__text">
-                                <div class="label" th:text="${trend.getEpisode()} + '/' + ${trend.getEpisodes()}" style="background:#e53637;"></div>
+                                <div class="label" th:text="${trend.getEpisode()} + '/' + ${trend.getEpisodes()}" style="color:#ffffff;background:#e53637;"></div>
                                 <h2 th:text="${trend.getName()}"></h2>
 <!--                                <p>After 30 days of travel across the world...</p>-->
-                                <a th:href="'movie-watching'+'?id='+${trend.getMovie_id()}+'&episode='"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
+                                <a th:href="'movie?id='+${trend.getMovie_id()}"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero__items set-bg" th:attr="data-setbg='img/movie/abc.jpg'" style="background-size: auto 462px;background-color:black;">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="hero__text">
+                                <div class="label" th:text="${trend.getEpisode()} + '/' + ${trend.getEpisodes()}" style="color:#ffffff;background:#e53637;"></div>
+                                <h2 th:text="${trend.getName()}"></h2>
+                                <!--                                <p>After 30 days of travel across the world...</p>-->
+                                <a th:href="'movie?id='+${trend.getMovie_id()}"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -73,7 +85,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="#"  class="primary-btn">View All <span class="arrow_right"></span></a>
+                                    <a href="/search?search-input=new-movie"  class="primary-btn">View All <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +115,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="#" id="getDataLink" class="primary-btn">View All <span class="arrow_right"></span></a>
+                                    <a href="/search?search-input=top-view" id="getDataLink" class="primary-btn">View All <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +199,7 @@
         </div>
         <div class="product__sidebar__comment__item" th:each="m:${listNewCM}">
             <div class="product__sidebar__comment__item__pic">
-                <img th:src="'img/movie/'+${m.get('image')}" alt="">
+                <img th:src="'img/movie/'+${m.get('image')}" alt="" style="height: 150px;weight:200px">
             </div>
             <div class="product__sidebar__comment__item__text">
                 <h5><a th:href="'movie?id='+${m.get('movie_id')}" th:text="${m.get('name')}"></a></h5>

@@ -16,11 +16,11 @@ import java.util.Map;
 public class MovieRequestServiceImpl implements MovieRequestService {
     @Autowired
     MovieRequestRepository movieRequestRepository;
-    public List<MovieRequest> getMovie(int rank) {
-        return movieRequestRepository.getMovie(rank);
+    public List<MovieRequest> getMovie(int start, int size) {
+        return movieRequestRepository.getMovie(start,size);
     }
 
-    public List<MovieRequest> getTopView( int rank){ return movieRequestRepository.getTopView(rank);};
+    public List<MovieRequest> getTopView( int start, int size){ return movieRequestRepository.getTopView(start,size);};
 
     public List<Map<String,?>> getCM(int id){
         return movieRequestRepository.getCM(id);
@@ -134,8 +134,25 @@ public class MovieRequestServiceImpl implements MovieRequestService {
     public int deleteActor(int id){
         return movieRequestRepository.deleteActor(id);
     };
-    public List<MovieRequest> getMovieTopCategory(int rank,
+    public List<MovieRequest> getMovieTopCategory(int start, int size,
                                            String category){
-        return movieRequestRepository.getMovieTopCategory(rank,category);
+        return movieRequestRepository.getMovieTopCategory(start,size,category);
+    };
+    public int getCountMovieCategory(String category){
+        return movieRequestRepository.getCountMovieCategory(category);
+    };
+    public Map<String, Object> getActorInfo(int id){
+        return movieRequestRepository.getActorInfo(id);
+    };
+
+    public int updateActor(int id,
+                    String name,
+                    int gender,
+                    Date day,
+                    String image,
+                    String describe,
+                    String name_cn
+    ) {
+        return movieRequestRepository.updateActor(id,name,gender,day,image,describe,name_cn);
     };
 }

@@ -10,9 +10,9 @@ import java.util.Map;
 
 public interface MovieRequestService {
 
-    List<MovieRequest> getMovie(int rank);
+    List<MovieRequest> getMovie(int start, int size);
 
-    List<MovieRequest> getTopView( int rank);
+    List<MovieRequest> getTopView( int start, int size);
 
     List<Map<String,?>> getCM(int id);
 
@@ -81,6 +81,17 @@ public interface MovieRequestService {
 
     int deleteActor( int id);
 
-    List<MovieRequest> getMovieTopCategory(int rank,
+    List<MovieRequest> getMovieTopCategory(int start, int size,
                                            String category);
+    int getCountMovieCategory(String category);
+    Map<String, Object> getActorInfo(int id);
+
+    int updateActor(int id,
+                    String name,
+                    int gender,
+                    Date day,
+                    String image,
+                    String describe,
+                    String name_cn
+    );
 }
