@@ -1,6 +1,8 @@
 package ptithcm.WebMovie.Controller;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,13 @@ import ptithcm.WebMovie.Repository.MovieCollectionRepository;
 import ptithcm.WebMovie.Repository.UserRepository;
 import ptithcm.WebMovie.Service.MovieRequestService;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -291,7 +299,28 @@ public class Contro1 {
                                  @RequestParam(name = "page",defaultValue = "0") int page,
                                  @RequestParam(name = "tl",defaultValue = "0") int tl,
                                  Model model
-                                 ) {
+                                 ) throws IOException {
+
+        // phan socket ket noi den server python
+        Socket socket = new Socket("localhost", 8081);
+        PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+        writer.println(input); // Gửi dữ liệu đến máy chủ Python
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        String receivedJson = in.readLine();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String label1 = null;
+        String label2 = null;
+        try {
+            JsonNode jsonNode = objectMapper.readTree(receivedJson);
+            label1 = jsonNode.get("label1").asText();
+            label2 = jsonNode.get("label2").asText();
+            System.out.println(label1);
+            System.out.println(label2);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        socket.close();
+
         int currentPage = page;
         int pageSize = 12;
         if(totalMovie == 0 || searchValue.equals(input) == false) {
