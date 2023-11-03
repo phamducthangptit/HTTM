@@ -1,5 +1,7 @@
 package ptithcm.WebMovie.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -18,9 +20,10 @@ public class Company {
 
     @Column(name = "company_content")
     private String companyContent;
+    @ManyToMany(mappedBy = "movie_companyList")
+    @JsonBackReference
+    private List<Movie> movie_companyList;
 
-    @OneToMany(mappedBy = "company")
-    private List<Movie_Company> movie_companyList;
 
     public Company() {
     }
@@ -53,5 +56,13 @@ public class Company {
 
     public void setCompanyContent(String companyContent) {
         this.companyContent = companyContent;
+    }
+
+    public List<Movie> getMovie_companyList() {
+        return movie_companyList;
+    }
+
+    public void setMovie_companyList(List<Movie> movie_companyList) {
+        this.movie_companyList = movie_companyList;
     }
 }

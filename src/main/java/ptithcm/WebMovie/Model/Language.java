@@ -1,5 +1,6 @@
 package ptithcm.WebMovie.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -15,8 +16,9 @@ public class Language {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "language")
-    private List<Movie_Language> movie_languageList;
+    @ManyToMany(mappedBy = "movie_languageList")
+    @JsonBackReference
+    private List<Movie> movie_languageList;
 
     public Language() {
     }
@@ -40,5 +42,13 @@ public class Language {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Movie> getMovie_languageList() {
+        return movie_languageList;
+    }
+
+    public void setMovie_languageList(List<Movie> movie_languageList) {
+        this.movie_languageList = movie_languageList;
     }
 }

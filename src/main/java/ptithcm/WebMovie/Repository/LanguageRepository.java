@@ -6,5 +6,4 @@ import ptithcm.WebMovie.Model.Language;
 
 @Repository
 public interface LanguageRepository extends JpaRepository <Language,Integer> {
-//    Language findBylanguage_id(int languageId);
 }

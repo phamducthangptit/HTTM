@@ -1,5 +1,6 @@
 package ptithcm.WebMovie.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class Movie {
     private String tags;
 
     @Column(name = "movie_shedule")
-    private int movieShedule;
+    private int movieSchedule;
 
     @Column(name = "image")
     private String image;
@@ -33,14 +34,33 @@ public class Movie {
     @Column(name = "views")
     private int views;
 
-    @OneToMany(mappedBy = "movie")
-    private List<Movie_Company> movie_companyList;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "Movie_Company",
+            joinColumns = { @JoinColumn(name = "movie_id") },
+            inverseJoinColumns = { @JoinColumn(name = "company_id") }
+    )
+    @JsonManagedReference
+    private List<Company> movie_companyList;
 
-    @OneToMany(mappedBy = "movie")
-    private List<Movie_Language> movie_languageList;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "Movie_Language",
+            joinColumns = { @JoinColumn(name = "movie_id") },
+            inverseJoinColumns = { @JoinColumn(name = "language_id") }
+    )
+    @JsonManagedReference
+    private List<Language> movie_languageList;
 
-    @OneToMany(mappedBy = "movie")
-    private List<Movie_Category> movie_categoryList;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "Movie_Category",
+            joinColumns = { @JoinColumn(name = "movie_id") },
+            inverseJoinColumns = { @JoinColumn(name = "category_id") }
+    )
+    @JsonManagedReference
+    private List<Category> movie_categoryList;
+
 
     @OneToMany(mappedBy = "movie")
     private List<Movie_Collection> movie_collectionList;
@@ -48,8 +68,14 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     private List<Episode> episodeList;
 
-    @OneToMany(mappedBy = "movie")
-    private List<Movie_Person> movie_personList;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "Movie_Person",
+            joinColumns = { @JoinColumn(name = "movie_id") },
+            inverseJoinColumns = { @JoinColumn(name = "person_id") }
+    )
+    @JsonManagedReference
+    private List<Person> movie_personList;
 
     @ManyToOne
     @JoinColumn(name = "country_id")
@@ -64,7 +90,7 @@ public class Movie {
         this.movieContent = movieContent;
         this.episodes = episodes;
         this.tags = tags;
-        this.movieShedule = movieShedule;
+        this.movieSchedule = movieShedule;
         this.image = image;
         this.views = views;
     }
@@ -89,8 +115,8 @@ public class Movie {
         return tags;
     }
 
-    public int getMovieShedule() {
-        return movieShedule;
+    public int getMovieSchedule() {
+        return movieSchedule;
     }
 
     public String getImage() {
@@ -99,6 +125,9 @@ public class Movie {
 
     public int getViews() {
         return views;
+    }
+    public Country getCountry() {
+        return country;
     }
 
     public void setName(String name) {
@@ -117,8 +146,8 @@ public class Movie {
         this.tags = tags;
     }
 
-    public void setMovieShedule(int movieShedule) {
-        this.movieShedule = movieShedule;
+    public void setMovieSchedule(int movieSchedule) {
+        this.movieSchedule = movieSchedule;
     }
 
     public void setImage(String image) {
@@ -131,5 +160,41 @@ public class Movie {
 
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
+
+    public List<Category> getMovie_categoryList() {
+        return movie_categoryList;
+    }
+
+    public void setMovie_categoryList(List<Category> movie_categoryList) {
+        this.movie_categoryList = movie_categoryList;
+    }
+
+    public List<Company> getMovie_companyList() {
+        return movie_companyList;
+    }
+
+    public void setMovie_companyList(List<Company> movie_companyList) {
+        this.movie_companyList = movie_companyList;
+    }
+
+    public List<Language> getMovie_languageList() {
+        return movie_languageList;
+    }
+
+    public void setMovie_languageList(List<Language> movie_languageList) {
+        this.movie_languageList = movie_languageList;
+    }
+
+    public List<Person> getMovie_personList() {
+        return movie_personList;
+    }
+
+    public void setMovie_personList(List<Person> movie_personList) {
+        this.movie_personList = movie_personList;
     }
 }

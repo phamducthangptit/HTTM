@@ -2,6 +2,7 @@ package ptithcm.WebMovie.Controller;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -62,9 +63,6 @@ public class MovieController036 {
 
         model.addAttribute("companies",companies);
         model.addAttribute("persons",persons);
-//        for(Person x : persons) {
-//            System.out.println(x.getPerson_id());
-//        }
 
         return "AddMovie";
     }
@@ -108,18 +106,16 @@ public class MovieController036 {
         idPersonnumbers = StringToNumber(tempPerson,idPersonnumbers);
         System.out.println("P"+idPersonnumbers);
 
+        String idCompanyMovie =  request.getParameter("company-movie");
+        System.out.println("c"+idCompanyMovie);
+        String[] tempCompany = idCompanyMovie.split(",");
+
+        // Tạo danh sách (ArrayList) để lưu trữ các phần tử
+        List<Integer> idCompanynumbers = new ArrayList<>();
+        idCompanynumbers = StringToNumber(tempCompany,idCompanynumbers);
+        System.out.println("c"+idCompanynumbers);
         String movieName = (String) request.getParameter("movieName");
-        String company = (String) request.getParameter("company");
-        int companyID;
-        if (companyRepository.findByname(company) == null)
-        {
-            Company newcompany = new Company();
-            newcompany.setName(company);
 
-            companyRepository.save(newcompany);
-
-            companyID = companyRepository.findByname(company).getCompanyId();
-        } else  companyID = companyRepository.findByname(company).getCompanyId();
         int countryId;
         String country = (String) request.getParameter("country");
         if (countryRepository.findByname(country) == null)
@@ -139,7 +135,7 @@ public class MovieController036 {
         Movie movie = new Movie();
         movie.setName(movieName);
         movie.setMovieContent(movieContent);
-        movie.setMovieShedule(Integer.parseInt(movieSchedule));
+        movie.setMovieSchedule(Integer.parseInt(movieSchedule));
         movie.setCountry(countryRepository.findById(countryId));
         movie.setEpisodes(Integer.parseInt(episodes));
 
@@ -163,10 +159,10 @@ public class MovieController036 {
 
         movieRepository.save(movie);
         int movieId = movie.getMovieId();
-        System.out.println(movieId);
 
-        int maxLenList = Math.max(idLanguagenumbers.size(), Math.max(idCategorynumbers.size(), idPersonnumbers.size()));
-        int idLanguage = 0, idCategory = 0, idPerson = 0;
+
+        int maxLenList = Math.max(idLanguagenumbers.size(), Math.max(idCategorynumbers.size(),Math.max(idCompanynumbers.size(),idPersonnumbers.size())));
+        int idLanguage = 0, idCategory = 0, idPerson = 0, idCompany =0;
 
         for (int i = 0; i < maxLenList; i++){
             if(idLanguage < idLanguagenumbers.size()){
@@ -177,14 +173,156 @@ public class MovieController036 {
                 movieRequestService.insertInformationMovie(movieId, 0, idCategorynumbers.get(idCategory), 0, 0);
                 idCategory++;
             }
+            if(idCompany < idCompanynumbers.size()){
+                movieRequestService.insertInformationMovie(movieId, 0, 0, 0, idCompanynumbers.get(idCompany));
+                idCompany++;
+            }
             if(idPerson < idPersonnumbers.size()){
                 movieRequestService.insertInformationMovie(movieId, idPersonnumbers.get(idPerson), 0, 0, 0);
                 idPerson++;
             }
-        }
-        Company company1 = companyRepository.findByname(company);
-        movieRequestService.insertInformationMovie(movieId, 0, 0, 0, company1.getCompanyId());
 
+        }
+
+
+        return "redirect:/home";
+    }
+    @GetMapping("/UpdateMovie")
+    public String updateMovie(Model model) {
+        Movie movie = movieRepository.findById(1);
+
+        System.out.println(movie.getCountry().getName());
+        for (Category x : movie.getMovie_categoryList())
+        {
+            System.out.println(
+                    x.getName()
+            );
+        }
+        for (Company x : movie.getMovie_companyList())
+        {
+            System.out.println(
+                    x.getName()
+            );
+        }
+        for (Language x : movie.getMovie_languageList())
+        {
+            System.out.println(
+                    x.getName()
+            );
+        }
+        for (Person x : movie.getMovie_personList())
+        {
+            System.out.println(
+                    x.getName()
+            );
+        }
+
+        List<Category> categories = categoryRepository.findAll();
+        List<Country> countries = countryRepository.findAll();
+        List<Language> languages = languageRepository.findAll();
+        List<Company> companies = companyRepository.findAll();
+        List<Map<String,?>> persons = personRepository.getPerson();
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("countries", countries);
+        model.addAttribute("languages", languages);
+
+        model.addAttribute("companies",companies);
+        model.addAttribute("persons",persons);
+        model.addAttribute("movie", movie);
+        return "UpdateMovie";
+    }
+    @PostMapping("/UpdateMovie/update")
+    public String UpdateMovie(HttpServletRequest request, @RequestParam("image-input") MultipartFile file)
+    {
+        String idLanguageMovie =  request.getParameter("language-movie");
+        String[] tempLanguage = idLanguageMovie.split(",");
+
+        // Tạo danh sách (ArrayList) để lưu trữ các phần tử
+        List<Integer> idLanguagenumbers = new ArrayList<>();
+        idLanguagenumbers = StringToNumber(tempLanguage,idLanguagenumbers);
+        System.out.println("L : "+idLanguagenumbers);
+
+        String idCategoryMovie =  request.getParameter("category-movie");
+        String[] tempCategory = idCategoryMovie.split(",");
+
+        // Tạo danh sách (ArrayList) để lưu trữ các phần tử
+        List<Integer> idCategorynumbers = new ArrayList<>();
+        idCategorynumbers = StringToNumber(tempCategory,idCategorynumbers);
+        System.out.println("C"+idCategorynumbers);
+
+        String idPersonMovie =  request.getParameter("actor-movie");
+        String[] tempPerson = idPersonMovie.split(",");
+
+        // Tạo danh sách (ArrayList) để lưu trữ các phần tử
+        List<Integer> idPersonnumbers = new ArrayList<>();
+        idPersonnumbers = StringToNumber(tempPerson,idPersonnumbers);
+        System.out.println("P"+idPersonnumbers);
+
+        String idCompanyMovie =  request.getParameter("company-movie");
+        System.out.println("c"+idCompanyMovie);
+        String[] tempCompany = idCompanyMovie.split(",");
+
+        // Tạo danh sách (ArrayList) để lưu trữ các phần tử
+        List<Integer> idCompanynumbers = new ArrayList<>();
+        idCompanynumbers = StringToNumber(tempCompany,idCompanynumbers);
+        System.out.println("c"+idCompanynumbers);
+        String movieName = (String) request.getParameter("movieName");
+
+        int countryId;
+        String country = (String) request.getParameter("country");
+        if (countryRepository.findByname(country) == null)
+        {
+            Country newcountry = new Country();
+            newcountry.setName(country);
+
+            countryRepository.save(newcountry);
+
+            countryId = countryRepository.findByname(country).getId();
+        } else  countryId = countryRepository.findByname(country).getId();
+
+        String movieSchedule = (String) request.getParameter("movieSchedule");
+
+        String movieContent = (String) request.getParameter("movieContent");
+        String episodes = (String) request.getParameter("NofE");
+        int id = Integer.parseInt(request.getParameter("movie_id"));
+        Movie movie = movieRepository.findById(id);
+        movie.setName(movieName);
+        movie.setMovieContent(movieContent);
+        movie.setMovieSchedule(Integer.parseInt(movieSchedule));
+        movie.setCountry(countryRepository.findById(countryId));
+        movie.setEpisodes(Integer.parseInt(episodes));
+        movieRepository.save(movie);
+
+
+        try {
+                movieRequestService.deleteInformationMovie(id);
+            // Sau khi SP chạy thành công, tiến hành vòng lặp và insert
+            int maxLenList = Math.max(idLanguagenumbers.size(), Math.max(idCategorynumbers.size(), Math.max(idCompanynumbers.size(), idPersonnumbers.size())));
+            int idLanguage = 0, idCategory = 0, idPerson = 0, idCompany = 0;
+
+            for (int i = 0; i < maxLenList; i++) {
+                if (idLanguage < idLanguagenumbers.size()) {
+                    movieRequestService.insertInformationMovie(id, 0, 0, idCategorynumbers.get(idLanguage), 0);
+                    idLanguage++;
+                }
+                if (idCategory < idCategorynumbers.size()) {
+                    movieRequestService.insertInformationMovie(id, 0, idCategorynumbers.get(idCategory), 0, 0);
+                    idCategory++;
+                }
+                if (idCompany < idCompanynumbers.size()) {
+                    movieRequestService.insertInformationMovie(id, 0, 0, 0, idCompanynumbers.get(idCompany));
+                    idCompany++;
+                }
+                if (idPerson < idPersonnumbers.size()) {
+                    movieRequestService.insertInformationMovie(id, idPersonnumbers.get(idPerson), 0, 0, 0);
+                    idPerson++;
+                }
+            }
+        } catch (Exception e) {
+            // Xử lý lỗi
+            System.err.println("Lỗi: " + e.getMessage());
+        }
         return "redirect:/home";
     }
 }
