@@ -24,7 +24,7 @@ public class Movie {
 
 
 
-    @Column(name = "movie_shedule")
+    @Column(name = "movie_schedule")
     private int movieSchedule;
 
     @Column(name = "image")
@@ -83,13 +83,13 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(int movieId, String name, String movieContent, int episodes, int movieShedule, String image, int views) {
+    public Movie(int movieId, String name, String movieContent, int episodes, int movieSchedule, String image, int views) {
         this.movieId = movieId;
         this.name = name;
         this.movieContent = movieContent;
         this.episodes = episodes;
 
-        this.movieSchedule = movieShedule;
+        this.movieSchedule = movieSchedule;
         this.image = image;
         this.views = views;
     }
