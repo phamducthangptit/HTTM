@@ -101,6 +101,7 @@ public class MovieController2 {
     @PostMapping("/find-episode-delete-movie/{id}")
     @ResponseBody
     public List<Integer> findAllEpisodeNow(@PathVariable("id") int movieId){
+        System.out.println("vaof ham tim kiem tap phim");
         return movieCollectionService.findAllEpisodeNow(movieId);
     }
 
