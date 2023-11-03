@@ -38,8 +38,12 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/","/home", "/movie", "/movie-watching", "/send-email", "/register", "/reset-password", "/connect-use-socket", "/save-history").permitAll()
-                        .requestMatchers("/create-account-admin", "/actors/**", "/list-movie", "/AddMovie", "/find-episode-delete-movie", "/delete-movie", "/delete-episode").hasAuthority("admin")
+                        .requestMatchers("/","/home", "/movie", "/movie-watching",
+                                "/send-email", "/register", "/reset-password",
+                                "/connect-use-socket", "/save-history", "/search").permitAll()
+                        .requestMatchers("/create-account-admin", "/actors/**", "/list-movie",
+                                "/AddMovie", "/find-episode-delete-movie", "/delete-movie", "/delete-episode",
+                                "/UpdateMovie").hasAuthority("admin")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login.loginPage("/login")
