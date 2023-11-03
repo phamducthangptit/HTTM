@@ -22,6 +22,7 @@
     <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/slicknav.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js}"></script>
 </head>
 
 <body>
@@ -79,12 +80,12 @@
                             </div>
                         </td>
                         <td class="text-center align-middle">
-                            <a href="#">
+                            <a href="#" class="update" th:data-value="${a.get('person_id')}">
                                 <i class="fa fa-cog fa-lg" style="color: white;"></i>
                             </a>
                         </td>
                         <td class="text-center align-middle">
-                            <a th:href="'/actors/delete?id='+${a.get('person_id')}" style="background:#0b0c2a;" th:if="${a.get('mv_count') == 0}" >
+                            <a th:href="'/actors/delete?id='+${a.get('person_id')}" th:style="${a.get('mv_count') == 0? '':'pointer-events: none;'}" >
                                 <i class="fa fa-trash fa-lg" style="color: white;"></i>
                             </a>
                         </td>
@@ -139,56 +140,95 @@
 
 
 
-<!--    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"-->
-<!--         aria-hidden="true">-->
-<!--        <div class="modal-dialog" role="document">-->
-<!--            <div class="modal-content">-->
-<!--                <div class="modal-header">-->
-<!--                    <h5 class="modal-title" id="exampleModalLabel">Question</h5>-->
-<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                        <span aria-hidden="true">&times;</span>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--                <form>-->
-<!--                <div class="modal-body">-->
-<!--                        <div class="form-group">-->
-<!--                            <label for="recipient-name" class="col-form-label">Recipient:</label>-->
-<!--                            <input type="text" class="form-control" id="recipient-name">-->
-<!--                        </div>-->
-
-<!--                </div>-->
-<!--                <div class="modal-footer">-->
-<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>-->
-<!--                    <button type="submit" class="btn btn-primary">Yes</button>-->
-<!--                </div>-->
-<!--                    <form>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
 
 
 
     <!-- Footer Section Begin -->
     <div th:insert="~{footer.html}"></div>
-    <!-- Search model end -->
-<!--    <script th:src="@{https://code.jquery.com/jquery-3.5.1.slim.min.js}"></script>-->
-<!--    <script th:src="@{https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js}"></script>-->
-<!--    <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>-->
+    <div class="update-actor"
+         style="display:none;
+         position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background: #0b0c2a;
+            z-index: 99999;
+            ">
+        <div class="align-items-center justify-content-center" >
 
-<!--<script>-->
+            <div class="blog__details__form" style="padding-top:30px;">
+                <form class="" id="add-ep-form" action="/actors/postAPI" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="search-close-switch" id ="add-close-switch" style="margin-left:30px; top:0px;"><i class="icon_close"></i></div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-7 col-md-7 col-sm-7">
+                                <input type="text" name ="id" id ="idActor" value="" style="display:hidden;">
+                                <label style="color: #ffffff;">Name:</label>
+                                <input type="text" name ="name" id="nameActor"  >
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7">
+                                <div class="row">
+                                    <label for="male"
+                                           style="color: #ffffff;margin-right: 10px;margin-left: 15px;">Gender:
+                                    </label>
+                                    <div>
+                                        <input type="radio" id="male" name="gender" value="0"
+                                               style="height: 20px;" />
 
-<!--    $(document).ready(function() {-->
-<!--            $('#exampleModal').on('show.bs.modal', function (event) {-->
-<!--             console.log("Modal is about to be shown.");-->
-<!--                var button = $(event.relatedTarget) // Button that triggered the modal-->
-<!--                  var recipient = button.data('whatever') // Extract info from data-* attributes-->
-<!--                   console.log(recipient);-->
-<!--                  var modal = $(this)-->
+                                    </div>
+                                    <h5 style="color: #ffffff;margin-right: 10px;"> Male</h5>
+                                    <div>
+                                        <input type="radio" id="female" name="gender" value="1"
+                                               style="height: 20px;" />
+                                    </div>
+                                    <h5 style="color: #ffffff;margin-right: 10px;"> Female</h5>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7">
+                                <label style="color: #ffffff;">Birthday:</label>
+                                <input type="date" name="birthday"  id="birthdayActor" >
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7">
+                                <label style="color: #ffffff;">Country:</label>
+                                <input type="text" id="countryActor"  name ="country" list="ide">
+                                <datalist id="ide">
+                                    <option th:each="c:${listCountry}" th:value="${c}" />
+                                </datalist>
+                            </div>
 
-<!--                  modal.find('.modal-body input').val(recipient)-->
-<!--            })-->
-<!--         });-->
-<!--</script>-->
+
+
+                            <div class="col-lg-12">
+                                <label style="color: #ffffff;">Describe:</label>
+                                <textarea name="describe"id="describeActor" value=""></textarea>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="anime__details__pic set-bg" id="imagePreview" data-setbg="" style="height:350px;">
+                            </div>
+                            <br>
+                            <div class="row">
+                                <input type="text" name ="imageName" id ="imageName" value="" style="display:hidden;">
+                                <input type="file" name="imageInput" id="imageFile"  onchange="previewImage(this)" style="background:none;" >
+                            </div>
+                            <div class="row justify-content-center">
+                                <button type="submit" id="btn-update-actor"class="site-btn">Update actor</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+
+    </script>
     <!-- Js Plugins -->
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
@@ -199,6 +239,7 @@
     <script th:src="@{/js/owl.carousel.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
     <script th:src="@{/js/custom.js}"></script>
+    <script th:src="@{/js/actors.js}"></script>
 
 </body>
 

@@ -15,16 +15,30 @@ import java.util.Map;
 
 @Repository
 public interface MovieRequestRepository extends JpaRepository<MovieRequest, Integer> {
-    @Query(value = "{call SP_FIND_NEW_MOVIE(:rank)}", nativeQuery = true)
-    List<MovieRequest> getMovie(@Param("rank") int rank);
-
-    @Query(value = "{call SP_FIND_TOP_MOVIE_CATEGORY(:rank,:category)}", nativeQuery = true)
-    List<MovieRequest> getMovieTopCategory(@Param("rank") int rank,
+    // lọc ra những bộ phim mới được cập nhật tập mới
+    @Query(value = "{call SP_FIND_NEW_MOVIE(:start,:size)}", nativeQuery = true)
+    List<MovieRequest> getMovie(@Param("start") int start,
+                                @Param("size") int size);
+    // lọc ra những bộ phim mới theo thể loại
+    @Query(value = "{call SP_FIND_TOP_MOVIE_CATEGORY(:start,:size,:category)}", nativeQuery = true)
+    List<MovieRequest> getMovieTopCategory(@Param("start") int start,
+                                           @Param("size") int size,
                                            @Param("category") String category);
+    @Query(value ="{call SP_COUNT_MOVIE_CATEGORY(:category)}", nativeQuery = true)
+    int getCountMovieCategory(@Param("category") String category);
+
+    // lọc phim theo 2 thể loại
+    @Query(value = "{call SP_TIM_PHIM_THEO_2_THE_LOAI(:theloai1, :theloai2, :start,:size)}", nativeQuery = true)
+    List<MovieRequest> getMovieTopCategory(@Param("theloai1") String theLoai1,
+                                           @Param("theloai2") String theLoai2,
+                                           @Param("start") int start,
+                                           @Param("size") int size
+                                           );
 
 
-    @Query(value = "{call SP_FIND_TOP_VIEW_MOVIE(:rank)}", nativeQuery = true)
-    List<MovieRequest> getTopView(@Param("rank") int rank);
+    @Query(value = "{call SP_FIND_TOP_VIEW_MOVIE(:start,:size)}", nativeQuery = true)
+    List<MovieRequest> getTopView(@Param("start") int start,
+                                  @Param("size") int size);
 
     @Query(value ="{call SP_FIND_COMMENT_FROM_MOVIE(:id)}", nativeQuery = true)
     List<Map<String,?>> getCM(@Param("id") int id);
@@ -47,8 +61,8 @@ public interface MovieRequestRepository extends JpaRepository<MovieRequest, Inte
     List<Map<String,?>> getMovieEpisode(@Param("id") int id);
 
 
-    @Query(value ="{call SP_INSERT_INFORMATION_MOVIE(:movie_id ,:person_id ,:category_id,:language_id,:company_id)}", nativeQuery = true)
-    int insertInformationMovie(@Param("movie_id") int movie_id, @Param("person_id") int person_id ,@Param("category_id") int category_id,@Param("language_id") int language_id,@Param("company_id") int company_id);
+    @Query(value ="{call SP_INSERT_INFORMATION_MOVIE(:movie_id ,:person_id ,:category_id,:language_id,:company_id,:type)}", nativeQuery = true)
+    int insertInformationMovie(@Param("movie_id") int movie_id, @Param("person_id") int person_id ,@Param("category_id") int category_id,@Param("language_id") int language_id,@Param("company_id") int company_id,@Param("type") int type);
     @Query(value = "{call SP_DELETE_INFORMATION_MOVIE(:movie_id)}", nativeQuery = true)
     int deleteInformationMovie(@Param("movie_id") int movie_id);
 
@@ -117,4 +131,17 @@ public interface MovieRequestRepository extends JpaRepository<MovieRequest, Inte
 
     @Query(value ="{call SP_DELETE_ACTORS(:id)}", nativeQuery = true)
     int deleteActor(@Param("id") int id);
+
+    @Query(value ="{call SP_GET_ACTOR_INFO(:id)}", nativeQuery = true)
+    Map<String, Object> getActorInfo(@Param("id") int id);
+
+    @Procedure(name="Person.updateActor")
+    int updateActor(int id,
+                    String name,
+                    int gender,
+                    Date day,
+                    String image,
+                    String describe,
+                    String name_cn
+    );
 }

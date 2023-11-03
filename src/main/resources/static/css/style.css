@@ -603,7 +603,7 @@ ol {
 	right: 0;
 	height: 54px;
 	width: 54px;
-	background: rgba(255, 255, 255, 0.1);
+	background: #e53637;
 	content: "";
 	z-index: -1;
 	margin: 0 auto;
@@ -1520,9 +1520,7 @@ ol {
 	margin-bottom: 0;
 }
 
-.blog__details__tags {
-	margin-bottom: 60px;
-}
+
 
 .blog__details__tags a {
 	display: inline-block;
