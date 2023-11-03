@@ -33,8 +33,8 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/","/home", "/movie", "/movie-watching", "/send-email", "/register", "/reset-password").permitAll()
-                        .requestMatchers("/create-account-admin", "/actors/**", "/list-movie", "/AddMovie").hasAuthority("admin")
+                        .requestMatchers("/","/home", "/movie","/movie/**", "/movie-watching/**","/send-email", "/register", "/reset-password","/search").permitAll()
+                        .requestMatchers("/create-account-admin","/actors", "/actors/**", "/list-movie", "/AddMovie").hasAuthority("admin")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login.loginPage("/login")

@@ -85,7 +85,7 @@
                             </a>
                         </td>
                         <td class="text-center align-middle">
-                            <a th:href="'/actors/delete?id='+${a.get('person_id')}" style="background:#0b0c2a;" th:if="${a.get('mv_count') == 0}" >
+                            <a th:href="'/actors/delete?id='+${a.get('person_id')}" th:style="${a.get('mv_count') == 0? '':'pointer-events: none;'}" >
                                 <i class="fa fa-trash fa-lg" style="color: white;"></i>
                             </a>
                         </td>

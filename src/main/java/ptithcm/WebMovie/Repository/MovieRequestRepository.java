@@ -15,16 +15,30 @@ import java.util.Map;
 
 @Repository
 public interface MovieRequestRepository extends JpaRepository<MovieRequest, Integer> {
-    @Query(value = "{call SP_FIND_NEW_MOVIE(:rank)}", nativeQuery = true)
-    List<MovieRequest> getMovie(@Param("rank") int rank);
-
-    @Query(value = "{call SP_FIND_TOP_MOVIE_CATEGORY(:rank,:category)}", nativeQuery = true)
-    List<MovieRequest> getMovieTopCategory(@Param("rank") int rank,
+    // lọc ra những bộ phim mới được cập nhật tập mới
+    @Query(value = "{call SP_FIND_NEW_MOVIE(:start,:size)}", nativeQuery = true)
+    List<MovieRequest> getMovie(@Param("start") int start,
+                                @Param("size") int size);
+    // lọc ra những bộ phim mới theo thể loại
+    @Query(value = "{call SP_FIND_TOP_MOVIE_CATEGORY(:start,:size,:category)}", nativeQuery = true)
+    List<MovieRequest> getMovieTopCategory(@Param("start") int start,
+                                           @Param("size") int size,
                                            @Param("category") String category);
+    @Query(value ="{call SP_COUNT_MOVIE_CATEGORY(:category)}", nativeQuery = true)
+    int getCountMovieCategory(@Param("category") String category);
+
+    // lọc phim theo 2 thể loại
+    @Query(value = "{call SP_TIM_PHIM_THEO_2_THE_LOAI(:theloai1, :theloai2, :start,:size)}", nativeQuery = true)
+    List<MovieRequest> getMovieTopCategory(@Param("theloai1") String theLoai1,
+                                           @Param("theloai2") String theLoai2,
+                                           @Param("start") int start,
+                                           @Param("size") int size
+                                           );
 
 
-    @Query(value = "{call SP_FIND_TOP_VIEW_MOVIE(:rank)}", nativeQuery = true)
-    List<MovieRequest> getTopView(@Param("rank") int rank);
+    @Query(value = "{call SP_FIND_TOP_VIEW_MOVIE(:start,:size)}", nativeQuery = true)
+    List<MovieRequest> getTopView(@Param("start") int start,
+                                  @Param("size") int size);
 
     @Query(value ="{call SP_FIND_COMMENT_FROM_MOVIE(:id)}", nativeQuery = true)
     List<Map<String,?>> getCM(@Param("id") int id);

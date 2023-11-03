@@ -217,7 +217,7 @@ public class MovieController1 {
     @GetMapping("/my-collection")
     public String myCollection(@AuthenticationPrincipal MovieUserDetails user, Model model){
         List<Map<String, ?>> myCollection = movieCollectionService.findMyCollection(user.getUserId());
-        List<MovieRequest> topRankMovie = movieRequestService.getTopView(5);
+        List<MovieRequest> topRankMovie = movieRequestService.getTopView(0,5);
         model.addAttribute("myCollection", myCollection);
         model.addAttribute("topRankMV", topRankMovie);
         return "my-collection";
@@ -226,7 +226,7 @@ public class MovieController1 {
     @GetMapping("/list-movie")
     public String listMovie(Model model){
         List<Map<String, ?>> listMovie = movieCollectionService.selectListMovie();
-        List<MovieRequest> topRankMovie = movieRequestService.getTopView(5);
+        List<MovieRequest> topRankMovie = movieRequestService.getTopView(0,5);
         model.addAttribute("listMovie", listMovie);
         model.addAttribute("topRankMV", topRankMovie);
         return "list-movie";

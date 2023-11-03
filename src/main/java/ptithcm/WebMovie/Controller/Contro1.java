@@ -44,9 +44,9 @@ public class Contro1 {
     }
     @GetMapping(value = {"/home", "/"})
     public String home(Model model) {
-        List<MovieRequest> m = movieRequestService.getMovie(6);
+        List<MovieRequest> m = movieRequestService.getMovie(0,6);
 
-        List<MovieRequest> m1 = movieRequestService.getTopView(7);
+        List<MovieRequest> m1 = movieRequestService.getTopView(0,7);
         MovieRequest trend = m1.remove(0);
 
         List<Map<String,?>> m2 = movieRequestService.getMovieNewComment();
@@ -59,7 +59,7 @@ public class Contro1 {
 
         model.addAttribute("listNewCM", m2);
 
-        List<MovieRequest> m3 = movieRequestService.getMovieTopCategory(6,"anime");
+        List<MovieRequest> m3 = movieRequestService.getMovieTopCategory(0,6,"anime");
         model.addAttribute("listTopCategory", m3);
         return "home";
     }
@@ -77,22 +77,22 @@ public class Contro1 {
         List<Map<String,?>> movieCo = movieRequestService.getMovieCompany(id);
 
         List<Map<String,?>> movieP = movieRequestService.getMoviePerson(id);
-        System.out.println("check null");
-        System.out.println(movie.get("tags"));
-        String[] tags = ((String)movie.get("tags")).split(", ");
+//        System.out.println("check null");
+//        System.out.println(movie.get("tags"));
+//        String[] tags = ((String)movie.get("tags")).split(", ");
 
-        // Chuyển mảng thành danh sách (List)
-        List<String> listTags = Arrays.asList(tags);
-
-        // In danh sách ra màn hình
-        for (String tag : listTags) {
-            System.out.println(tag);
-        }
-        model.addAttribute("listTags",listTags);
+//        // Chuyển mảng thành danh sách (List)
+//        List<String> listTags = Arrays.asList(tags);
+//
+//        // In danh sách ra màn hình
+//        for (String tag : listTags) {
+//            System.out.println(tag);
+//        }
+//        model.addAttribute("listTags",listTags);
 
         String language = "";
         for (Map<String, ?> map : movieL) {
-            language += map.get("name") + " (" + map.get("type")+") ";
+            language += map.get("name") + " (" + (map.get("type").equals(0)?"mặc định":"dịch")+") ";
         }
 
         if (language.length() == 0) {
@@ -110,16 +110,8 @@ public class Contro1 {
         } else {
             model.addAttribute("listCompany",company );
         }
-        String category = "";
-        for (Map<String, ?> map : movieCate) {
-            category += map.get("name")+" ";
-        }
-        if (category.length() == 0) {
-            model.addAttribute("listCategory", "Đang cập nhật");
-        } else {
+        model.addAttribute("listCategory",movieCate);
 
-            model.addAttribute("listCategory",category);
-        }
         model.addAttribute("movie", movie);
 
 
@@ -268,16 +260,27 @@ public class Contro1 {
         int result = movieRequestService.saveComment(movie_id,user_id,commentIN,value,now);
         return result;
     }
-
+    int totalMovie = 0;
+    String searchValue = "";
     @GetMapping("/search")
     public String getMovieSearch(@RequestParam(name = "search-input") String input,
                                  @RequestParam(name = "page",defaultValue = "0") int page,
+                                 @RequestParam(name = "tl",defaultValue = "0") int tl,
                                  Model model
                                  ) {
         int currentPage = page;
         int pageSize = 12;
-        int totalComment = movieRequestService.getSearchMovieCount(input);
-        int totalPage = totalComment / pageSize + 1;
+        if(totalMovie == 0 || searchValue.equals(input) == false) {
+
+            if (tl==1) {
+                totalMovie = movieRequestService.getCountMovieCategory(input);
+            } else if(input.equals("new-movie") || input.equals("top-view")){
+                totalMovie = 30;
+            }else {
+                totalMovie = movieRequestService.getSearchMovieCount(input);
+            }
+        }
+        int totalPage = totalMovie / pageSize + 1;
 
 
         int startPage = (currentPage - 1 > 0) ? currentPage - 1: 0;
@@ -287,7 +290,15 @@ public class Contro1 {
         for (int i = startPage;i<=endPage;i++){
             pages.add(i);
         }
-        List<MovieRequest> listMovie = movieRequestService.getSearchMovie(input,page*pageSize, pageSize);
+        List<MovieRequest> listMovie;
+        if (input.equals("new-movie")) {
+            listMovie = movieRequestService.getMovie(page*pageSize, pageSize);
+        } else if(input.equals("top-view")){
+            listMovie = movieRequestService.getTopView(page*pageSize, pageSize);
+        }else {
+            listMovie = movieRequestService.getSearchMovie(input,page*pageSize, pageSize);
+        }
+
         model.addAttribute("listMovie", listMovie);
         model.addAttribute("pages", pages);
         model.addAttribute("currentPage", currentPage);
@@ -295,7 +306,7 @@ public class Contro1 {
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("url",url);
         model.addAttribute("inputSearch", input);
-        List<MovieRequest> m1 = movieRequestService.getTopView(7);
+        List<MovieRequest> m1 = movieRequestService.getTopView(0,7);
         MovieRequest trend = m1.remove(0);
 
         List<Map<String,?>> m2 = movieRequestService.getMovieNewComment();
@@ -399,7 +410,7 @@ public class Contro1 {
                 //ảnh mới
 
                 System.out.println(currentDateTime);
-                fileName = name + "_" +
+                fileName = name.replace(" ", "") + "_" +
                         currentDateTime.getHour() + "h" +
                         currentDateTime.getMinute() + "m" +
                         currentDateTime.getSecond() + "s" + ".mp4";

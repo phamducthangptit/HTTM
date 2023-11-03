@@ -49,7 +49,6 @@ public class MovieRequest {
     private String name;
     private int episodes;
     private int episode;
-    private String tags;
     private int views;
     private int cm_count;
     private int episode_id;
@@ -58,12 +57,11 @@ public class MovieRequest {
     public MovieRequest() {
     }
 
-    public MovieRequest(int movie_id, String name, int episodes, int episode, String tags, int views, int cm_count, int episode_id, String image) {
+    public MovieRequest(int movie_id, String name, int episodes, int episode, int views, int cm_count, int episode_id, String image) {
         this.movie_id = movie_id;
         this.name = name;
         this.episodes = episodes;
         this.episode = episode;
-        this.tags = tags;
         this.views = views;
         this.cm_count = cm_count;
         this.episode_id = episode_id;
@@ -109,14 +107,6 @@ public class MovieRequest {
 
     public void setEpisodes(int episodes) {
         this.episodes = episodes;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
     }
 
     public int getViews() {
