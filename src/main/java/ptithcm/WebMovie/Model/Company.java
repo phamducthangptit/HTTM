@@ -18,8 +18,7 @@ public class Company {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "company_content")
-    private String companyContent;
+
     @ManyToMany(mappedBy = "movie_companyList")
     @JsonBackReference
     private List<Movie> movie_companyList;
@@ -31,7 +30,7 @@ public class Company {
     public Company(int companyId, String name, String companyContent) {
         this.companyId = companyId;
         this.name = name;
-        this.companyContent = companyContent;
+
     }
 
     public int getCompanyId() {
@@ -50,13 +49,7 @@ public class Company {
         this.name = name;
     }
 
-    public String getCompanyContent() {
-        return companyContent;
-    }
 
-    public void setCompanyContent(String companyContent) {
-        this.companyContent = companyContent;
-    }
 
     public List<Movie> getMovie_companyList() {
         return movie_companyList;

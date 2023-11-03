@@ -22,8 +22,7 @@ public class Movie {
     @Column(name = "episodes")
     private int episodes;
 
-    @Column(name = "tags")
-    private String tags;
+
 
     @Column(name = "movie_shedule")
     private int movieSchedule;
@@ -84,12 +83,12 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(int movieId, String name, String movieContent, int episodes, String tags, int movieShedule, String image, int views) {
+    public Movie(int movieId, String name, String movieContent, int episodes, int movieShedule, String image, int views) {
         this.movieId = movieId;
         this.name = name;
         this.movieContent = movieContent;
         this.episodes = episodes;
-        this.tags = tags;
+
         this.movieSchedule = movieShedule;
         this.image = image;
         this.views = views;
@@ -111,9 +110,7 @@ public class Movie {
         return episodes;
     }
 
-    public String getTags() {
-        return tags;
-    }
+
 
     public int getMovieSchedule() {
         return movieSchedule;
@@ -142,9 +139,7 @@ public class Movie {
         this.episodes = episodes;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
+
 
     public void setMovieSchedule(int movieSchedule) {
         this.movieSchedule = movieSchedule;

@@ -145,7 +145,7 @@ public class MovieController036 {
                 //ảnh mới
                 LocalDateTime currentDateTime = LocalDateTime.now();
                 System.out.println(currentDateTime);
-                String fileName = movieName + "_" +
+                String fileName = movieName.replace(" ","") + "_" +
                         currentDateTime.getHour() + "h" +
                         currentDateTime.getMinute() + "m" +
                         currentDateTime.getSecond() + "s" + ".png";
@@ -271,6 +271,23 @@ public class MovieController036 {
         movie.setMovieSchedule(Integer.parseInt(movieSchedule));
         movie.setCountry(countryRepository.findById(countryId));
         movie.setEpisodes(Integer.parseInt(episodes));
+        { // chọn file mới
+            try {
+                //ảnh mới
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                System.out.println(currentDateTime);
+                String fileName = movieName.replace(" ","") + "_" +
+                        currentDateTime.getHour() + "h" +
+                        currentDateTime.getMinute() + "m" +
+                        currentDateTime.getSecond() + "s" + ".png";
+                String uploadDir = "src/main/resources/static/img/movie";
+                Path filePath = Paths.get(uploadDir, fileName);
+                Files.copy(file.getInputStream(), filePath);
+                movie.setImage(fileName);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
         movieRepository.save(movie);
 
 
