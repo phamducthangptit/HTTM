@@ -110,4 +110,6 @@ public interface MovieRequestService {
                     String describe,
                     String name_cn
     );
+
+    int addSearchSentence(String sentence);
 }

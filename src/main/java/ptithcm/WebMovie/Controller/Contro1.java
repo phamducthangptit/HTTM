@@ -427,6 +427,9 @@ public class Contro1 {
         model.addAttribute("trend", trend);
 
         model.addAttribute("listNewCM", m2);
+
+        // Insert câu tìm kiếm vào db
+        movieRequestService.addSearchSentence(input);
         return "search";
     }
     @GetMapping("/actors")
