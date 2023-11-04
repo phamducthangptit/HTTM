@@ -96,8 +96,8 @@
                                             <li><span>Trạng thái:</span> <div style="display:inline-block;" th:text="${movie.get('episode') +'/'+movie.get('episodes') }"></div>
                                             </li>
                                             <li ><span>Thể loại:</span><div class="blog__details__tags" style="display:inline-block;">
-                                                <a th:if="${listCategory.size()!=0}"href="#" th:each="t:${listCategory}" th:text="${t.get('name')}"></a>
-                                                <a th:if="${listCategory.size()==0}"href="#" >Đang cập nhật</a>
+                                                <a th:if="${listCategory1.size()!=0}"href="#" th:each="t:${listCategory1}" th:text="${t.get('name')}"></a>
+                                                <a th:if="${listCategory1.size()==0}"href="#" >Đang cập nhật</a>
                                             </div>
                                             </li>
 <!--                                            <li ><span>Tags:</span>-->
@@ -126,7 +126,7 @@
                                     <i class="fa fa-angle-right"></i></a>
                                 <a th:if="${movie.get('episode') == 0}" class="follow-btn"><span>Sớm phát hành</span>
                                     </a>
-                                <a th:if="${user != null && user.role.roleId == 1}"href="#" class="follow-btn" id="addEp"><span>Thêm tập</span></a>
+                                <a th:if="${user != null && user.role.roleId == 1 && movie.get('episode') < movie.get('episodes')}"href="#" class="follow-btn" id="addEp"><span>Thêm tập</span></a>
 
                                 </div>
                             </div>
