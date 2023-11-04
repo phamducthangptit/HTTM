@@ -371,24 +371,25 @@ public class Contro1 {
                     default:
                     {
                         List<String> tl1 = new ArrayList<>();
-                        tl1.add("hành động");
-                        tl1.add("gia đình");
-                        tl1.add("cổ trang");
-                        tl1.add("khoa học viễn tưởng");
-                        tl1.add("kinh dị");
-                        tl1.add("hài");
-                        tl1.add("anime");
+                        tl1.add("Tình cảm");
+                        tl1.add("Hành động");
+                        tl1.add("Gia đình");
+                        tl1.add("Cổ trang");
+                        tl1.add("Khoa học viễn tưởng");
+                        tl1.add("Kinh dị");
+                        tl1.add("Hài");
+                        tl1.add("Hoạt hình");
                         String theLoai1  = tl1.get(Integer.valueOf(label1));
                         if (label2 == null) {
                             totalMovie = 0;
                             listMovie = null;
 
                         } else if (label2 == "0") {
-                            totalMovie = movieRequestService.getCountMovie2Category(theLoai1, "tình cảm","gia đình","hài","anime");
-                            listMovie = movieRequestService.getMovie2Category(theLoai1,"tình cảm","gia đình","hài","anime",page*pageSize, pageSize);
+                            totalMovie = movieRequestService.getCountMovie2Category(theLoai1, "Tình cảm","Gia đình","Hài","Hoạt hình");
+                            listMovie = movieRequestService.getMovie2Category(theLoai1,"Tình cảm","Gia đình","Hài","Hoạt hình",page*pageSize, pageSize);
                         } else {
-                            totalMovie = movieRequestService.getCountMovie2Category(theLoai1,"hành động","cổ trang","khoa học viễn tưởng","kinh dị");
-                            listMovie = movieRequestService.getMovie2Category(theLoai1,"hành động","cổ trang","khoa học viễn tưởng","kinh dị",page*pageSize, pageSize);
+                            totalMovie = movieRequestService.getCountMovie2Category(theLoai1,"Hành động","Cổ trang","Khoa học viễn tưởng","kinh dị");
+                            listMovie = movieRequestService.getMovie2Category(theLoai1,"Hành động","Cổ trang","Khoa học viễn tưởng","Kinh dị",page*pageSize, pageSize);
                         }
                         break;
 

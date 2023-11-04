@@ -6,7 +6,7 @@
     <meta name="keywords" content="Anime, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
+    <title>Đăng nhập</title>
     <!-- Google Font -->
     <link th:href="@{https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap}" rel="stylesheet">
     <link th:href="@{https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap}"
@@ -34,8 +34,8 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="normal__breadcrumb__text">
-                        <h2>Login</h2>
-                        <p>Welcome to the movie web</p>
+                        <h2>Đăng nhập</h2>
+                        <p>Chào mừng đến với web xem phim</p>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                 <div class="col-lg-6">
                     <div class="login__form">
                         <form id="loginForm" th:action="@{/login}" class="user" method="POST" onsubmit="return checkLogin()" style="display: block;">
-                            <h3>Login</h3>
+                            <h3>Đăng nhập</h3>
                             <div th:if="${param.error}"
                                  class="alert alert-warning alert-dismissible fade show"
                                  role="alert" style="width: 370px">
@@ -69,13 +69,13 @@
                             </div>
                             <div class="input__item" id="errorLogin" style="color:red;" th:text="${errorLogin}">
                             </div>
-                            <button id="buttonLogin" type="submit" class="site-btn">Login Now</button>
-                            <a id="forgotPasswordLink" href="forgotPassword" class="forget_pass">Forgot Your Password?</a>
+                            <button id="buttonLogin" type="submit" class="site-btn">Đăng nhập</button>
+                            <a id="forgotPasswordLink" href="forgotPassword" class="forget_pass">Quên mật khẩu</a>
                         </form>
 
                         <!--phấn form đăng kí-->
                         <form id="registerForm" th:action="@{/register}" method="post" style="display: none;" onsubmit="return validationPass()" enctype="multipart/form-data">
-                            <h3>Register</h3>
+                            <h3>Đăng kí</h3>
                             <!-- Thêm các trường và nút submit của form đăng ký -->
                             <div class="input__item">
                                 <input type="text" placeholder="User Name" name="userName" required>
@@ -103,12 +103,12 @@
                             </div>
                             <div class="input__item" th:text="${errorRegister}" style="color:red;"></div>
                             <div class="input__item" id="passwordMessage" style="color:red;"></div>
-                            <button id="registerLogin" type="submit" class="site-btn" onsubmit="">Register Now</button>
+                            <button id="registerLogin" type="submit" class="site-btn" onsubmit="">Đăng kí ngay</button>
                         </form>
 
                         <!--phan form submit email quen mat khau-->
                         <form id="submitEmailForm" th:action="@{/reset-password}" method="post" style="display: none;">
-                            <h3>Forgot Password</h3>
+                            <h3>Quên mật khẩu</h3>
                             <div class="input__item">
                                 <input type="text" placeholder="User name" name="userNameF" required id="userForgotPass">
                                 <span class="icon_profile"></span>
@@ -123,20 +123,20 @@
                                 <input type="text" placeholder="Please enter code" name="code" id="code" required>
                             </div>
                             <div class="input__item" id="errorC" style="color:red;"></div>
-                            <button id="submitEmailButton" type="submit" class="site-btn" style="display: block">Send code to Email</button>
-                            <button id="confirmCodeButton" type="submit" class="site-btn" style="display: none">Confirm</button>
+                            <button id="submitEmailButton" type="submit" class="site-btn" style="display: block">Gửi mã tới Email</button>
+                            <button id="confirmCodeButton" type="submit" class="site-btn" style="display: none">Xác nhn</button>
                         </form>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="login__register" id="divNoAccount" style="display: block">
-                        <h3>Don’t Have An Account?</h3>
-                        <button id="registerLink" type="button" class="site-btn">Register Now</button>
+                        <h3>Bạn chưa có tải khoản?</h3>
+                        <button id="registerLink" type="button" class="site-btn">Đăng kí ngay</button>
                     </div>
 
                     <div class="login__register" id="divHaveAccount" style="display: none">
-                        <h3>You Have An Account?</h3>
-                        <button id="loginLink" type="button" class="site-btn">Login Now</button>
+                        <h3>Bạn đã có tài khoản?</h3>
+                        <button id="loginLink" type="button" class="site-btn">Đăng nhập</button>
                     </div>
                 </div>
             </div>

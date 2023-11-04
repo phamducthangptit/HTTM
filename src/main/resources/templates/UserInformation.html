@@ -6,7 +6,7 @@
     <meta name="keywords" content="Anime, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Information</title>
+    <title>Thông tin</title>
     <!-- Google Font -->
     <link th:href="@{https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap}" rel="stylesheet">
     <link th:href="@{https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap}"
@@ -34,8 +34,8 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="normal__breadcrumb__text">
-                    <h2>Information</h2>
-                    <p>Welcome to the official Anime blog.</p>
+                    <h2>Thông tin</h2>
+                    <p>Chào mừng đến với web xem phim</p>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                 <div class="login__form">
                     <!--phấn form đăng kí-->
                     <form id="user-information" th:action="@{/user-information}" th:object="${user}" method="post" enctype="multipart/form-data">
-                        <h3>User Information</h3>
+                        <h3>Thông tin người dùng</h3>
                         <div class="input__item">
                             <input type="text" placeholder="User Name" name="userName" required th:field="*{userName}" readonly>
                             <span class="icon_profile"></span>
@@ -67,7 +67,7 @@
                             <img id="selectedImage" th:src="@{img/user/__${user.avatar}__}" alt="Selected Image" style="max-width: 300px;">
                             <input type="file" name="imageInput" id="imageInput" accept="image/*">
                         </div>
-                        <button type="submit" class="site-btn" onsubmit="">Save Information</button>
+                        <button type="submit" class="site-btn" onsubmit="">Lưu thông tin</button>
                     </form>
                 </div>
             </div>
