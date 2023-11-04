@@ -145,7 +145,7 @@ public class Contro1 {
         } else {
             model.addAttribute("listCompany",company );
         }
-        model.addAttribute("listCategory",movieCate);
+        model.addAttribute("listCategory1",movieCate);
 
         model.addAttribute("movie", movie);
 
@@ -214,7 +214,8 @@ public class Contro1 {
                              @RequestParam(name = "episode", defaultValue = "1") int episode,
                              Model model,HttpSession session
                              ) {
-
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("listCategory",categories);
         Map<String, ?> movie = movieRequestService.getMovieDetail(id);
         model.addAttribute("movie", movie);
         List<Map<String,?>> episodes = movieRequestService.getMovieEpisode(id);
@@ -308,7 +309,8 @@ public class Contro1 {
                                  @RequestParam(name = "tl",defaultValue = "0") int tl,
                                  Model model
                                  ) throws IOException {
-
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("listCategory",categories);
         int currentPage = page;
         int pageSize = 12;
         List<MovieRequest> listMovie;
@@ -428,6 +430,8 @@ public class Contro1 {
     }
     @GetMapping("/actors")
     public String getActors(@RequestParam(name="page",defaultValue = "0") int page, Model model) {
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("listCategory",categories);
         int currentPage = page;
         int pageSize = 12;
         int totalComment = movieRequestService.getActorCount();
@@ -460,7 +464,8 @@ public class Contro1 {
     @GetMapping("/actors/add")
     public String getActor(Model model){
         List<String> listCountry = movieRequestService.getListCountry();
-
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("listCategory",categories);
         model.addAttribute("listCountry", listCountry);
         return "actor-details";
     }
