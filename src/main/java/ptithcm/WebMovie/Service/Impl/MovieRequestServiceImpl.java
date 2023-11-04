@@ -184,4 +184,8 @@ public class MovieRequestServiceImpl implements MovieRequestService {
                 theLoai4,
                 theLoai5);
     };
+
+    public int addSearchSentence(String sentence){
+        return movieRequestRepository.addSearchSentence(sentence);
+    }
 }

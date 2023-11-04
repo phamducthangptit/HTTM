@@ -47,13 +47,13 @@
                                    <ul class="dropdown">
                                                <!-- nếu là admin thì co the tao tai khoan admin moi-->
                                        <div th:if="${session.user.role.roleId == 1}">
-                                           <li><a th:href="@{/create-account-admin}">Create Account</a></li>
+                                           <li><a th:href="@{/create-account-admin}">Tạo tài khoản</a></li>
 
                                        </div>
 
-                                       <li><a th:href="@{/change-pass}" style="font-size: 12px;">Change Password</a></li>
-                                       <li><a th:href="@{/my-collection}" style="font-size: 12px;">My Collection</a></li>
-                                       <li><a th:href="@{/logout}">Log Out</a></li>
+                                       <li><a th:href="@{/change-pass}" >Đổi mật khẩu</a></li>
+                                       <li><a th:href="@{/my-collection}">Bộ sưu tập</a></li>
+                                       <li><a th:href="@{/logout}">Đăng xuất</a></li>
                                    </ul>
                                     </li>
                                    </ul>

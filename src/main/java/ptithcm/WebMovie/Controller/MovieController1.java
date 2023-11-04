@@ -77,7 +77,7 @@ public class MovieController1 {
                     fileName = user.getUserName() + "_" +
                             currentDateTime.getHour() + "h" +
                             currentDateTime.getMinute() + "m" +
-                            currentDateTime.getSecond() + "s" + ".jpg";
+                            currentDateTime.getSecond() + "s" + ".png";
                     System.out.println(fileName);
                     Path filePath = Paths.get(uploadDir, fileName);
                     Files.copy(file.getInputStream(), filePath);
@@ -123,7 +123,7 @@ public class MovieController1 {
                     fileName = user.getUserName() + "_" +
                             currentDateTime.getHour() + "h" +
                             currentDateTime.getMinute() + "m" +
-                            currentDateTime.getSecond() + "s" + ".jpg";
+                            currentDateTime.getSecond() + "s" + ".png";
                     System.out.println(fileName);
                     Path filePath = Paths.get(uploadDir, fileName);
                     Files.copy(file.getInputStream(), filePath);
@@ -201,7 +201,7 @@ public class MovieController1 {
                 String fileName = user.getUserName() + "_" +
                         currentDateTime.getHour() + "h" +
                         currentDateTime.getMinute() + "m" +
-                        currentDateTime.getSecond() + "s" + ".jpg";
+                        currentDateTime.getSecond() + "s" + ".png";
                 filePath = Paths.get(uploadDir, fileName);
                 Files.copy(file.getInputStream(), filePath);
                 user.setAvatar(fileName);
