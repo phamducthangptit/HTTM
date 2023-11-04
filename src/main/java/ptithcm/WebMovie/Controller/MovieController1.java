@@ -72,7 +72,7 @@ public class MovieController1 {
                 String fileName = "";
                 LocalDateTime currentDateTime = LocalDateTime.now();
                 if(file == null || file.isEmpty()){
-                    fileName = "default.jpg";
+                    fileName = "default.png";
                 } else {
                     fileName = user.getUserName() + "_" +
                             currentDateTime.getHour() + "h" +
@@ -118,7 +118,7 @@ public class MovieController1 {
                 String fileName = "";
                 System.out.println(file.getResource());
                 if(file == null || file.isEmpty()){
-                    fileName = "default.jpg";
+                    fileName = "default.png";
                 } else {
                     fileName = user.getUserName() + "_" +
                             currentDateTime.getHour() + "h" +
@@ -190,7 +190,7 @@ public class MovieController1 {
                 String uploadDir = "src/main/resources/static/img/user";
                 Path filePath;
                 //xóa ảnh cũ
-                if(oldImg == null || oldImg.compareTo("default.jpg") != 0){
+                if(oldImg == null || oldImg.compareTo("default.png") != 0){
                     filePath = Paths.get(uploadDir, oldImg);
                     System.out.println(filePath);
                     Files.delete(filePath);
