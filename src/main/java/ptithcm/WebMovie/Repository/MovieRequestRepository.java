@@ -154,4 +154,7 @@ public interface MovieRequestRepository extends JpaRepository<MovieRequest, Inte
                     String describe,
                     String name_cn
     );
+
+    @Query(value ="{call SP_ADD_SEARCH_SENTENCE(:sentence)}", nativeQuery = true)
+    int addSearchSentence(@Param("sentence") String sentence);
 }
