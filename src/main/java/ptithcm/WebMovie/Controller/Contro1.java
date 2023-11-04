@@ -1,6 +1,8 @@
 package ptithcm.WebMovie.Controller;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,13 @@ import ptithcm.WebMovie.Repository.MovieCollectionRepository;
 import ptithcm.WebMovie.Repository.UserRepository;
 import ptithcm.WebMovie.Service.MovieRequestService;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -71,8 +79,8 @@ public class Contro1 {
 
 
 
-        List<MovieRequest> m1 = movieRequestService.getTopView(0,7);
-        MovieRequest trend = m1.remove(0);
+        List<MovieRequest> m1 = movieRequestService.getTopView(0,6);
+
 
         List<Map<String,?>> m2 = movieRequestService.getMovieNewComment();
 
@@ -80,7 +88,7 @@ public class Contro1 {
         model.addAttribute("listMovie", m);
 
         model.addAttribute("listTopView", m1);
-        model.addAttribute("trend", trend);
+
 
         model.addAttribute("listNewCM", m2);
 
@@ -299,19 +307,94 @@ public class Contro1 {
                                  @RequestParam(name = "page",defaultValue = "0") int page,
                                  @RequestParam(name = "tl",defaultValue = "0") int tl,
                                  Model model
-                                 ) {
+                                 ) throws IOException {
+
         int currentPage = page;
         int pageSize = 12;
-        if(totalMovie == 0 || searchValue.equals(input) == false) {
+        List<MovieRequest> listMovie;
 
-            if (tl==1) {
-                totalMovie = movieRequestService.getCountMovieCategory(input);
-            } else if(input.equals("new-movie") || input.equals("top-view")){
+
+        if (tl==1) {
+            totalMovie = movieRequestService.getCountMovieCategory(input);
+            listMovie = movieRequestService.getMovieTopCategory(page*pageSize, pageSize,input);
+        } else if(input.equals("new-movie")){
+            totalMovie = 30;
+            listMovie = movieRequestService.getMovie(page*pageSize, pageSize);
+            }else if(input.equals("top-view")) {
                 totalMovie = 30;
+                listMovie = movieRequestService.getTopView(page*pageSize, pageSize);
             }else {
-                totalMovie = movieRequestService.getSearchMovieCount(input);
-            }
+                // phan socket ket noi den server python
+                Socket socket = new Socket("localhost", 8081);
+                PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+                writer.println(input); // Gửi dữ liệu đến máy chủ Python
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                String receivedJson = in.readLine();
+                ObjectMapper objectMapper = new ObjectMapper();
+                String label1 = null;
+                String label2 = null;
+                try {
+                    JsonNode jsonNode = objectMapper.readTree(receivedJson);
+                    label1 = jsonNode.get("label1").asText();
+                    label2 = jsonNode.get("label2").asText();
+                    System.out.println(label1);
+                    System.out.println(label2);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                socket.close();
+                switch (label1){
+                    case "8":
+                    {
+                        totalMovie = movieRequestService.getSearchMovieCount(input);
+                        listMovie = movieRequestService.getSearchMovie(input,page*pageSize, pageSize);
+
+                        break;
+                    }
+                    case "-1":
+                    {
+                        if (label2 == null) {
+                            totalMovie = 0;
+                            listMovie = null;
+
+                        } else if (label2 == "0") {
+                            totalMovie = movieRequestService.getCountMovie2Category("","tình cảm","gia đình","hài","anime");
+                            listMovie = movieRequestService.getMovie2Category("","tình cảm","gia đình","hài","anime",page*pageSize, pageSize);
+                        } else {
+                            totalMovie = movieRequestService.getCountMovie2Category("","hành động","cổ trang","khoa học viễn tưởng","kinh dị");
+                            listMovie = movieRequestService.getMovie2Category("","hành động","cổ trang","khoa học viễn tưởng","kinh dị",page*pageSize, pageSize);
+                        }
+                        break;
+                    }
+                    default:
+                    {
+                        List<String> tl1 = new ArrayList<>();
+                        tl1.add("hành động");
+                        tl1.add("gia đình");
+                        tl1.add("cổ trang");
+                        tl1.add("khoa học viễn tưởng");
+                        tl1.add("kinh dị");
+                        tl1.add("hài");
+                        tl1.add("anime");
+                        String theLoai1  = tl1.get(Integer.valueOf(label1));
+                        if (label2 == null) {
+                            totalMovie = 0;
+                            listMovie = null;
+
+                        } else if (label2 == "0") {
+                            totalMovie = movieRequestService.getCountMovie2Category(theLoai1, "tình cảm","gia đình","hài","anime");
+                            listMovie = movieRequestService.getMovie2Category(theLoai1,"tình cảm","gia đình","hài","anime",page*pageSize, pageSize);
+                        } else {
+                            totalMovie = movieRequestService.getCountMovie2Category(theLoai1,"hành động","cổ trang","khoa học viễn tưởng","kinh dị");
+                            listMovie = movieRequestService.getMovie2Category(theLoai1,"hành động","cổ trang","khoa học viễn tưởng","kinh dị",page*pageSize, pageSize);
+                        }
+                        break;
+
+                    }
+                }
+
         }
+
         int totalPage = totalMovie / pageSize + 1;
 
 
@@ -321,14 +404,6 @@ public class Contro1 {
         List<Integer> pages = new ArrayList<>();
         for (int i = startPage;i<=endPage;i++){
             pages.add(i);
-        }
-        List<MovieRequest> listMovie;
-        if (input.equals("new-movie")) {
-            listMovie = movieRequestService.getMovie(page*pageSize, pageSize);
-        } else if(input.equals("top-view")){
-            listMovie = movieRequestService.getTopView(page*pageSize, pageSize);
-        }else {
-            listMovie = movieRequestService.getSearchMovie(input,page*pageSize, pageSize);
         }
 
         model.addAttribute("listMovie", listMovie);

@@ -18,7 +18,7 @@
                             <li class="active"><a href="/home">Trang chủ</a></li>
                             <li><a href="./categories.html">Thể loại<span class="arrow_carrot-down"></span></a>
                                 <ul class="dropdown">
-                                    <li th:each="tl:${listCategory}"><a th:href="'./search?search-input='+${tl.getName()}+'&tl=1'" th:text="${tl.getName()}"></a></li>
+                                    <li th:each="tl:${listCategory}"><a th:href="'/search?search-input='+${tl.getName()}+'&tl=1'" th:text="${tl.getName()}"></a></li>
                                 </ul>
                             </li>
                             <div style="display:inline-block;" th:if="${session.user != null && session.user.role.roleId == 1}" >

@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" th:if="${listMovie != null}">
                             <div class="col-lg-4 col-md-6 col-sm-6" th:each="movie : ${listMovie}">
                                 <div class="product__item">
                                     <a th:href="'movie?id='+${movie.getMovie_id()}" >
@@ -99,7 +99,7 @@
 
                         </div>
                     </div>
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center" th:if="${listMovie != null}">
 <!--                        <div id="totalPageEl" th:data-value="${totalPage}"></div>-->
 <!--                        <input type="hidden" id="currentPage" th:value="${currentPage}" />-->
                         <div class="product__pagination" >

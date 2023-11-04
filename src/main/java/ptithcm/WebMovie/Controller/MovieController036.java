@@ -145,7 +145,7 @@ public class MovieController036 {
                 //ảnh mới
                 LocalDateTime currentDateTime = LocalDateTime.now();
                 System.out.println(currentDateTime);
-                String fileName = movieName + "_" +
+                String fileName = movieName.replace(" ","") + "_" +
                         currentDateTime.getHour() + "h" +
                         currentDateTime.getMinute() + "m" +
                         currentDateTime.getSecond() + "s" + ".png";
@@ -167,19 +167,19 @@ public class MovieController036 {
 
         for (int i = 0; i < maxLenList; i++){
             if(idLanguage < idLanguagenumbers.size()){
-                movieRequestService.insertInformationMovie(movieId, 0, 0, idCategorynumbers.get(idLanguage), 0);
+                movieRequestService.insertInformationMovie(movieId, 0, 0, idCategorynumbers.get(idLanguage), 0,(i==0?0:1));
                 idLanguage++;
             }
             if(idCategory < idCategorynumbers.size()){
-                movieRequestService.insertInformationMovie(movieId, 0, idCategorynumbers.get(idCategory), 0, 0);
+                movieRequestService.insertInformationMovie(movieId, 0, idCategorynumbers.get(idCategory), 0, 0,0);
                 idCategory++;
             }
             if(idCompany < idCompanynumbers.size()){
-                movieRequestService.insertInformationMovie(movieId, 0, 0, 0, idCompanynumbers.get(idCompany));
+                movieRequestService.insertInformationMovie(movieId, 0, 0, 0, idCompanynumbers.get(idCompany),0);
                 idCompany++;
             }
             if(idPerson < idPersonnumbers.size()){
-                movieRequestService.insertInformationMovie(movieId, idPersonnumbers.get(idPerson), 0, 0, 0);
+                movieRequestService.insertInformationMovie(movieId, idPersonnumbers.get(idPerson), 0, 0, 0,0);
                 idPerson++;
             }
 
@@ -188,8 +188,8 @@ public class MovieController036 {
 
         return "redirect:/list-movie";
     }
-    @GetMapping("/UpdateMovie/{movie_id}")
-    public String updateMovie(Model model, @PathVariable("movie_id") int id) {
+    @RequestMapping("/UpdateMovie")
+    public String updateMovie(Model model, @RequestParam("id") int id) {
         Movie movie = movieRepository.findById(id);
 
         List<Category> categories = categoryRepository.findAll();
@@ -271,6 +271,23 @@ public class MovieController036 {
         movie.setMovieSchedule(Integer.parseInt(movieSchedule));
         movie.setCountry(countryRepository.findById(countryId));
         movie.setEpisodes(Integer.parseInt(episodes));
+        { // chọn file mới
+            try {
+                //ảnh mới
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                System.out.println(currentDateTime);
+                String fileName = movieName.replace(" ","") + "_" +
+                        currentDateTime.getHour() + "h" +
+                        currentDateTime.getMinute() + "m" +
+                        currentDateTime.getSecond() + "s" + ".png";
+                String uploadDir = "src/main/resources/static/img/movie";
+                Path filePath = Paths.get(uploadDir, fileName);
+                Files.copy(file.getInputStream(), filePath);
+                movie.setImage(fileName);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
         movieRepository.save(movie);
 
 
@@ -281,20 +298,21 @@ public class MovieController036 {
             int idLanguage = 0, idCategory = 0, idPerson = 0, idCompany = 0;
 
             for (int i = 0; i < maxLenList; i++) {
+
                 if (idLanguage < idLanguagenumbers.size()) {
-                    movieRequestService.insertInformationMovie(id, 0, 0, idCategorynumbers.get(idLanguage), 0);
+                    movieRequestService.insertInformationMovie(id, 0, 0, idCategorynumbers.get(idLanguage), 0,(i==0?0:1));
                     idLanguage++;
                 }
                 if (idCategory < idCategorynumbers.size()) {
-                    movieRequestService.insertInformationMovie(id, 0, idCategorynumbers.get(idCategory), 0, 0);
+                    movieRequestService.insertInformationMovie(id, 0, idCategorynumbers.get(idCategory), 0, 0,0);
                     idCategory++;
                 }
                 if (idCompany < idCompanynumbers.size()) {
-                    movieRequestService.insertInformationMovie(id, 0, 0, 0, idCompanynumbers.get(idCompany));
+                    movieRequestService.insertInformationMovie(id, 0, 0, 0, idCompanynumbers.get(idCompany),0);
                     idCompany++;
                 }
                 if (idPerson < idPersonnumbers.size()) {
-                    movieRequestService.insertInformationMovie(id, idPersonnumbers.get(idPerson), 0, 0, 0);
+                    movieRequestService.insertInformationMovie(id, idPersonnumbers.get(idPerson), 0, 0, 0,0);
                     idPerson++;
                 }
             }

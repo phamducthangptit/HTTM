@@ -49,8 +49,8 @@ public class MovieRequestServiceImpl implements MovieRequestService {
 
     }
 
-    public int insertInformationMovie(int movie_id, int person_id, int category_id, int language_id, int company_id) {
-        return movieRequestRepository.insertInformationMovie(movie_id, person_id, category_id, language_id, company_id);
+    public int insertInformationMovie(int movie_id, int person_id, int category_id, int language_id, int company_id,int type) {
+        return movieRequestRepository.insertInformationMovie(movie_id, person_id, category_id, language_id, company_id,type);
     }
 
     ;public int deleteInformationMovie(int movie_id)
@@ -154,5 +154,34 @@ public class MovieRequestServiceImpl implements MovieRequestService {
                     String name_cn
     ) {
         return movieRequestRepository.updateActor(id,name,gender,day,image,describe,name_cn);
+    };
+
+    public List<MovieRequest> getMovie2Category(String theLoai1,
+                                         String theLoai2,
+                                         String theLoai3,
+                                         String theLoai4,
+                                         String theLoai5,
+                                         int start,
+                                         int size
+    ){
+        return movieRequestRepository.getMovie2Category(theLoai1,
+                theLoai2,
+                theLoai3,
+                theLoai4,
+                theLoai5,
+                start,
+                size);
+    };
+
+    public int getCountMovie2Category(String theLoai1,
+                               String theLoai2,
+                               String theLoai3,
+                               String theLoai4,
+                               String theLoai5) {
+        return movieRequestRepository.getCountMovie2Category(theLoai1,
+                theLoai2,
+                theLoai3,
+                theLoai4,
+                theLoai5);
     };
 }

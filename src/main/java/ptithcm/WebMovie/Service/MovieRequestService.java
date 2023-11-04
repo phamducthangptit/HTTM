@@ -28,7 +28,7 @@ public interface MovieRequestService {
 
     List<Map<String,?>> getMovieEpisode( int id);
 
-    int insertInformationMovie(int movie_id, int person_id ,int category_id,int language_id,int company_id);
+    int insertInformationMovie(int movie_id, int person_id ,int category_id,int language_id,int company_id,int type);
     int deleteInformationMovie(int movie_id);
 
 
@@ -84,6 +84,22 @@ public interface MovieRequestService {
     List<MovieRequest> getMovieTopCategory(int start, int size,
                                            String category);
     int getCountMovieCategory(String category);
+
+
+    List<MovieRequest> getMovie2Category(String theLoai1,
+                                         String theLoai2,
+                                         String theLoai3,
+                                         String theLoai4,
+                                         String theLoai5,
+                                         int start,
+                                         int size
+    );
+
+    int getCountMovie2Category(String theLoai1,
+                               String theLoai2,
+                               String theLoai3,
+                               String theLoai4,
+                               String theLoai5);
     Map<String, Object> getActorInfo(int id);
 
     int updateActor(int id,
