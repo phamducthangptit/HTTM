@@ -155,4 +155,33 @@ public class MovieRequestServiceImpl implements MovieRequestService {
     ) {
         return movieRequestRepository.updateActor(id,name,gender,day,image,describe,name_cn);
     };
+
+    public List<MovieRequest> getMovie2Category(String theLoai1,
+                                         String theLoai2,
+                                         String theLoai3,
+                                         String theLoai4,
+                                         String theLoai5,
+                                         int start,
+                                         int size
+    ){
+        return movieRequestRepository.getMovie2Category(theLoai1,
+                theLoai2,
+                theLoai3,
+                theLoai4,
+                theLoai5,
+                start,
+                size);
+    };
+
+    public int getCountMovie2Category(String theLoai1,
+                               String theLoai2,
+                               String theLoai3,
+                               String theLoai4,
+                               String theLoai5) {
+        return movieRequestRepository.getCountMovie2Category(theLoai1,
+                theLoai2,
+                theLoai3,
+                theLoai4,
+                theLoai5);
+    };
 }

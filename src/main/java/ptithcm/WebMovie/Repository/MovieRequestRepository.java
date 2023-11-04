@@ -28,12 +28,22 @@ public interface MovieRequestRepository extends JpaRepository<MovieRequest, Inte
     int getCountMovieCategory(@Param("category") String category);
 
     // lọc phim theo 2 thể loại
-    @Query(value = "{call SP_TIM_PHIM_THEO_2_THE_LOAI(:theloai1, :theloai2, :start,:size)}", nativeQuery = true)
-    List<MovieRequest> getMovieTopCategory(@Param("theloai1") String theLoai1,
+    @Query(value = "{call SP_TIM_PHIM_THEO_2_THE_LOAI(:theloai1, :theloai2, :theloai3,:theloai4,:theloai5, :start,:size)}", nativeQuery = true)
+    List<MovieRequest> getMovie2Category(@Param("theloai1") String theLoai1,
                                            @Param("theloai2") String theLoai2,
+                                           @Param("theloai3") String theLoai3,
+                                           @Param("theloai4") String theLoai4,
+                                           @Param("theloai5") String theLoai5,
                                            @Param("start") int start,
                                            @Param("size") int size
                                            );
+
+    @Query(value ="{call SP_COUNT_PHIM_THEO_2_THE_LOAI(:theloai1, :theloai2, :theloai3,:theloai4,:theloai5)}", nativeQuery = true)
+    int getCountMovie2Category(@Param("theloai1") String theLoai1,
+                               @Param("theloai2") String theLoai2,
+                               @Param("theloai3") String theLoai3,
+                               @Param("theloai4") String theLoai4,
+                               @Param("theloai5") String theLoai5);
 
 
     @Query(value = "{call SP_FIND_TOP_VIEW_MOVIE(:start,:size)}", nativeQuery = true)

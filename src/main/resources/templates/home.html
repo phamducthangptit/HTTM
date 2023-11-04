@@ -42,26 +42,14 @@
     <section class="hero">
         <div class="container">
             <div class="hero__slider owl-carousel">
-                <div class="hero__items set-bg" th:attr="data-setbg='img/movie/'+${trend.getImage()}" style="background-size: auto 462px;background-color:black;">
+                <div th:each="m : ${listTopView}" class="hero__items set-bg" th:attr="data-setbg='img/movie/'+${m.getImage()}" style="background-size: auto 462px;background-color:black;">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="hero__text">
-                                <div class="label" th:text="${trend.getEpisode()} + '/' + ${trend.getEpisodes()}" style="color:#ffffff;background:#e53637;"></div>
-                                <h2 th:text="${trend.getName()}"></h2>
+                                <div class="label" th:text="${m.getEpisode()} + '/' + ${m.getEpisodes()}" style="color:#ffffff;background:#e53637;"></div>
+                                <h2 th:text="${m.getName()}"></h2>
 <!--                                <p>After 30 days of travel across the world...</p>-->
-                                <a th:href="'movie?id='+${trend.getMovie_id()}"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero__items set-bg" th:attr="data-setbg='img/movie/abc.jpg'" style="background-size: auto 462px;background-color:black;">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="hero__text">
-                                <div class="label" th:text="${trend.getEpisode()} + '/' + ${trend.getEpisodes()}" style="color:#ffffff;background:#e53637;"></div>
-                                <h2 th:text="${trend.getName()}"></h2>
-                                <!--                                <p>After 30 days of travel across the world...</p>-->
-                                <a th:href="'movie?id='+${trend.getMovie_id()}"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
+                                <a th:href="'movie?id='+${m.getMovie_id()}"><span>Xem ngay</span> <i class="fa fa-angle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -80,12 +68,12 @@
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="section-title">
-                                    <h4>New Update</h4>
+                                    <h4>Mới cập nhật</h4>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="/search?search-input=new-movie"  class="primary-btn">View All <span class="arrow_right"></span></a>
+                                    <a href="/search?search-input=new-movie"  class="primary-btn">Xem tất cả<span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -110,12 +98,12 @@
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="section-title">
-                                    <h4>Top View</h4>
+                                    <h4>Xem nhiều nhất</h4>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="/search?search-input=top-view" id="getDataLink" class="primary-btn">View All <span class="arrow_right"></span></a>
+                                    <a href="/search?search-input=top-view" id="getDataLink" class="primary-btn">Xem tất cả<span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -145,7 +133,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="#"  class="primary-btn">View All <span class="arrow_right"></span></a>
+                                    <a href="/search?search-input=anime&tl=1"  class="primary-btn">Xem tất cả<span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -174,7 +162,7 @@
                     <div class="product__sidebar">
                         <div class="product__sidebar__view">
                             <div class="section-title">
-                                <h5>Top Views</h5>
+                                <h5>Xu hướng</h5>
                             </div>
 <!--                            <ul class="filter__controls">
                                 <li class="active" data-filter="*">Day</li>
@@ -195,7 +183,7 @@
     </div>
     <div class="product__sidebar__comment">
         <div class="section-title">
-            <h5>New Comment</h5>
+            <h5>Bình luận mới</h5>
         </div>
         <div class="product__sidebar__comment__item" th:each="m:${listNewCM}">
             <div class="product__sidebar__comment__item__pic">
@@ -203,7 +191,7 @@
             </div>
             <div class="product__sidebar__comment__item__text">
                 <h5><a th:href="'movie?id='+${m.get('movie_id')}" th:text="${m.get('name')}"></a></h5>
-                <span><i class="fa fa-eye"></i> <div th:text="${m.get('views')}"></div> Viewes</span>
+                <span><i class="fa fa-eye"></i> <div th:text="${m.get('views')}"></div> Lượt xem</span>
             </div>
         </div>
 
@@ -218,35 +206,35 @@
 <!-- Footer Section Begin -->
 
 <!-- Search model end -->
-<script>
-    // Lấy thẻ <a> bằng ID
-    var getDataLink = document.getElementById("getDataLink");
+<!--<script>-->
+<!--    // Lấy thẻ <a> bằng ID-->
+<!--    var getDataLink = document.getElementById("getDataLink");-->
 
-    // Bắt sự kiện click
-    getDataLink.addEventListener("click", function(event) {
-        event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+<!--    // Bắt sự kiện click-->
+<!--    getDataLink.addEventListener("click", function(event) {-->
+<!--        event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>-->
 
-        // Thực hiện yêu cầu AJAX
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/home/api", true);
+<!--        // Thực hiện yêu cầu AJAX-->
+<!--        var xhr = new XMLHttpRequest();-->
+<!--        xhr.open("GET", "/home/api", true);-->
 
-        // Xử lý phản hồi từ API
-        xhr.onload = function() {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                var responseData = JSON.parse(xhr.responseText);
-                // Xử lý dữ liệu từ API ở đây
-                var someDataElement = document.querySelector("[th:text='${listMovie}']");
-                someDataElement.textContent = responseData.someData;
-                console.log(responseData);
-            } else {
-                console.error("Lỗi khi gọi API: " + xhr.status + " - " + xhr.statusText);
-            }
-        };
+<!--        // Xử lý phản hồi từ API-->
+<!--        xhr.onload = function() {-->
+<!--            if (xhr.status >= 200 && xhr.status < 300) {-->
+<!--                var responseData = JSON.parse(xhr.responseText);-->
+<!--                // Xử lý dữ liệu từ API ở đây-->
+<!--                var someDataElement = document.querySelector("[th:text='${listMovie}']");-->
+<!--                someDataElement.textContent = responseData.someData;-->
+<!--                console.log(responseData);-->
+<!--            } else {-->
+<!--                console.error("Lỗi khi gọi API: " + xhr.status + " - " + xhr.statusText);-->
+<!--            }-->
+<!--        };-->
 
-        // Gửi yêu cầu
-        xhr.send();
-    });
-</script>
+<!--        // Gửi yêu cầu-->
+<!--        xhr.send();-->
+<!--    });-->
+<!--</script>-->
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/player.js}"></script>
