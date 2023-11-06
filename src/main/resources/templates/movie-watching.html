@@ -162,7 +162,7 @@
 
                     <div class="anime__details__form"th:if="${user != null}">
                         <div class="section-title" >
-                            <h5>Your Comment</h5>
+                            <h5>Bình luận của bạn</h5>
                         </div>
                         <div class="anime__review__item" >
                             <div class="anime__review__item__pic">
@@ -189,7 +189,7 @@
                                     <input type="text" id="ratingValue" value="1" style="display: none;">
                                     <textarea placeholder="Your comment" id="txtComment"></textarea>
                                     <button type="submit" id="newComment" disabled><i class="fa fa-location-arrow"></i>
-                                        Review</button>
+                                        Bình luận</button>
                                 </form>
                             </div>
 
@@ -197,9 +197,9 @@
 
                     </div>
                     <div class="login__register" th:if="${user == null}">
-                        <h4 style="color: #ffffff;">Login to comment</h4>
+                        <h4 style="color: #ffffff;">Đăng nhập để bình luận</h4>
                         <br>
-                        <a href="/login" class="primary-btn">Login</a>
+                        <a href="/login" class="primary-btn">Đăng nhập</a>
                     </div>
                 </div>
 

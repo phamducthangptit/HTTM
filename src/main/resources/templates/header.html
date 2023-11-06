@@ -1,6 +1,6 @@
 <!-- Header Section Begin no user-->
 <html lang="zxx" xmlns:th="http://www.thymeleaf.org">
-
+<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js}"></script>
 <header class="header" >
     <div class="container">
         <div class="row">
@@ -14,17 +14,17 @@
             <div class="col-lg-8">
                 <div class="header__nav">
                     <nav class="header__menu mobile-menu">
-                        <ul>
-                            <li class="active"><a href="/home">Trang chủ</a></li>
-                            <li><a href="./categories.html">Thể loại<span class="arrow_carrot-down"></span></a>
+                        <ul id="list__tieu__de">
+                            <li class="active" id="home"><a href="/home">Trang chủ</a></li>
+                            <li id="category"><a href="#">Thể loại<span class="arrow_carrot-down"></span></a>
                                 <ul class="dropdown">
                                     <li th:each="tl:${listCategory}"><a th:href="'/search?search-input='+${tl.getName()}+'&tl=1'" th:text="${tl.getName()}"></a></li>
                                 </ul>
                             </li>
                             <div style="display:inline-block;" th:if="${session.user != null && session.user.role.roleId == 1}" >
-                            <li><a href="/list-movie">Movie</a></li>
+                            <li id="movie"><a href="/list-movie">Phim</a></li>
 
-                                <li><a th:href="@{/actors}">Actors</a></li>
+                                <li id="actor"><a th:href="@{/actors}">Diễn viên</a></li>
                             </div>
                             <!--công việc cho từng đối tượng-->
                         </ul>
@@ -68,3 +68,24 @@
     </div>
 </header>
 <!-- Header End -->
+
+<script>
+    $(document).ready(function() {
+        var url = window.location.href;
+        var baseUrl = "http://localhost:8080/";
+        var relativePath = url.substring(baseUrl.length);
+        $("#list__tieu__de li").removeClass("active");
+        if(relativePath === "home" || relativePath === "") {
+            $("#home").addClass("active");
+        }
+
+        if(relativePath === "list-movie" || relativePath === "AddMovie" || relativePath.startsWith("UpdateMovie")) {
+            $("#movie").addClass("active");
+        }
+
+        if(relativePath.startsWith("actors")) {
+            $("#actor").addClass("active");
+        }
+
+    });
+</script>

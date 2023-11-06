@@ -17,6 +17,27 @@ $(document).ready(function() {
             $("#add-close-switch").click(function() {
                 $(".update-actor").fadeOut(300); // Ẩn form
             });
+            var idActorDelete;
+            $(".delete-actor").click(function(e) {
+                e.preventDefault();
+                var tmp =  $(this).data("value").split("&");
+                var nameActorDelete = tmp[0];
+                idActorDelete = tmp[1];
+                var body = $("#modal-body-actor");
+                body.empty();
+                var text = $('<p>');
+                text.html('Bạn có chắc chắn xoá diễn viên '+ nameActorDelete +' không?');
+                body.append(text);
+                $(".modal").fadeIn(300); // Ẩn form
+                console.log(idActorDelete);
+            });
+            $("#no-delete-actor").click(function(e) {
+                $(".modal").fadeOut(300);
+            });
+            $("#yes-delete-actor").click(function(e) {
+                window.location.href = 'http://localhost:8080/actors/delete?id=' + idActorDelete;
+                $(".modal").fadeOut(300);
+            });
 
             $("#add-ep-form").submit(function(e){
                  e.preventDefault();
@@ -77,7 +98,7 @@ function getActorInfo(id) {
                     document.getElementById('countryActor').setAttribute('value', data.name_country);
                     document.getElementById('describeActor').setAttribute('value', data.describe);
                     document.getElementById('imageName').setAttribute('value', data.image);
-                    document.getElementById('imagePreview').style.backgroundImage = 'url(' + '../../img/actors/'+data.image + ')';
+                    document.getElementById('imagePreview').src = '/img/actors/'+data.image;
                     name = document.getElementById('nameActor').getAttribute('value');
                     birthday = document.getElementById('birthdayActor').getAttribute('value');
                     country = document.getElementById('countryActor').getAttribute('value');
@@ -97,7 +118,7 @@ function previewImage(input) {
 
             reader.onload = function(e) {
                 // Đặt hình ảnh xem trước vào phần tử có id là "imagePreview"
-                document.getElementById('imagePreview').style.backgroundImage = 'url(' + e.target.result + ')';
+                document.getElementById('imagePreview').src =  e.target.result;
             }
 
             reader.readAsDataURL(input.files[0]); // Đọc dữ liệu hình ảnh dưới dạng URL

@@ -40,9 +40,9 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <a href="./categories.html">Actor</a>
-                        <span>Add</span>
+                        <a href="../home"><i class="fa fa-home"></i> Trang chủ</a>
+                        <a href="../actors">Diễn viên</a>
+                        <span>Thêm mới</span>
                     </div>
                 </div>
             </div>
@@ -56,44 +56,44 @@
             <div class="anime__details__content">
                 <div class="product__page__title">
                     <div class="section-title">
-                        <h4>ADD ACTOR</h4>
+                        <h4>Thêm diễn viên</h4>
                     </div>
                 </div>
                 <div class="blog__details__form">
-                    <h4 style="margin-left: 100px;">Actor information</h4>
+                    <h4 style="margin-left: 100px;">Thông tin diễn viên</h4>
                     <form action="/actors/add" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-lg-2">
                             </div>
                             <div class="col-lg-7">
                                 <div class="col-lg-7 col-md-7 col-sm-7">
-                                    <label style="color: #ffffff;">Name:</label>
+                                    <label style="color: #ffffff;">Tên:</label>
                                     <input type="text" name ="name"placeholder="Name">
                                 </div>
                                 <div class="col-lg-7 col-md-7 col-sm-7">
                                     <div class="row">
                                         <label for="male"
-                                            style="color: #ffffff;margin-right: 10px;margin-left: 15px;">Gender:
+                                            style="color: #ffffff;margin-right: 10px;margin-left: 15px;">Giới tính:
                                         </label>
                                         <div>
                                             <input type="radio" id="male" name="gender" value="0" checked
                                                 style="height: 20px;" />
 
                                         </div>
-                                        <h5 style="color: #ffffff;margin-right: 10px;"> Male</h5>
+                                        <h5 style="color: #ffffff;margin-right: 10px;"> Nam</h5>
                                         <div>
                                             <input type="radio" id="female" name="gender" value="1"
                                                 style="height: 20px;" />
                                         </div>
-                                        <h5 style="color: #ffffff;margin-right: 10px;"> Female</h5>
+                                        <h5 style="color: #ffffff;margin-right: 10px;"> Nữ</h5>
                                     </div>
                                 </div>
                                 <div class="col-lg-7 col-md-7 col-sm-7">
-                                    <label style="color: #ffffff;">Birthday:</label>
+                                    <label style="color: #ffffff;">Ngày sinh:</label>
                                     <input type="date" name="birthday" placeholder="Birthday">
                                 </div>
                                 <div class="col-lg-7 col-md-7 col-sm-7">
-                                    <label style="color: #ffffff;">Country:</label>
+                                    <label style="color: #ffffff;">Quốc gia:</label>
                                     <input type="text" placeholder="Country" name ="country" list="ide">
                                     <datalist id="ide">
                                         <option th:each="c:${listCountry}" th:value="${c}" />
@@ -103,7 +103,7 @@
 
 
                                 <div class="col-lg-12">
-                                    <label style="color: #ffffff;">Describe:</label>
+                                    <label style="color: #ffffff;">Mô tả:</label>
                                     <textarea name="describe" placeholder="Message"></textarea>
                                 </div>
 
@@ -118,7 +118,7 @@
                             </div>
                         </div>
                         <div class="row justify-content-center">
-                            <button type="submit" class="site-btn">Add new</button>
+                            <button type="submit" class="site-btn">Thêm mới</button>
                         </div>
 
                     </form>
