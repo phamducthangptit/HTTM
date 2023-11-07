@@ -18,12 +18,12 @@ public class Movie_Language {
     private Language language;
 
     @Column(name = "type")
-    private String type;
+    private int type;
 
     public Movie_Language() {
     }
 
-    public Movie_Language(int id, String type) {
+    public Movie_Language(int id, int type) {
         this.id = id;
         this.type = type;
     }
@@ -36,11 +36,11 @@ public class Movie_Language {
         this.id = id;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 }
