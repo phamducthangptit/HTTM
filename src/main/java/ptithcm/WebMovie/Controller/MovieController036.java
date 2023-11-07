@@ -61,6 +61,8 @@ public class MovieController036 {
         model.addAttribute("companies",companies);
         model.addAttribute("persons",persons);
 
+        model.addAttribute("listCategory",categories);
+
         return "AddMovie";
     }
     public List<Integer> StringToNumber (String[] temp , List<Integer> listNumber)
@@ -205,6 +207,8 @@ public class MovieController036 {
         model.addAttribute("companies",companies);
         model.addAttribute("persons",persons);
         model.addAttribute("movie", movie);
+
+        model.addAttribute("listCategory",categories);
         return "UpdateMovie";
     }
     @PostMapping("/UpdateMovie/update")
