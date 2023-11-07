@@ -40,7 +40,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/","/home", "/movie", "/movie-watching",
                                 "/send-email", "/register", "/reset-password",
-                                "/save-history", "/search").permitAll()
+                                "/save-history", "/search", "/find-history/**").permitAll()
                         .requestMatchers("/create-account-admin", "/actors/**", "/list-movie",
                                 "/AddMovie", "/find-episode-delete-movie", "/delete-movie", "/delete-episode",
                                 "/UpdateMovie").hasAuthority("admin")
