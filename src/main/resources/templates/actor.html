@@ -39,11 +39,11 @@
                 <div class="product__page__title">
                     <div class="section-title">
 
-                        <h4>ACTORS</h4>
+                        <h4>Diễn viên</h4>
                         <br>
                         <div class="anime__details__btn">
                             <a href="/actors/add" class="follow-btn"><i class="fa fa-image"></i>
-                                Add New</a>
+                                Thêm mới</a>
                         </div>
                     </div>
                 </div>
@@ -51,10 +51,10 @@
             <table class="table" style="color: white;">
                 <thead>
                     <tr class="justify-content-center">
-                        <th scope="col" class="col-2 text-center align-middle">Image</th>
-                        <th scope="col" class="text-center align-middle">Information</th>
-                        <th scope="col" class="col-1 text-center align-middle">Update</th>
-                        <th scope="col" class="col-1 text-center align-middle">Delete</th>
+                        <th scope="col" class="col-2 text-center align-middle">Hình ảnh</th>
+                        <th scope="col" class="text-center align-middle">Thông tin</th>
+                        <th scope="col" class="col-1 text-center align-middle">Cập nhật</th>
+                        <th scope="col" class="col-1 text-center align-middle">Xoá</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,7 +85,7 @@
                             </a>
                         </td>
                         <td class="text-center align-middle">
-                            <a th:href="'/actors/delete?id='+${a.get('person_id')}" th:style="${a.get('mv_count') == 0? '':'pointer-events: none;'}" >
+                            <a class="delete-actor" th:data-value="${a.get('actor_name')}+'&'+${a.get('person_id')}" th:href="'/actors/delete?id='+${a.get('person_id')}" th:style="${a.get('mv_count') == 0? '':'pointer-events: none;'}" >
                                 <i class="fa fa-trash fa-lg" style="color: white;"></i>
                             </a>
                         </td>
@@ -165,34 +165,34 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="col-lg-7 col-md-7 col-sm-7">
-                                <input type="text" name ="id" id ="idActor" value="" style="display:hidden;">
-                                <label style="color: #ffffff;">Name:</label>
+                                <input type="text" name ="id" id ="idActor" value="" style="display:none;">
+                                <label style="color: #ffffff;">Tên:</label>
                                 <input type="text" name ="name" id="nameActor"  >
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7">
                                 <div class="row">
                                     <label for="male"
-                                           style="color: #ffffff;margin-right: 10px;margin-left: 15px;">Gender:
+                                           style="color: #ffffff;margin-right: 10px;margin-left: 15px;">Giới tính:
                                     </label>
                                     <div>
                                         <input type="radio" id="male" name="gender" value="0"
                                                style="height: 20px;" />
 
                                     </div>
-                                    <h5 style="color: #ffffff;margin-right: 10px;"> Male</h5>
+                                    <h5 style="color: #ffffff;margin-right: 10px;"> Nam</h5>
                                     <div>
                                         <input type="radio" id="female" name="gender" value="1"
                                                style="height: 20px;" />
                                     </div>
-                                    <h5 style="color: #ffffff;margin-right: 10px;"> Female</h5>
+                                    <h5 style="color: #ffffff;margin-right: 10px;"> Nữ</h5>
                                 </div>
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7">
-                                <label style="color: #ffffff;">Birthday:</label>
+                                <label style="color: #ffffff;">Ngày sinh:</label>
                                 <input type="date" name="birthday"  id="birthdayActor" >
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7">
-                                <label style="color: #ffffff;">Country:</label>
+                                <label style="color: #ffffff;">Quốc gia:</label>
                                 <input type="text" id="countryActor"  name ="country" list="ide">
                                 <datalist id="ide">
                                     <option th:each="c:${listCountry}" th:value="${c}" />
@@ -202,21 +202,21 @@
 
 
                             <div class="col-lg-12">
-                                <label style="color: #ffffff;">Describe:</label>
+                                <label style="color: #ffffff;">Mô tả:</label>
                                 <textarea name="describe"id="describeActor" value=""></textarea>
                             </div>
 
                         </div>
                         <div class="col-lg-3">
-                            <div class="anime__details__pic set-bg" id="imagePreview" data-setbg="" style="height:350px;">
-                            </div>
+                            <img style="max-width:300px;border-radius: 5px;position: relative;"width="300px" height="350px" id="imagePreview" src="" >
+                            </img>
                             <br>
                             <div class="row">
-                                <input type="text" name ="imageName" id ="imageName" value="" style="display:hidden;">
+                                <input type="text" name ="imageName" id ="imageName" value="" style="display:none;">
                                 <input type="file" name="imageInput" id="imageFile"  onchange="previewImage(this)" style="background:none;" >
                             </div>
                             <div class="row justify-content-center">
-                                <button type="submit" id="btn-update-actor"class="site-btn">Update actor</button>
+                                <button type="submit" id="btn-update-actor"class="site-btn">Cập nhật</button>
                             </div>
                         </div>
                     </div>
@@ -226,9 +226,23 @@
             </div>
         </div>
     </div>
-    <script>
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận xoá diễn viên</h5>
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                </div>
+                <div class="modal-body" id="modal-body-actor">
 
-    </script>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="no-delete-actor">Không</button>
+                    <button type="button" class="btn btn-primary" id="yes-delete-actor">Có</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Js Plugins -->
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
