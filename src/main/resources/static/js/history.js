@@ -43,7 +43,7 @@ $(document).ready(function(){
                 } else{
                     var minute = Math.floor(data / 60);
                     var second = data - minute * 60;
-                    $('#popUp .modal-body p').text('Last time you watched, you watched until ' + minute + ':' + second  + '. Do you want to continue watching?');
+                    $('#popUp .modal-body p').text('Bạn đã xem tới ' + minute + ':' + second  + '. Bạn có muốn tiếp tục xem?');
                     $('#popUp').modal('show');
                     $("#keepWatching").click(function(event){
                         var video = $('#player')[0];

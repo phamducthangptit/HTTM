@@ -91,7 +91,6 @@ function createButtons(data) {
 
 $("#deleteEpisodeMovie").click(function(event){
     $('#popUp').modal('hide');
-    alert(id)
     if(selected.length > 0){ // nếu đã chọn 1 trong những nút bất kì
         $.ajax({
             type: 'POST',
