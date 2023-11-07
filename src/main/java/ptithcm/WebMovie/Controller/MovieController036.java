@@ -167,7 +167,7 @@ public class MovieController036 {
 
         for (int i = 0; i < maxLenList; i++){
             if(idLanguage < idLanguagenumbers.size()){
-                movieRequestService.insertInformationMovie(movieId, 0, 0, idCategorynumbers.get(idLanguage), 0,(i==0?0:1));
+                movieRequestService.insertInformationMovie(movieId, 0, 0, idLanguagenumbers.get(idLanguage), 0,(i==0?1:0));
                 idLanguage++;
             }
             if(idCategory < idCategorynumbers.size()){
@@ -300,7 +300,7 @@ public class MovieController036 {
             for (int i = 0; i < maxLenList; i++) {
 
                 if (idLanguage < idLanguagenumbers.size()) {
-                    movieRequestService.insertInformationMovie(id, 0, 0, idCategorynumbers.get(idLanguage), 0,(i==0?0:1));
+                    movieRequestService.insertInformationMovie(id, 0, 0, idLanguagenumbers.get(idLanguage), 0,(i==0?1:0));
                     idLanguage++;
                 }
                 if (idCategory < idCategorynumbers.size()) {
