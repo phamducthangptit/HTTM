@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ptithcm.WebMovie.Email.EmailService;
 import ptithcm.WebMovie.Email.GenrateCode;
+import ptithcm.WebMovie.Model.Category;
 import ptithcm.WebMovie.Model.MovieRequest;
 import ptithcm.WebMovie.Model.Role;
 import ptithcm.WebMovie.Model.User;
+import ptithcm.WebMovie.Repository.CategoryRepository;
 import ptithcm.WebMovie.Repository.UserRepository;
 import ptithcm.WebMovie.Security.MovieUserDetails;
 import ptithcm.WebMovie.Service.MovieCollectionService;
@@ -37,6 +39,9 @@ public class MovieController1 {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+    
     private MovieCollectionService movieCollectionService;
 
 
@@ -52,12 +57,16 @@ public class MovieController1 {
             return "redirect:/home";
         }
         System.out.println("loi");
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("listCategory",categories);
         return "login";
     }
 
     @GetMapping("/create-account-admin")
     public String crtAccAd(Model model){
         model.addAttribute("user", new User());
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("listCategory",categories);
         return "CreateAccountAdmin";
     }
     @PostMapping("/create-account-admin")
@@ -66,6 +75,9 @@ public class MovieController1 {
         Role role = new Role();
         role.setRoleId(1);
         user.setRole(role);
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("listCategory",categories);
+
         if(userRepository.findByuserName(user.getUserName()) == null){
             try {
                 String uploadDir = "src/main/resources/static/img/user";
@@ -159,6 +171,9 @@ public class MovieController1 {
             //nếu khác null là nhập khớp mật khẩu cũ, tiến hành đi đổi pass
             userRepository.changePass(newPass, user.getUsername());
         }
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("listCategory",categories);
+
         return "ChangePassword";
     }
 
@@ -179,6 +194,9 @@ public class MovieController1 {
         System.out.println(user.getAvatar());
         model.addAttribute("user", user);
         model.addAttribute("img", user.getAvatar());
+
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("listCategory",categories);
         return "UserInformation";
     }
 
@@ -221,6 +239,10 @@ public class MovieController1 {
         List<MovieRequest> topRankMovie = movieRequestService.getTopView(0,5);
         model.addAttribute("myCollection", myCollection);
         model.addAttribute("topRankMV", topRankMovie);
+
+
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("listCategory",categories);
         return "my-collection";
     }
 
@@ -230,6 +252,9 @@ public class MovieController1 {
         List<MovieRequest> topRankMovie = movieRequestService.getTopView(0,5);
         model.addAttribute("listMovie", listMovie);
         model.addAttribute("topRankMV", topRankMovie);
+
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("listCategory",categories);
         return "list-movie";
     }
 }
