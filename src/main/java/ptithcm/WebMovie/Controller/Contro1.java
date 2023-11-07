@@ -264,8 +264,8 @@ public class Contro1 {
                 model.addAttribute("isFollowing", "false"); // chưa có trong bst
             } else model.addAttribute("isFollowing", "true"); // đã có trong bst
         }
-
-        List<MovieRequest> listYouLike = movieRequestService.getSearchMovie((String) movie.get("tags"),0, 5);
+        List<Map<String,?>> movieCate= movieRequestService.getMovieCategory(id);
+        List<MovieRequest> listYouLike = movieRequestService.getMovieTopCategory(0,5,movieCate.get(0).get("name").toString());
         for (MovieRequest item : listYouLike) {
             if (item.getMovie_id() == ((int)movie.get("movie_id"))) {
                 listYouLike.remove(item);
@@ -360,11 +360,11 @@ public class Contro1 {
                             listMovie = null;
 
                         } else if (label2 == "0") {
-                            totalMovie = movieRequestService.getCountMovie2Category("","tình cảm","gia đình","hài","anime");
-                            listMovie = movieRequestService.getMovie2Category("","tình cảm","gia đình","hài","anime",page*pageSize, pageSize);
+                            totalMovie = movieRequestService.getCountMovie2Category("","Tình cảm","Gia đình","Hài","Hoạt hình");
+                            listMovie = movieRequestService.getMovie2Category("","Tình cảm","Gia đình","Hài","Hoạt hình",page*pageSize, pageSize);
                         } else {
-                            totalMovie = movieRequestService.getCountMovie2Category("","hành động","cổ trang","khoa học viễn tưởng","kinh dị");
-                            listMovie = movieRequestService.getMovie2Category("","hành động","cổ trang","khoa học viễn tưởng","kinh dị",page*pageSize, pageSize);
+                            totalMovie = movieRequestService.getCountMovie2Category("","Hành động","Cổ trang","Khoa học viễn tưởng","Kinh dị");
+                            listMovie = movieRequestService.getMovie2Category("","Hành động","Cổ trang","Khoa học viễn tưởng","Kinh dị",page*pageSize, pageSize);
                         }
                         break;
                     }
@@ -388,7 +388,7 @@ public class Contro1 {
                             totalMovie = movieRequestService.getCountMovie2Category(theLoai1, "Tình cảm","Gia đình","Hài","Hoạt hình");
                             listMovie = movieRequestService.getMovie2Category(theLoai1,"Tình cảm","Gia đình","Hài","Hoạt hình",page*pageSize, pageSize);
                         } else {
-                            totalMovie = movieRequestService.getCountMovie2Category(theLoai1,"Hành động","Cổ trang","Khoa học viễn tưởng","kinh dị");
+                            totalMovie = movieRequestService.getCountMovie2Category(theLoai1,"Hành động","Cổ trang","Khoa học viễn tưởng","Kinh dị");
                             listMovie = movieRequestService.getMovie2Category(theLoai1,"Hành động","Cổ trang","Khoa học viễn tưởng","Kinh dị",page*pageSize, pageSize);
                         }
                         break;
