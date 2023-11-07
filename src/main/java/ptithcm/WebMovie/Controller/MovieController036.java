@@ -275,7 +275,7 @@ public class MovieController036 {
         movie.setMovieSchedule(Integer.parseInt(movieSchedule));
         movie.setCountry(countryRepository.findById(countryId));
         movie.setEpisodes(Integer.parseInt(episodes));
-        { // chọn file mới
+        if(file != null && !file.isEmpty()){ // chọn file mới
             try {
                 //ảnh mới
                 LocalDateTime currentDateTime = LocalDateTime.now();
