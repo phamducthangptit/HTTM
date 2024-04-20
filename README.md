@@ -12,8 +12,10 @@
 -	Xây dựng mô hình tìm kiếm phim thông minh: Thay vì chỉ có thể tìm kiếm theo tên hoặc thể loại ,người dùng có thể tìm kiếm bằng cách nhập một câu hoặc nhập mô tả bộ phim yêu thích.
 ## 4. Thiết kế CSDL
 -	Mô hình ERD
+  
  ![App Screenshot](https://github.com/phamducthangptit/HTTM/assets/84903801/5d730b4b-6d75-4f81-bed0-12396fbdc992)
 -	Digram
+  
  ![App Screenshot](https://github.com/phamducthangptit/HTTM/assets/84903801/783541bf-ffed-4d92-81a8-ef96f4a572ac)
 5.	Giao diện người dùng
 -	Giao diện trang chủ
