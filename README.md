@@ -17,20 +17,30 @@
 -	Digram
   
  ![App Screenshot](https://github.com/phamducthangptit/HTTM/assets/84903801/783541bf-ffed-4d92-81a8-ef96f4a572ac)
-5.	Giao diện người dùng
+## 5.	Giao diện người dùng
 -	Giao diện trang chủ
-![ảnh](https://github.com/phamducthangptit/HTTM/assets/84903801/747926fa-c204-496b-9e2a-9602864d82a8)
+  
+![App Screenshot](https://github.com/phamducthangptit/HTTM/assets/84903801/747926fa-c204-496b-9e2a-9602864d82a8)
 -	Giao diện đăng nhập, đăng kí, quên mật khẩu, đổi mật khẩu.
-![ảnh](https://github.com/phamducthangptit/HTTM/assets/84903801/31c3fed9-c85c-4f6d-9b22-1669ad656358)
-![ảnh](https://github.com/phamducthangptit/HTTM/assets/84903801/b6d8ffbb-fe7d-46b6-bd26-51b04ac1d54c)
-![ảnh](https://github.com/phamducthangptit/HTTM/assets/84903801/96e41d0f-c740-4222-a021-781776ca930e)
-![ảnh](https://github.com/phamducthangptit/HTTM/assets/84903801/7fc2b525-2e1a-4446-8d9b-aca72f556673)
+  
+![App Screenshot](https://github.com/phamducthangptit/HTTM/assets/84903801/31c3fed9-c85c-4f6d-9b22-1669ad656358)
+
+![App Screenshot](https://github.com/phamducthangptit/HTTM/assets/84903801/b6d8ffbb-fe7d-46b6-bd26-51b04ac1d54c)
+
+![App Screenshot](https://github.com/phamducthangptit/HTTM/assets/84903801/96e41d0f-c740-4222-a021-781776ca930e)
+
+![App Screenshot](https://github.com/phamducthangptit/HTTM/assets/84903801/7fc2b525-2e1a-4446-8d9b-aca72f556673)
+
 -	Giao diện bộ sưu tập
-![ảnh](https://github.com/phamducthangptit/HTTM/assets/84903801/26c1ed52-a725-43de-b43c-bfe0d26adb0e)
+  
+![App Screenshot](https://github.com/phamducthangptit/HTTM/assets/84903801/26c1ed52-a725-43de-b43c-bfe0d26adb0e)
 -	Giao diện xem phim
-![ảnh](https://github.com/phamducthangptit/HTTM/assets/84903801/7274060a-6bf6-40e9-8b7f-180dc115c6c8)
-![ảnh](https://github.com/phamducthangptit/HTTM/assets/84903801/40f8e8f1-7d32-4189-996b-169c4c09d5e5)
+
+![App Screenshot](https://github.com/phamducthangptit/HTTM/assets/84903801/7274060a-6bf6-40e9-8b7f-180dc115c6c8)
+
+![App Screenshot](https://github.com/phamducthangptit/HTTM/assets/84903801/40f8e8f1-7d32-4189-996b-169c4c09d5e5)
 -	Giao diện thêm phim mới
-![ảnh](https://github.com/phamducthangptit/HTTM/assets/84903801/49e9b3dd-645d-40b2-9071-f1803d4a7c20) 
+
+![App Screenshot](https://github.com/phamducthangptit/HTTM/assets/84903801/49e9b3dd-645d-40b2-9071-f1803d4a7c20) 
 
  
