@@ -1,40 +1,21 @@
-1. L? do h?nh th�nh �? t�i
-- Trong cu?c s?ng hi?n �?i ng�y nay, nhu c?u v? vi?c gi?i tr� v� th� gi?n �? tr? th�nh m?t ph?n quan tr?ng kh�ng th? thi?u. M?i ng�?i trong ch�ng ta lu�n �?i di?n v?i �p l?c c�ng vi?c, h?c t?p, v� cu?c s?ng h�ng ng�y, do �� �? duy tr? s? c�n b?ng, ch�ng ta c?n c� nh?ng kho?nh kh?c th� gi?n v� gi?i tr�.
-- Trong r?t nhi?u l?a ch?n gi?i tr�, vi?c xem phim �? tr? th�nh m?t trong nh?ng h?nh th?c ph? bi?n nh?t. Nh� c?u n�y kh�ng ch? ��n thu?n l� vi?c th�?ng th?c n?i dung h?p d?n tr�n m�n ?nh, m� c?n l� c�ch �? t?m ki?m k?t n?i v?i c�u chuy?n, nh�n v?t, v� th? gi?i ?o.
-- Web xem phim th�?ng c� h�ng ng�n, th?m ch� h�ng tri?u b? phim v� ch��ng tr?nh TV. Vi?c t?m ki?m n?i dung ph� h?p v?i s? th�ch c?a m?i ng�?i d�ng tr? n�n kh� kh�n n?u kh�ng c� c�ng c? t?m ki?m th�ng minh. �� l� l? do th?c hi?n �? t�i �X�y d?ng website xem phim ?ng d?ng t?m ki?m phim th�ng minh�.
-2. M?c ti�u v� ph?m vi
-- M?c ti�u: X�y d?ng m?t website xem phim v?i ?ng d?ng t?m ki?m phim th�ng minh s? d?ng tr� tu? nh�n t?o v� x? l? ng�n ng? t? nhi�n.
-- Ph?m vi:
-* Ph�t tri?n giao di?n th�n thi?n v?i ng�?i d�ng cho vi?c t?m ki?m v� xem phim
-* T�ch h?p tr� tu? nh�n t?o �? c?i thi?n t�nh n�ng t?m ki?m phim
-* X�y d?ng CSDL phong ph� v? c�c b? phim v� c�c th�ng s? ��nh gi�
-3. Y�u c?u c?a �? t�i
-- Ng�?i qu?n l� c� th? th?c hi?n ��ng phim, s?a �?i ho?c xo� c�c th�ng tin phim.
-- Ng�?i xem c� th? xem phim, qu?n l� th�ng tin c� nh�n, b?nh lu?n tr�n b? phim, t?m ki?m phim y�u th�ch.
-- X�y d?ng m� h?nh t?m ki?m phim th�ng minh: Thay v? ch? c� th? t?m ki?m theo t�n ho?c th? lo?i ,ng�?i d�ng c� th? t?m ki?m b?ng c�ch nh?p m?t c�u ho?c nh?p m� t? b? phim y�u th�ch.
-4. Thi?t k? CSDL
-- M� h?nh ERD
 
-- Digram
-
-5. Giao di?n ng�?i d�ng
-- Giao di?n trang ch?
-
-- Giao di?n ��ng nh?p, ��ng k�, qu�n m?t kh?u, �?i m?t kh?u.
+# WEB XEM PHIM THÔNG MINH
 
 
 
+## 1.	Lý do hình thành đề tài
+-	Trong cuộc sống hiện đại ngày nay, nhu cầu về việc giải trí và thư giãn đã trở thành một phần quan trọng không thể thiếu. Mỗi người trong chúng ta luôn đối diện với áp lực công việc, học tập, và cuộc sống hàng ngày, do đó để duy trì sự cân bằng, chúng ta cần có những khoảnh khắc thư giãn và giải trí.
+-	Trong rất nhiều lựa chọn giải trí, việc xem phim đã trở thành một trong những hình thức phổ biến nhất. Như cầu này không chỉ đơn thuần là việc thưởng thức nội dung hấp dẫn trên màn ảnh, mà còn là cách để tìm kiếm kết nối với câu chuyện, nhân vật, và thế giới ảo.
+-	Web xem phim thường có hàng ngàn, thậm chí hàng triệu bộ phim và chương trình TV. Việc tìm kiếm nội dung phù hợp với sở thích của mỗi người dùng trở nên khó khăn nếu không có công cụ tìm kiếm thông minh. Đó là lý do thực hiện đề tài “Xây dựng website xem phim ứng dụng tìm kiếm phim thông minh”.
 
+## 2. Mục tiêu và phạm vi
+-	Mục tiêu: Xây dựng một website xem phim với ứng dụng tìm kiếm phim thông minh sử dụng trí tuệ nhân tạo và xử lý ngôn ngữ tự nhiên.
+-	Phạm vi: Phát triển giao diện thân thiện với người dùng cho việc tìm kiếm và xem phim. Tích hợp trí tuệ nhân tạo để cải thiện tính năng tìm kiếm phim. Xây dựng CSDL phong phú về các bộ phim và các thông số đánh giá
 
+## 3. Yêu cầu của đề tài
+-	Người quản lí có thể thực hiện đăng phim, sửa đổi hoặc xoá các thông tin phim.
+-	Người xem có thể xem phim, quản lí thông tin cá nhân, bình luận trên bộ phim, tìm kiếm phim yêu thích.
+-	Xây dựng mô hình tìm kiếm phim thông minh: Thay vì chỉ có thể tìm kiếm theo tên hoặc thể loại ,người dùng có thể tìm kiếm bằng cách nhập một câu hoặc nhập mô tả bộ phim yêu thích.
 
-
-- Giao di?n b? s�u t?p
-
-- Giao di?n xem phim
-
-
-
-- Giao di?n th�m phim m?i
-
-
-
+## 4. Thiết kế CSDL
+- Mô hình ERD
